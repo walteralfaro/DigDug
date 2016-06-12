@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 
 public class Server {
 
-	private static final int PORT = 10000;
+	private static final int PORT = 5000;
 	private static final int MAXCONNECTIONS = 50;
 	
 	public Server() {
