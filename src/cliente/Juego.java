@@ -33,12 +33,12 @@ import javax.swing.Timer;
 public class Juego extends JApplet implements Runnable, KeyListener {
 	
 	public Juego() {
-		//ggg
 	}
 	
 	
     public static int ALTO_VENTANA = 800;
     public static int ANCHO_VENTANA = 705;
+    
     
     private int ALTO_NIVEL = 24;
     private int ANCHO_NIVEL = 23;
@@ -60,28 +60,50 @@ public class Juego extends JApplet implements Runnable, KeyListener {
     		{ 9, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9}, 
     		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9}, 
     		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9}, 
-    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9}, //15
-    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9}, 
-    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9}, 
-    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9}, 
-    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9}, 
-    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9}, //20
-    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9}, //21
+    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 9}, //15
+    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 9}, 
+    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 9}, 
+    		{ 9, 3, 3, 3, 3, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 9}, 
+    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 9}, 
+    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 9}, //20
+    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 4, 4, 4, 9}, //21
     		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9}, //22
     		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9}, //23
     		{ 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9}, //24
     };
-	// 9 pared
+	// 9 pared lateral y abajo
 	// 5 cielo pared
 	// 6 cielo para subir y moverse
+	// 7 flor, 8 piedra
 	// 0 espacios para moverse en negro
 	// 1 2 3 4 tierra para excavar
+	// 10 11 12 13 jugadores
 	
 	
 
 	// VECTOR PARA CARGAR TODAS LAS IMAGENES
-    private BufferedImage nivel_img[] = new BufferedImage[11];
+    private BufferedImage nivel_img[] = new BufferedImage[14];
+    
+    private BufferedImage jugador1; //excavador
+    private BufferedImage jugador2; //dragon
+    private BufferedImage jugador3; //etc
+    private BufferedImage jugador4; //etc
+    
+    private BufferedImage p1_der;
+    private BufferedImage p1_izq;
+    private BufferedImage p1_arriba;
+    private BufferedImage p1_abajo;
 
+    private BufferedImage p2_der;
+    private BufferedImage p2_izq;
+    private BufferedImage p2_arriba;
+    private BufferedImage p2_abajo;
+    
+    private BufferedImage flor;
+    private BufferedImage piedra;
+    
+    
+    
     private BufferedImage bimg;
 
     private Image image;
@@ -98,10 +120,17 @@ public class Juego extends JApplet implements Runnable, KeyListener {
     
     
 // POSICIONES INICIALES
-    private int x_jugador = 3;
-    private int y_jugador = 4;
+    private int x_jugador1 = 3;
+    private int y_jugador1 = 4;
     
+    private int x_jugador2 = 14;
+    private int y_jugador2 = 4;
     
+    private int x_flor = 20;
+    private int y_flor = 1;
+    
+    private int x_piedra = 16;
+    private int y_piedra = 2;
     
     
 
@@ -125,7 +154,7 @@ public class Juego extends JApplet implements Runnable, KeyListener {
     	//Image image = ( new ImageIcon( "imagenes/monster1.png").getImage() );
     	
     	try {
-    		nivel_img[0] = ImageIO.read(new File("imagenes/negro.png"));
+    		nivel_img[0] = ImageIO.read(new File("imagenes/negro.png")); //lugar excavado
     		nivel_img[1] = ImageIO.read(new File("imagenes/tierra1.png"));
     		nivel_img[2] = ImageIO.read(new File("imagenes/tierra2.png"));
     		nivel_img[3] = ImageIO.read(new File("imagenes/tierra3.png"));
@@ -133,14 +162,53 @@ public class Juego extends JApplet implements Runnable, KeyListener {
     		
     		nivel_img[5] = ImageIO.read(new File("imagenes/cielo.png"));
     		nivel_img[6] = ImageIO.read(new File("imagenes/cielo.png"));
-    		nivel_img[7] = ImageIO.read(new File("imagenes/negro.png"));
-    		nivel_img[8] = ImageIO.read(new File("imagenes/negro.png"));
     		
-    		nivel_img[9] = ImageIO.read(new File("imagenes/negro.png"));
+    		nivel_img[7] = ImageIO.read(new File("imagenes/sprites_flor.jpg"));
+    		nivel_img[8] = ImageIO.read(new File("imagenes/sprites_piedra.png"));
     		
-    		nivel_img[10] = ImageIO.read(new File("imagenes/dig_dug_sprites_1.gif"));
+    		nivel_img[9] = ImageIO.read(new File("imagenes/negro.png")); //pared lateral y abajo
+    		
+    		nivel_img[10] = ImageIO.read(new File("imagenes/sprites_dig_dug_derecha.gif"));
+    		nivel_img[11] = ImageIO.read(new File("imagenes/sprites_dig_dug_derecha.gif"));
+    		nivel_img[12] = ImageIO.read(new File("imagenes/sprites_dragon_derecha.gif"));
+    		nivel_img[13] = ImageIO.read(new File("imagenes/sprites_bichito_derecha.gif"));
+    		
+    		
+    		
+    		p1_der = ImageIO.read(new File("imagenes/sprites_dig_dug_derecha.gif"));
+    		p1_izq = ImageIO.read(new File("imagenes/sprites_dig_dug_izquierda.gif"));
+    		p1_arriba = ImageIO.read(new File("imagenes/sprites_dig_dug_derecha_arriba.gif"));
+    		p1_abajo = ImageIO.read(new File("imagenes/sprites_dig_dug_derecha_abajo.gif"));
+    		
+    		p2_der = ImageIO.read(new File("imagenes/sprites_dragon_derecha.gif"));
+    		p2_izq = ImageIO.read(new File("imagenes/sprites_dragon_izquierda.gif"));
+    		p2_arriba = ImageIO.read(new File("imagenes/sprites_dragon_derecha_arriba.gif"));
+    		p2_abajo = ImageIO.read(new File("imagenes/sprites_dragon_derecha_abajo.gif"));
+    		
 
+    		
     	 } catch (IOException e) { }
+    	
+    	
+    	//inicio jugadores de acuerdo a lo que diga el server
+    	//p1:excavador
+    	//p2:dragon
+    	//jugador: tiene la imagen actual
+    	jugador1 = nivel_img[10];
+    	// de los demas jugadores recibo la posicion desde el server: der izq arriba abajo
+    	jugador2 = nivel_img[12];
+    	//jugador3 = nivel_img[13];
+    	//jugador4 = nivel_img[11];
+    	
+    	
+    	nivel[y_jugador1][x_jugador1] = 10;
+    	//nivel[y_jugador2][x_jugador2] = 11;
+    	nivel[y_jugador2][x_jugador2] = 12;
+    	//nivel[y_jugador2][x_jugador2] = 13;
+    	
+    	nivel[y_flor][x_flor] = 7;
+    	nivel[y_piedra][x_piedra] = 8;
+    	
     }//init()
 	
     
@@ -149,13 +217,20 @@ public class Juego extends JApplet implements Runnable, KeyListener {
         Graphics2D g2d = (Graphics2D)g; // Convertimos a g de Graphics a Graphics2D
         //g2d.drawImage(image, 0, 0, this);
         g2d.setStroke(new BasicStroke(5.0f));
-        //drawNivel(30, 30, g2d);
+       //drawNivel(30, 30, g2d);
         
         for (int x = 0; x <= ANCHO_NIVEL-1; x++) {      // 23 ANCHO de 0 a 22
         	for (int y = 0; y <= ALTO_NIVEL-1; y++) {   // 24 ALTO  de 0 a 23
         		g2d.drawImage(nivel_img[nivel[y][x]], x*30, y*30, null);
         		
-        		g2d.drawImage(nivel_img[10], x_jugador*30, y_jugador*30, null);
+        		//g2d.drawImage(nivel_img[7], x_flor*30, y_flor*30, 30, 30, null);
+        		//g2d.drawImage(nivel_img[8], x_piedra*30, y_piedra*30, 30, 30, null);
+        		
+        		//(imgen, x y desde donde * 30 pixels, x y tamaño 30 pixels)
+        		
+        		//g2d.drawImage(nivel_img[10], x_jugador1*30, y_jugador1*30, 30, 30, null); //dibujo al jugador1 en su posicion
+        		//g2d.drawImage(nivel_img[12], x_jugador2*30, y_jugador2*30, 30, 30, null); //dibujo al jugador3 en su posicion
+        		
         	}
         	
         }
@@ -238,30 +313,44 @@ public class Juego extends JApplet implements Runnable, KeyListener {
 	    switch( keyCode ) { 
 	    
 	    	case KeyEvent.VK_UP:
-	        	if ( (nivel[y_jugador-1][x_jugador] == 0) || (nivel[y_jugador-1][x_jugador] == 1) || (nivel[y_jugador-1][x_jugador] == 2) || (nivel[y_jugador-1][x_jugador] == 3) || (nivel[y_jugador-1][x_jugador] == 4) || (nivel[y_jugador-1][x_jugador] == 6) ) {
-	        		nivel[y_jugador][x_jugador] = 0; //set en la matriz el lugar excavado
-	        		y_jugador = y_jugador - 1; //set posicion movimiento arriba
+	    		nivel_img[10] = p1_arriba;
+	    		
+	        	if ( (nivel[y_jugador1-1][x_jugador1] == 0) || (nivel[y_jugador1-1][x_jugador1] == 1) || (nivel[y_jugador1-1][x_jugador1] == 2) || (nivel[y_jugador1-1][x_jugador1] == 3) || (nivel[y_jugador1-1][x_jugador1] == 4) || (nivel[y_jugador1-1][x_jugador1] == 6) ) {
+	        			nivel[y_jugador1][x_jugador1] = 0; //set en la matriz el lugar excavado
+	        		y_jugador1 = y_jugador1 - 1; //set posicion movimiento arriba
+	        		nivel[y_jugador1][x_jugador1] = 10;
 	        	}
 	            break;
 	            
 	        case KeyEvent.VK_DOWN:
-	        	if ( (nivel[y_jugador+1][x_jugador] == 0) || (nivel[y_jugador+1][x_jugador] == 1) || (nivel[y_jugador+1][x_jugador] == 2) || (nivel[y_jugador+1][x_jugador] == 3) || (nivel[y_jugador+1][x_jugador] == 4) || (nivel[y_jugador+1][x_jugador] == 6) ) {
-	        		nivel[y_jugador][x_jugador] = 0; //lugar excavado
-	        		y_jugador = y_jugador + 1;
+	        	nivel_img[10] = p1_abajo;
+	        	
+	        	if ( (nivel[y_jugador1+1][x_jugador1] == 0) || (nivel[y_jugador1+1][x_jugador1] == 1) || (nivel[y_jugador1+1][x_jugador1] == 2) || (nivel[y_jugador1+1][x_jugador1] == 3) || (nivel[y_jugador1+1][x_jugador1] == 4) || (nivel[y_jugador1+1][x_jugador1] == 6) ) {
+	        			nivel[y_jugador1][x_jugador1] = 0;
+	        		y_jugador1 = y_jugador1 + 1;
+	        		nivel[y_jugador1][x_jugador1] = 10;
 	        	}
 	            break;
 	            
 	        case KeyEvent.VK_LEFT:
-	        	if ( (nivel[y_jugador][x_jugador-1] == 0) || (nivel[y_jugador][x_jugador-1] == 1) || (nivel[y_jugador][x_jugador-1] == 2) || (nivel[y_jugador][x_jugador-1] == 3) || (nivel[y_jugador][x_jugador-1] == 4) || (nivel[y_jugador][x_jugador-1] == 6) ) {
-	        		nivel[y_jugador][x_jugador] = 0; //lugar excavado
-	        		x_jugador = x_jugador - 1;
+	        	nivel_img[10] = p1_izq;
+	        	
+	        	if ( (nivel[y_jugador1][x_jugador1-1] == 0) || (nivel[y_jugador1][x_jugador1-1] == 1) || (nivel[y_jugador1][x_jugador1-1] == 2) || (nivel[y_jugador1][x_jugador1-1] == 3) || (nivel[y_jugador1][x_jugador1-1] == 4) || (nivel[y_jugador1][x_jugador1-1] == 6) ) {
+
+	        			nivel[y_jugador1][x_jugador1] = 0;
+	        		x_jugador1 = x_jugador1 - 1;
+	        		nivel[y_jugador1][x_jugador1] = 10;
 	        	}
 	            break;
 	            
 	        case KeyEvent.VK_RIGHT :
-	        	if ( (nivel[y_jugador][x_jugador+1] == 0) || (nivel[y_jugador][x_jugador+1] == 1) || (nivel[y_jugador][x_jugador+1] == 2) || (nivel[y_jugador][x_jugador+1] == 3) || (nivel[y_jugador][x_jugador+1] == 4) || (nivel[y_jugador][x_jugador+1] == 6) ) {
-	        		nivel[y_jugador][x_jugador] = 0; //lugar excavado
-	        		x_jugador = x_jugador + 1;
+	        	nivel_img[10] = p1_der;
+	        	
+	        	if ( (nivel[y_jugador1][x_jugador1+1] == 0) || (nivel[y_jugador1][x_jugador1+1] == 1) || (nivel[y_jugador1][x_jugador1+1] == 2) || (nivel[y_jugador1][x_jugador1+1] == 3) || (nivel[y_jugador1][x_jugador1+1] == 4) || (nivel[y_jugador1][x_jugador1+1] == 6) ) {
+
+	        			nivel[y_jugador1][x_jugador1] = 0;
+	        		x_jugador1 = x_jugador1 + 1;
+	        		nivel[y_jugador1][x_jugador1] = 10;
 	        		}
 	            break;
 	            
@@ -280,12 +369,14 @@ public class Juego extends JApplet implements Runnable, KeyListener {
 	            
 	     }// switch
 	    
+	    
+	    
 /*
 	    // SCORE
 	    // va sumando el SCORE, play al sonido de comer y borra las PAPITAS del laberinto
-	    if (laberinto[y][x] == 1) {
+	    if (nivel[y][x] == 1) {
 	    	eat_sound.play();
-	    	laberinto[y][x] = 0;
+	    	nivel[y][x] = 0;
 	    	score[2]++; //unidades
 	    	
 	    	if (score[2] == 58) {
