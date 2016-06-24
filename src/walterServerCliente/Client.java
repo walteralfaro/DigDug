@@ -8,7 +8,12 @@ public class Client {
 		connection = Connection.getInstance();
 	
 		if(connection.getSocket() != null){
-			new ClientThread().start();
+			LoginScreen loginscreen = new LoginScreen();
+			new ClientThread(loginscreen).start();
+			loginscreen.setVisible(true);			
+		}else{
+			CantConnectWindow cantconnectwindow = new CantConnectWindow();
+			cantconnectwindow.setVisible(true);
 		}
 	}
 	

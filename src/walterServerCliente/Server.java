@@ -2,6 +2,9 @@ package walterServerCliente;
 
 import java.net.ServerSocket;
 
+import walterServerCliente.EndServerPackage;
+import walterServerCliente.User;
+import walterServerCliente.UserConnection;
 import walterServerCliente.AcceptUser;
 import walterServerCliente.Logger;
 import walterServerCliente.ServerEnd;
@@ -26,10 +29,17 @@ public class Server {
 			AcceptUser server = new AcceptUser(serverSocket);
 			server.start();//inicia el hilo de cada cliente
 			ServerEnd.getInstance().join();//para final el servirdor 
+			
 			Logger.info("Finalizando servidor...");
+			UserConnection userConnectionInstance = UserConnection.getInstance();
+			for(User eachUser: userConnectionInstance.getUsers()) 
+				if(eachUser != null) {
+					userConnectionInstance.blockSocket(eachUser.getId());
+					userConnectionInstance.sendPackage(eachUser.getId(), new EndServerPackage());
+					userConnectionInstance.releaseSocket(eachUser.getId());
+				}
 			Logger.info("Servidor finalizado correctamente");
 			System.exit(1);
-			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -1,28 +1,32 @@
 package walterServerCliente;
 
-import java.io.DataInputStream;
 
 public class ClientThread extends Thread {
-	
-
+	private LoginScreen loginscreen;
+	private static Package packageIn;
 	private Boolean endConnection = false;
 	private Connection connection = Connection.getInstance();
-	
+	private static final int LOGINRESPONSEID = 1;
+	private static final int ENDCONNECTIONRESPONSEID = 8;
+	private Integer userType;
+	private String userName;
+
+	public ClientThread(LoginScreen loginscreen){
+		this.loginscreen = loginscreen;
+	}
 	
 	public void run() {
-		try {
-			boolean isTheEnd = false;
-			while (!endConnection  && isTheEnd == false) {
-
-				String  texto = new DataInputStream(connection.getSocket().getInputStream()).readUTF();
-				System.out.println(texto + "\n");
-		
+		try {	
+			while (!endConnection) {
+				packageIn = (Package) connection.recievePackage();
+				switch (packageIn.getPackageID()) {
+				case ENDCONNECTIONRESPONSEID: // Fin conexion
+					endConnection = true;
+					connection.endConnection();
+				}
 			}
-			endConnection = true;
-			connection.endConnection();
 			System.out.println("Conexion Finalizada");
-		} catch (Exception 
-				e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
