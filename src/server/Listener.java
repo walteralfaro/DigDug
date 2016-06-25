@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import commons.Maps;
+
 public class Listener extends Thread{
 
 	// El puerto por defecto para el constructor sin argumentos.
@@ -64,6 +66,7 @@ public class Listener extends Thread{
 //    	Log.info("Servidor arrancado");
         while (corriendo) {
             try {
+            	Maps mapa = Maps.getInstance();
                 ServerThread hilo = new ServerThread(serverSocket.accept(),"");
                 hilo.start();
                 synchronized (this) {
