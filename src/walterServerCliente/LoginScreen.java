@@ -1,8 +1,5 @@
 package walterServerCliente;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -14,6 +11,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,31 +24,57 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import walterServerCliente.Juego;
+
+
 public class LoginScreen extends JFrame {
 
 	private static final long serialVersionUID = -560582234414629430L;
-	private JPanel contentPane;
 	private JTextField jUserTextField;
 	private JPasswordField jPasswordField;
-	private  JTextArea jUsuarioInexistenteTextArea;
-	private  JTextArea jCamposVaciosTextArea;
+	private JTextArea jUsuarioInexistenteTextArea;
+	private JTextArea jCamposVaciosTextArea;
 	private JTextArea jUsuarioLogueadoTextArea;
 	private static String title;
 	
-	private static Image img;
+	private static JLabel jlabelBack;  //back
+	private static JPanel contentPane; //front
 	
-	public LoginScreen(Connection connection ){
-	//setBackground(Color.black);
+	
+	
+	public LoginScreen(Connection connection){
+		
+		
+		//carga imagen de fondo y la mete en un JLabel y eso en un JFrame
+				try {
+					BufferedImage bimg = (ImageIO.read(new File("imagenes/dig-dug-japan.png")));
+					Image dimg = bimg.getScaledInstance(580, 700, Image.SCALE_SMOOTH);
+					ImageIcon imageIcon = new ImageIcon(dimg);
+					
+					jlabelBack = new JLabel(imageIcon);
+					jlabelBack.setOpaque(true);
+					
+		    	} catch (IOException e) {
+		    		e.printStackTrace();
+		    	}
+				
+				
+		    //setBackground(Color.black);
 			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-			setBounds(100, 100, 800, 500);
+			//setBounds(100, 100, 800, 500);
 			setLocationRelativeTo(null);
-			setResizable(true);
+			setResizable(false);
+			
+			
 			contentPane = new JPanel();
-
 	 		//contentPane.setBackground(Color.LIGHT_GRAY);//new Color(255, 153, 0));
-			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-			setContentPane(contentPane);
-			contentPane.setLayout(null);
+			//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+			//setContentPane(contentPane);
+			//contentPane.setLayout(null);
+			
+			contentPane.setOpaque(false);
+			contentPane.setVisible(true);
+			
 
 			JLabel lblUsername = new JLabel("Usuario");
 			lblUsername.setBounds(31, 170, 100, 14);
@@ -117,14 +141,21 @@ public class LoginScreen extends JFrame {
 			jUsuarioLogueadoTextArea.setVisible(false);
 			jUsuarioLogueadoTextArea.setText("El usuario ya est\u00E1 logueado.");
 			jUsuarioLogueadoTextArea.setBounds(38, 381, 246, 35);
-			contentPane.add(jUsuarioLogueadoTextArea);
+			contentPane.add(jUsuarioLogueadoTextArea);		
 			
+			this.addWindowListener(new WindowAdapter() {
+				public void windowClosing(WindowEvent e) {System.exit(0);}
+				});
+			
+			this.add(contentPane, BorderLayout.NORTH);
+			this.add(jlabelBack, BorderLayout.SOUTH);
+			
+			
+			this.pack();
+			this.setBounds(100, 0, 580, 700); //JFrame posicion en pantalla y tamaño de la ventana
+			this.setResizable(false);
+			this.show();
 		}
-	
-	public void paintComponent(Graphics g) {
-		    g.drawImage(img, 30, 30, null);
-	}
-	
 	
 	public static String getTitleGame(){
 		return title;
@@ -134,4 +165,3 @@ public class LoginScreen extends JFrame {
 	
 	
 }
-
