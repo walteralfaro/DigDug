@@ -16,8 +16,7 @@ public class Server {
 	private static final int MAXCONNECTIONS = 50;
 	
 	public Server() {
-		ServerSocket serverSocket;
-		
+		ServerSocket serverSocket;		
 		try {
 			serverSocket = new ServerSocket(PORT);
 			Logger.info("Puerto: " + PORT);

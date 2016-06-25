@@ -1,40 +1,51 @@
 package walterServerCliente;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class ServerThread extends Thread {
 
 	private Integer userId;
 	private String userName = null;
-	private static final int ENDCONECTIONREQUESTID = 8;
 
 	
 	public ServerThread(Integer userId) {
 		this.userId = userId;
 	}
 
-	public void run() {
+	public synchronized void run() {
 		Boolean endConection = false;
-		
+		Message mensaje;
+		ObjectOutputStream obstrm;
 		try {
 			UserConnection userConnectionInstance = UserConnection.getInstance();
-			
-			while (!endConection) {
-				Package packageOut = null;
-				Package packageIn = userConnectionInstance.readPackage(userId);
-				userConnectionInstance.blockSocket(userId);
-			
-				switch (packageIn.getPackageID()) {
-				
-				case ENDCONECTIONREQUESTID: // Fin conexion
-					Logger.info("Finalizando conexion con el cliente " + userId);
-					packageOut = new EndClientConnectionPackage();
-					endConection = true;
+			while (!endConection) {				
+				try {
+					mensaje = new Message("Personaje"+userId,null,null);
+					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userId).getSocket().getOutputStream());
+					mensaje.setUserId(userId);
+					obstrm.writeObject(mensaje);
+
+					ObjectInputStream obStrm = new ObjectInputStream(userConnectionInstance.getUser(userId).getSocket().getInputStream());
+					mensaje =(Message) obStrm.readObject();
+					Maps maps = Maps.getInstance();
+					if("MOVIMIENTO".equals(mensaje.getMessage())){
+						DigDugLogger.log(mensaje.getMessage()+mensaje.getMovimiento().getKeyCode());
+						Movimiento mov = maps.repaint(mensaje.getMovimiento());
+						mensaje.setMovimiento(mov);
+					}
+					mensaje.setMap(maps.getMapa1());
+					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userId).getSocket().getOutputStream());
+					mensaje.setUserId(userId);
+					obstrm.writeObject(mensaje);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				
-				if(packageOut != null)
-					 userConnectionInstance.sendPackage(userId, packageOut);
-				
-				userConnectionInstance.releaseSocket(userId);
 			}
 			
 			if(userName != null)

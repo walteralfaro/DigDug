@@ -26,9 +26,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import walterServerCliente.Juego;
-
-
 public class LoginScreen extends JFrame {
 
 	private static final long serialVersionUID = -560582234414629430L;
@@ -42,20 +39,14 @@ public class LoginScreen extends JFrame {
 	
 	private static Image img;
 	
-	
-	
-	public LoginScreen(){
+	public LoginScreen(Connection connection ){
 	//setBackground(Color.black);
-
 			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			setBounds(100, 100, 800, 500);
 			setLocationRelativeTo(null);
 			setResizable(true);
 			contentPane = new JPanel();
-			
-			
 
-			
 	 		//contentPane.setBackground(Color.LIGHT_GRAY);//new Color(255, 153, 0));
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 			setContentPane(contentPane);
@@ -97,7 +88,7 @@ public class LoginScreen extends JFrame {
 			jLoginButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					Juego pe = new Juego();
-					pe.inGame();
+					pe.inGame(connection);
 				}
 			});
 			
@@ -129,43 +120,11 @@ public class LoginScreen extends JFrame {
 			contentPane.add(jUsuarioLogueadoTextArea);
 			
 		}
-		
 	
-	
-	 public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) {
 		    g.drawImage(img, 30, 30, null);
-		  }
-	 
-	
-	public static void main(String argv[]) {
-		LoginScreen log = new LoginScreen();
-		
-		log.addWindowListener(new WindowAdapter() {
-	            public void windowClosing(WindowEvent e) {System.exit(0);}
-	        });
-		
-		
-		ImageIcon icon = new ImageIcon("imagenes/dig-dug-japan.png"); 
-		JLabel thumb = new JLabel();
-		
-		img = ((ImageIcon)icon).getImage();
-		log.add(thumb);
-		
-		
-		/*try {
-			JPanelWithBackground jp = new JPanelWithBackground("imagenes/dig-dug-japan.png");
-			log.add(jp);
-			//log.getContentPane().add(jp);
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		*/
-		log.setBounds(300, 300, 400, 400);
-		log.show();
 	}
+	
 	
 	public static String getTitleGame(){
 		return title;
