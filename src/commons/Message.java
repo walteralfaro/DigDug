@@ -5,21 +5,16 @@ public class Message implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private String message;
-	private int keyCode;
-	private int posX;
-	private int posY;
 	private char[][] map;
 	private boolean flag;
-	
+	private Movimiento movimiento;
 	Message(String mensaje){
 		this.message = mensaje;
 	}
 
-	public Message(String mensaje, int x_jugador1, int y_jugador1, int keyCode2, char[][] nivel) {
+	public Message(String mensaje, Movimiento movimiento, char[][] nivel) {
 		this.message = mensaje;
-		this.keyCode = keyCode2;
-		this.posX = x_jugador1;
-		this.posY = y_jugador1;
+		this.movimiento=movimiento;
 		this.map = nivel;
 	}
 
@@ -29,30 +24,6 @@ public class Message implements Serializable{
 
 	public void setMessage(String message) {
 		this.message = message;
-	}
-
-	public int getKeyCode() {
-		return keyCode;
-	}
-
-	public void setKeyCode(int keyCode) {
-		this.keyCode = keyCode;
-	}
-
-	public int getPosX() {
-		return posX;
-	}
-
-	public void setPosX(int posX) {
-		this.posX = posX;
-	}
-
-	public int getPosY() {
-		return posY;
-	}
-
-	public void setPosY(int posY) {
-		this.posY = posY;
 	}
 
 	public char[][] getMap() {
@@ -70,7 +41,13 @@ public class Message implements Serializable{
 	public void setFlag(boolean flag) {
 		this.flag = flag;
 	}
-	
-	
+
+	public Movimiento getMovimiento() {
+		return movimiento;
+	}
+
+	public void setMovimiento(Movimiento movimiento) {
+		this.movimiento = movimiento;
+	}
 	
 }

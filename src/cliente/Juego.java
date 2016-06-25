@@ -26,60 +26,22 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JApplet;
 
+import commons.Coordenada;
 import commons.DigDugLogger;
 import commons.Message;
+import commons.Movimiento;
 
 
-public class Juego extends JApplet implements Runnable, KeyListener {
+public class Juego extends JApplet implements Runnable, KeyListener, Jugable {
 	
-	public Juego() {
-	}
+	private static final long serialVersionUID = 1L;
+
+	public Juego() {}
 	
-	
-    public static int ALTO_VENTANA = 800;
-    public static int ANCHO_VENTANA = 705;
     int keyCode=0;
     
-    private int ALTO_NIVEL = 24;
-    private int ANCHO_NIVEL = 23;
-    private String MENSAJE_VACIO = "VACIO";
-    private String MENSAJE_MOVIMIENTO = "MOVIMIENTO";
-	private char nivel[][] = {
-    		//1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
-//			
-    		{ 9, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9}, //1
-    		{ 9, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 9}, 
-    		{ 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9}, 
-    		{ 9, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9}, 
-    		{ 9, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 9}, //5
-    		{ 9, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9}, 
-    		{ 9, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9}, 
-    		{ 9, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9}, 
-    		{ 9, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9}, 
-    		{ 9, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9}, //10
-    		{ 9, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9}, 
-    		{ 9, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9}, 
-    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9}, 
-    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9}, 
-    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 9}, //15
-    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 9}, 
-    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 9}, 
-    		{ 9, 3, 3, 3, 3, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 9}, 
-    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 9}, 
-    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 9}, //20
-    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 4, 4, 4, 9}, //21
-    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9}, //22
-    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9}, //23
-    		{ 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9}, //24
-    };
-	// 9 pared lateral y abajo
-	// 5 cielo pared
-	// 6 cielo para subir y moverse
-	// 7 flor, 8 piedra
-	// 0 espacios para moverse en negro
-	// 1 2 3 4 tierra para excavar
-	// 10 11 12 13 jugadores
-	
+    private String variableMensaje;
+	private char nivel[][] = {};
 	// VECTOR PARA CARGAR TODAS LAS IMAGENES
     private BufferedImage nivel_img[] = new BufferedImage[14];
     
@@ -100,8 +62,6 @@ public class Juego extends JApplet implements Runnable, KeyListener {
     
     private BufferedImage flor;
     private BufferedImage piedra;
-    
-    
     
     private BufferedImage bimg;
 
@@ -130,15 +90,36 @@ public class Juego extends JApplet implements Runnable, KeyListener {
     private int y_piedra = 2;
     
     Socket cliente;
-	int puerto=5555;
 	String ip ="localhost";
 	Message mensaje;
 	
     public void init() {
     	
     	try {
-    		cliente = new Socket(ip, puerto);    	
-    		
+    		cliente = new Socket(ip, PUERTO);  
+    		ObjectOutputStream obstrm;
+
+    		Movimiento mov = new Movimiento();
+    		Coordenada pos = new Coordenada();
+    		pos.setX(x_jugador1);
+        	pos.setY(y_jugador1);
+        	mov.setPosicion(pos);
+        	mov.setKeyCode(keyCode);
+			mensaje = new Message(MENSAJE_VACIO, mov, nivel);
+			obstrm = new ObjectOutputStream(cliente.getOutputStream());
+			obstrm.writeObject(mensaje);
+			variableMensaje = MENSAJE_VACIO;
+			ObjectInputStream obiStrm = new ObjectInputStream(cliente.getInputStream());
+			
+			try {
+				mensaje =(Message) obiStrm.readObject();
+//				if(mensaje.isFlag()){
+//					DigDugLogger.log("Volvio:"+mensaje.isFlag());
+					nivel = mensaje.getMap();
+					
+			}catch(Exception e){
+				
+			}
 	    	setBackground(Color.black);
 	    	String musica_path = "musica1/";
 	    	
@@ -184,10 +165,6 @@ public class Juego extends JApplet implements Runnable, KeyListener {
 	    		
 	    	 } catch (IOException e) { } 
 	    	
-	    	
-	    	//inicio jugadores de acuerdo a lo que diga el server
-	    	//p1:excavador
-	    	//p2:dragon
 	    	//jugador: tiene la imagen actual
 	    	jugador1 = nivel_img[10];
 	    	// de los demas jugadores recibo la posicion desde el server: der izq arriba abajo
@@ -204,10 +181,7 @@ public class Juego extends JApplet implements Runnable, KeyListener {
     		e.printStackTrace();
     	}
     	
-    }//init()
-	
-    
-
+    }
     public void paint(Graphics g){
         Graphics2D g2d = (Graphics2D)g; // Convertimos a g de Graphics a Graphics2D
         //g2d.drawImage(image, 0, 0, this);
@@ -236,40 +210,39 @@ public class Juego extends JApplet implements Runnable, KeyListener {
         Thread yo = Thread.currentThread();
 
 		ObjectOutputStream obstrm;
-
+		Movimiento mov = new Movimiento();
+		Coordenada pos = new Coordenada();
         while (thread == yo) {
 //            repaint();
             try {
-				mensaje = new Message(MENSAJE_VACIO+keyCode, x_jugador1, y_jugador1,keyCode, nivel);
+            	pos.setX(x_jugador1);
+            	pos.setY(y_jugador1);
+            	mov.setPosicion(pos);
+            	mov.setKeyCode(keyCode);
+				mensaje = new Message(variableMensaje, mov, nivel);
 				obstrm = new ObjectOutputStream(cliente.getOutputStream());
 				obstrm.writeObject(mensaje);
-				
+				variableMensaje = MENSAJE_VACIO;
 				ObjectInputStream obiStrm = new ObjectInputStream(cliente.getInputStream());
 				try {
 					mensaje =(Message) obiStrm.readObject();
-					if(mensaje.isFlag()){
-						DigDugLogger.log("Volvio:"+mensaje.isFlag());
-						nivel = mensaje.getMap();
-						x_jugador1 = mensaje.getPosX();
-						y_jugador1 = mensaje.getPosY();
-						repaint();
-					}
-					
+					nivel = mensaje.getMap();
+					x_jugador1 = mensaje.getMovimiento().getPosicion().getX();
+					y_jugador1 = mensaje.getMovimiento().getPosicion().getY();
+					repaint();
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				thread.sleep(1000);
+				thread.sleep(60);
             } catch (InterruptedException e) { break; } catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-        }// while thread
+        }
          
         thread = null;
-    }// run()
-    
-    
+    }
     public void start() {
         thread = new Thread(this);
         thread.setPriority(Thread.MIN_PRIORITY);
@@ -294,189 +267,37 @@ public class Juego extends JApplet implements Runnable, KeyListener {
         
         f.add(ventanaJuego);
         f.pack();
-        //f.setResizable(false);
         f.setSize( new Dimension(ANCHO_VENTANA, ALTO_VENTANA) );
         f.setIconImage( new ImageIcon("./imagenes/dig_dug_dragon.jpg").getImage() ); //iconito de la ventana
         f.show();
         f.addKeyListener(ventanaJuego);
 
         ventanaJuego.start();
-        //timer.start();
         
 	} //main
-
-	
-	
-	
-	
-	
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 	    keyCode = e.getKeyCode();	  	
-	    ObjectOutputStream obstrm;
 			    switch( keyCode ) { 
 			    	case KeyEvent.VK_UP:
 			    		nivel_img[10] = p1_arriba;
-			    		mensaje = new Message(MENSAJE_MOVIMIENTO, x_jugador1, y_jugador1,keyCode, nivel);
-						try {
-							obstrm = new ObjectOutputStream(cliente.getOutputStream());
-							obstrm.writeObject(mensaje);
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						
-						
-						try {
-							ObjectInputStream obiStrm;
-							
-							obiStrm = new ObjectInputStream(cliente.getInputStream());
-							 
-							mensaje =(Message) obiStrm.readObject();
-//							if(mensaje.isFlag()){
-								DigDugLogger.log("Volvio:"+mensaje.isFlag());
-								nivel = mensaje.getMap();
-								x_jugador1 = mensaje.getPosX();
-								y_jugador1 = mensaje.getPosY();
-								repaint();
-//							}
-							
-						} catch (ClassNotFoundException e2) {
-							// TODO Auto-generated catch block
-							e2.printStackTrace();
-						}catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-			    		
+						variableMensaje = MENSAJE_MOVIMIENTO;
 			            break;
 			            
 			        case KeyEvent.VK_DOWN:
 			        	nivel_img[10] = p1_abajo;
-			        	try {
-				    		mensaje = new Message(MENSAJE_MOVIMIENTO, x_jugador1, y_jugador1,keyCode, nivel);
-
-							obstrm = new ObjectOutputStream(cliente.getOutputStream());
-							obstrm.writeObject(mensaje);
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-			        	try {
-							ObjectInputStream obiStrm;
-							
-							obiStrm = new ObjectInputStream(cliente.getInputStream());
-							 
-							mensaje =(Message) obiStrm.readObject();
-							if(mensaje.isFlag()){
-								DigDugLogger.log("Volvio:"+mensaje.isFlag());
-								nivel = mensaje.getMap();
-								x_jugador1 = mensaje.getPosX();
-								y_jugador1 = mensaje.getPosY();
-								repaint();
-							}
-							
-						} catch (ClassNotFoundException e2) {
-							// TODO Auto-generated catch block
-							e2.printStackTrace();
-						}catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-//			        	if ( (nivel[y_jugador1+1][x_jugador1] == 0) || (nivel[y_jugador1+1][x_jugador1] == 1) || 
-//			        			(nivel[y_jugador1+1][x_jugador1] == 2) || (nivel[y_jugador1+1][x_jugador1] == 3) || 
-//			        			(nivel[y_jugador1+1][x_jugador1] == 4) || (nivel[y_jugador1+1][x_jugador1] == 6) ) {
-//			        		
-//			        			nivel[y_jugador1][x_jugador1] = 0;
-//			        		y_jugador1 = y_jugador1 + 1;
-//			        		nivel[y_jugador1][x_jugador1] = 10;
-//			        	}
+			        	variableMensaje = MENSAJE_MOVIMIENTO;
 			            break;
 			            
 			        case KeyEvent.VK_LEFT:
 			        	nivel_img[10] = p1_izq;
-			        	try {
-				    		mensaje = new Message(MENSAJE_MOVIMIENTO, x_jugador1, y_jugador1,keyCode, nivel);
-
-							obstrm = new ObjectOutputStream(cliente.getOutputStream());
-							obstrm.writeObject(mensaje);
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-			        	try {
-							ObjectInputStream obiStrm;
-							
-							obiStrm = new ObjectInputStream(cliente.getInputStream());
-							 
-							mensaje =(Message) obiStrm.readObject();
-							if(mensaje.isFlag()){
-								DigDugLogger.log("Volvio:"+mensaje.isFlag());
-								nivel = mensaje.getMap();
-								x_jugador1 = mensaje.getPosX();
-								y_jugador1 = mensaje.getPosY();
-								repaint();
-							}
-							
-						} catch (ClassNotFoundException e2) {
-							// TODO Auto-generated catch block
-							e2.printStackTrace();
-						}catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-//			        	if ( (nivel[y_jugador1][x_jugador1-1] == 0) || (nivel[y_jugador1][x_jugador1-1] == 1) || 
-//			        			(nivel[y_jugador1][x_jugador1-1] == 2) || (nivel[y_jugador1][x_jugador1-1] == 3) || 
-//			        			(nivel[y_jugador1][x_jugador1-1] == 4) || (nivel[y_jugador1][x_jugador1-1] == 6) ) {
-//		
-//			        			nivel[y_jugador1][x_jugador1] = 0;
-//			        		x_jugador1 = x_jugador1 - 1;
-//			        		nivel[y_jugador1][x_jugador1] = 10;
-//			        	}
+			        	variableMensaje = MENSAJE_MOVIMIENTO;
 			            break;
 			            
 			        case KeyEvent.VK_RIGHT :
 			        	nivel_img[10] = p1_der;
-			        	try {
-				    		mensaje = new Message(MENSAJE_MOVIMIENTO, x_jugador1, y_jugador1,keyCode, nivel);
-
-							obstrm = new ObjectOutputStream(cliente.getOutputStream());
-							obstrm.writeObject(mensaje);
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-			        	try {
-							ObjectInputStream obiStrm;
-							
-							obiStrm = new ObjectInputStream(cliente.getInputStream());
-							 
-							mensaje =(Message) obiStrm.readObject();
-							if(mensaje.isFlag()){
-								DigDugLogger.log("Volvio:"+mensaje.isFlag());
-								nivel = mensaje.getMap();
-								x_jugador1 = mensaje.getPosX();
-								y_jugador1 = mensaje.getPosY();
-								repaint();
-							}
-							
-						} catch (ClassNotFoundException e2) {
-							// TODO Auto-generated catch block
-							e2.printStackTrace();
-						}catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-//			        	if ( (nivel[y_jugador1][x_jugador1+1] == 0) || (nivel[y_jugador1][x_jugador1+1] == 1) || 
-//			        			(nivel[y_jugador1][x_jugador1+1] == 2) || (nivel[y_jugador1][x_jugador1+1] == 3) || 
-//			        			(nivel[y_jugador1][x_jugador1+1] == 4) || (nivel[y_jugador1][x_jugador1+1] == 6) ) {
-//		
-//			        			nivel[y_jugador1][x_jugador1] = 0;
-//			        		x_jugador1 = x_jugador1 + 1;
-//			        		nivel[y_jugador1][x_jugador1] = 10;
-//			        		
-//			        	}
+			        	variableMensaje = MENSAJE_MOVIMIENTO;
 			            break;
 			            
 			        // MUSICA ON/OFF

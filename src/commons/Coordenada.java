@@ -1,9 +1,19 @@
 package commons;
 
-public class Coordenada {
+import java.io.Serializable;
+
+public class Coordenada implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private int x;
 	private int y;
+	
+	public Coordenada(){}
 
+	public Coordenada(int x, int y){
+		this.x = y;
+		this.y = y;
+	}
    public int getX() {
 		return x;
 	}

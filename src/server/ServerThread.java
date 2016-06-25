@@ -8,6 +8,7 @@ import java.net.Socket;
 import commons.DigDugLogger;
 import commons.Maps;
 import commons.Message;
+import commons.Movimiento;
 
 
 public class ServerThread extends Thread{
@@ -34,13 +35,11 @@ public class ServerThread extends Thread{
 			try {
 				ObjectInputStream obStrm = new ObjectInputStream(socket.getInputStream());
 				mensaje =(Message) obStrm.readObject();
-				DigDugLogger.log(mensaje.getMessage());
 				Maps maps = Maps.getInstance();
 				if("MOVIMIENTO".equals(mensaje.getMessage())){
-					int pos[]=maps.repaint(mensaje.getKeyCode(), mensaje.getPosX(), mensaje.getPosY());
-					mensaje.setFlag(pos[2]==0?false:true);//maps.mover(mensaje));
-					mensaje.setPosX(pos[0]);
-					mensaje.setPosY(pos[1]);
+					DigDugLogger.log(mensaje.getMessage()+mensaje.getMovimiento().getKeyCode());
+					Movimiento mov=maps.repaint(mensaje.getMovimiento());
+					mensaje.setMovimiento(mov);
 				}
 				mensaje.setMap(maps.getMapa1());
 				obstrm = new ObjectOutputStream(socket.getOutputStream());

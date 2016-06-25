@@ -37,6 +37,13 @@ public class Maps {
     		{ 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9},
     };
 
+	// 9 pared lateral y abajo
+	// 5 cielo pared
+	// 6 cielo para subir y moverse
+	// 7 flor, 8 piedra
+	// 0 espacios para moverse en negro
+	// 1 2 3 4 tierra para excavar
+	// 10 11 12 13 jugadores
 		public char[][] getMapa1() {
 		return mapa1;
 	}
@@ -45,79 +52,65 @@ public class Maps {
 		this.mapa1 = mapa1;
 	}
 	
-	public int[] repaint(int keyCode,int x_jugador1,  int y_jugador1){
-		int[] pos = new int[3];
-		pos[0]=x_jugador1;
-		pos[1]=y_jugador1;
-		pos[2]=0;
-		switch( keyCode ) { 
+	public Movimiento repaint(Movimiento mov){
+		int posX = mov.getPosicion().getX();
+		int posY = mov.getPosicion().getY();
+		switch( mov.getKeyCode() ) { 
     	case KeyEvent.VK_UP:
-//    		nivel_img[10] = p1_arriba;
-    		
-        	if ( (mapa1[y_jugador1-1][x_jugador1] == 0) || (mapa1[y_jugador1-1][x_jugador1] == 1) || 
-        			(mapa1[y_jugador1-1][x_jugador1] == 2) || (mapa1[y_jugador1-1][x_jugador1] == 3) || 
-        			(mapa1[y_jugador1-1][x_jugador1] == 4) || (mapa1[y_jugador1-1][x_jugador1] == 6) ) {
+        	if ( (mapa1[posY-1][posX] == 0) || (mapa1[posY-1][posX] == 1) || 
+        			(mapa1[posY-1][posX] == 2) || (mapa1[posY-1][posX] == 3) || 
+        			(mapa1[posY-1][posX] == 4) || (mapa1[posY-1][posX] == 6) ) {
         		
-        		mapa1[y_jugador1][x_jugador1] = 0; //set en la matriz el lugar excavado
-        		y_jugador1 = y_jugador1 - 1; //set posicion movimiento arriba
-        		mapa1[y_jugador1][x_jugador1] = 10;
-        		pos[0]=x_jugador1;
-        		pos[1]=y_jugador1;
-        		pos[2]=1;
+        		mapa1[posY][posX] = 0; //set en la matriz el lugar excavado
+        		posY = posY - 1; //set posicion movimiento arriba
+        		mapa1[posY][posX] = 10;
+        		mov.getPosicion().setX(posX);
+        		mov.getPosicion().setY(posY);
         	}
             break;
             
         case KeyEvent.VK_DOWN:
-//        	nivel_img[10] = p1_abajo;
-        	
-        	if ( (mapa1[y_jugador1+1][x_jugador1] == 0) || (mapa1[y_jugador1+1][x_jugador1] == 1) || 
-        			(mapa1[y_jugador1+1][x_jugador1] == 2) || (mapa1[y_jugador1+1][x_jugador1] == 3) || 
-        			(mapa1[y_jugador1+1][x_jugador1] == 4) || (mapa1[y_jugador1+1][x_jugador1] == 6) ) {
+        	if ( (mapa1[posY+1][posX] == 0) || (mapa1[posY+1][posX] == 1) || 
+        			(mapa1[posY+1][posX] == 2) || (mapa1[posY+1][posX] == 3) || 
+        			(mapa1[posY+1][posX] == 4) || (mapa1[posY+1][posX] == 6) ) {
         		
-        		mapa1[y_jugador1][x_jugador1] = 0;
-        		y_jugador1 = y_jugador1 + 1;
-        		mapa1[y_jugador1][x_jugador1] = 10;
-        		pos[0]=x_jugador1;
-        		pos[1]=y_jugador1;
-        		pos[2]=1;
+        		mapa1[posY][posX] = 0;
+        		posY = posY + 1;
+        		mapa1[posY][posX] = 10;
+        		mov.getPosicion().setX(posX);
+        		mov.getPosicion().setY(posY);
         	}
             break;
             
         case KeyEvent.VK_LEFT:
-//        	nivel_img[10] = p1_izq;
-        	
-        	if ( (mapa1[y_jugador1][x_jugador1-1] == 0) || (mapa1[y_jugador1][x_jugador1-1] == 1) || 
-        			(mapa1[y_jugador1][x_jugador1-1] == 2) || (mapa1[y_jugador1][x_jugador1-1] == 3) || 
-        			(mapa1[y_jugador1][x_jugador1-1] == 4) || (mapa1[y_jugador1][x_jugador1-1] == 6) ) {
+        	if ( (mapa1[posY][posX-1] == 0) || (mapa1[posY][posX-1] == 1) || 
+        			(mapa1[posY][posX-1] == 2) || (mapa1[posY][posX-1] == 3) || 
+        			(mapa1[posY][posX-1] == 4) || (mapa1[posY][posX-1] == 6) ) {
 
-        		mapa1[y_jugador1][x_jugador1] = 0;
-        		x_jugador1 = x_jugador1 - 1;
-        		mapa1[y_jugador1][x_jugador1] = 10;
-        		pos[0]=x_jugador1;
-        		pos[1]=y_jugador1;
-        		pos[2]=1;
+        		mapa1[posY][posX] = 0;
+        		posX = posX - 1;
+        		mapa1[posY][posX] = 10;
+        		mov.getPosicion().setX(posX);
+        		mov.getPosicion().setY(posY);
         	}
             break;
             
         case KeyEvent.VK_RIGHT :
-//        	nivel_img[10] = p1_der;
-        	
-        	if ( (mapa1[y_jugador1][x_jugador1+1] == 0) || (mapa1[y_jugador1][x_jugador1+1] == 1) || 
-        			(mapa1[y_jugador1][x_jugador1+1] == 2) || (mapa1[y_jugador1][x_jugador1+1] == 3) || 
-        			(mapa1[y_jugador1][x_jugador1+1] == 4) || (mapa1[y_jugador1][x_jugador1+1] == 6) ) {
+        	if ( (mapa1[posY][posX+1] == 0) || (mapa1[posY][posX+1] == 1) || 
+        			(mapa1[posY][posX+1] == 2) || (mapa1[posY][posX+1] == 3) || 
+        			(mapa1[posY][posX+1] == 4) || (mapa1[posY][posX+1] == 6) ) {
 
-        		mapa1[y_jugador1][x_jugador1] = 0;
-        		x_jugador1 = x_jugador1 + 1;
-        		mapa1[y_jugador1][x_jugador1] = 10;
-        		pos[0]=x_jugador1;
-        		pos[1]=y_jugador1;
-        		pos[2]=1;
+        		mapa1[posY][posX] = 0;
+        		posX = posX + 1;
+        		mapa1[posY][posX] = 10;
+        		mov.getPosicion().setX(posX);
+        		mov.getPosicion().setY(posY);
         	}
             break;
             
      }// switch
 //
-		return pos;
+		return mov;
 		
 	}
 }
