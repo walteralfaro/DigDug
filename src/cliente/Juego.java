@@ -42,10 +42,11 @@ public class Juego extends JApplet implements Runnable, KeyListener {
     
     private int ALTO_NIVEL = 24;
     private int ANCHO_NIVEL = 23;
-    
+    private String MENSAJE_VACIO = "VACIO";
+    private String MENSAJE_MOVIMIENTO = "MOVIMIENTO";
 	private char nivel[][] = {
     		//1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
-			
+//			
     		{ 9, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9}, //1
     		{ 9, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 9}, 
     		{ 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9}, 
@@ -79,8 +80,6 @@ public class Juego extends JApplet implements Runnable, KeyListener {
 	// 1 2 3 4 tierra para excavar
 	// 10 11 12 13 jugadores
 	
-	
-
 	// VECTOR PARA CARGAR TODAS LAS IMAGENES
     private BufferedImage nivel_img[] = new BufferedImage[14];
     
@@ -115,9 +114,7 @@ public class Juego extends JApplet implements Runnable, KeyListener {
     AudioClip musiquita_sound;
     AudioClip eat_sound;
     AudioClip die_sound;
-    
-    
-    
+   
     
 // POSICIONES INICIALES
     private int x_jugador1 = 3;
@@ -238,39 +235,35 @@ public class Juego extends JApplet implements Runnable, KeyListener {
     public void run() {
         Thread yo = Thread.currentThread();
 
-
 		ObjectOutputStream obstrm;
 
         while (thread == yo) {
-            repaint();
+//            repaint();
             try {
-            	            	
-            	
-				mensaje = new Message(""+keyCode, x_jugador1, y_jugador1,keyCode, nivel);
+				mensaje = new Message(MENSAJE_VACIO+keyCode, x_jugador1, y_jugador1,keyCode, nivel);
 				obstrm = new ObjectOutputStream(cliente.getOutputStream());
 				obstrm.writeObject(mensaje);
 				
 				ObjectInputStream obiStrm = new ObjectInputStream(cliente.getInputStream());
 				try {
 					mensaje =(Message) obiStrm.readObject();
-					DigDugLogger.log("Volvio:"+mensaje.isFlag());
-//					nivel = mensaje.getMap();
+					if(mensaje.isFlag()){
+						DigDugLogger.log("Volvio:"+mensaje.isFlag());
+						nivel = mensaje.getMap();
+						x_jugador1 = mensaje.getPosX();
+						y_jugador1 = mensaje.getPosY();
+						repaint();
+					}
+					
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				thread.sleep(500);
-								
-            	
+				thread.sleep(1000);
             } catch (InterruptedException e) { break; } catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//            catch (ClassNotFoundException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
         }// while thread
          
         thread = null;
@@ -283,15 +276,9 @@ public class Juego extends JApplet implements Runnable, KeyListener {
         thread.start();
     }
     
-    
     public synchronized void stop() {
         thread = null;
-    }
-
-	
-    
-    
-	
+    }	
 	public static void main(String argv[]) {
 		
 		final Juego ventanaJuego = new Juego();
@@ -326,87 +313,178 @@ public class Juego extends JApplet implements Runnable, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-	    keyCode = e.getKeyCode();
-	    
-//	    mensaje = new Message(""+keyCode, x_jugador1, y_jugador1,keyCode, nivel);
-//	  		try {
-//	  			new ObjectOutputStream(cliente.getOutputStream()).writeObject(mensaje);
-//	  			ObjectInputStream obStrm = new ObjectInputStream(cliente.getInputStream());
-//				
-//					mensaje =(Message) obStrm.readObject();
-				 
-//	  		} catch (IOException e1) {
-//	  			// TODO Auto-generated catch block
-//	  			e1.printStackTrace();
-//	  		}catch (ClassNotFoundException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//	  		nivel = mensaje.getMapa();
-//	  		if(mensaje.isFlag()){
-	  		
+	    keyCode = e.getKeyCode();	  	
+	    ObjectOutputStream obstrm;
 			    switch( keyCode ) { 
 			    	case KeyEvent.VK_UP:
 			    		nivel_img[10] = p1_arriba;
+			    		mensaje = new Message(MENSAJE_MOVIMIENTO, x_jugador1, y_jugador1,keyCode, nivel);
+						try {
+							obstrm = new ObjectOutputStream(cliente.getOutputStream());
+							obstrm.writeObject(mensaje);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+						
+						try {
+							ObjectInputStream obiStrm;
+							
+							obiStrm = new ObjectInputStream(cliente.getInputStream());
+							 
+							mensaje =(Message) obiStrm.readObject();
+//							if(mensaje.isFlag()){
+								DigDugLogger.log("Volvio:"+mensaje.isFlag());
+								nivel = mensaje.getMap();
+								x_jugador1 = mensaje.getPosX();
+								y_jugador1 = mensaje.getPosY();
+								repaint();
+//							}
+							
+						} catch (ClassNotFoundException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 			    		
-			        	if ( (nivel[y_jugador1-1][x_jugador1] == 0) || (nivel[y_jugador1-1][x_jugador1] == 1) || 
-			        			(nivel[y_jugador1-1][x_jugador1] == 2) || (nivel[y_jugador1-1][x_jugador1] == 3) || 
-			        			(nivel[y_jugador1-1][x_jugador1] == 4) || (nivel[y_jugador1-1][x_jugador1] == 6) ) {
-			        		
-			        			nivel[y_jugador1][x_jugador1] = 0; //set en la matriz el lugar excavado
-			        		y_jugador1 = y_jugador1 - 1; //set posicion movimiento arriba
-			        		nivel[y_jugador1][x_jugador1] = 10;
-			        	}
 			            break;
 			            
 			        case KeyEvent.VK_DOWN:
 			        	nivel_img[10] = p1_abajo;
-			        	
-			        	if ( (nivel[y_jugador1+1][x_jugador1] == 0) || (nivel[y_jugador1+1][x_jugador1] == 1) || 
-			        			(nivel[y_jugador1+1][x_jugador1] == 2) || (nivel[y_jugador1+1][x_jugador1] == 3) || 
-			        			(nivel[y_jugador1+1][x_jugador1] == 4) || (nivel[y_jugador1+1][x_jugador1] == 6) ) {
-			        		
-			        			nivel[y_jugador1][x_jugador1] = 0;
-			        		y_jugador1 = y_jugador1 + 1;
-			        		nivel[y_jugador1][x_jugador1] = 10;
-			        	}
+			        	try {
+				    		mensaje = new Message(MENSAJE_MOVIMIENTO, x_jugador1, y_jugador1,keyCode, nivel);
+
+							obstrm = new ObjectOutputStream(cliente.getOutputStream());
+							obstrm.writeObject(mensaje);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+			        	try {
+							ObjectInputStream obiStrm;
+							
+							obiStrm = new ObjectInputStream(cliente.getInputStream());
+							 
+							mensaje =(Message) obiStrm.readObject();
+							if(mensaje.isFlag()){
+								DigDugLogger.log("Volvio:"+mensaje.isFlag());
+								nivel = mensaje.getMap();
+								x_jugador1 = mensaje.getPosX();
+								y_jugador1 = mensaje.getPosY();
+								repaint();
+							}
+							
+						} catch (ClassNotFoundException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+//			        	if ( (nivel[y_jugador1+1][x_jugador1] == 0) || (nivel[y_jugador1+1][x_jugador1] == 1) || 
+//			        			(nivel[y_jugador1+1][x_jugador1] == 2) || (nivel[y_jugador1+1][x_jugador1] == 3) || 
+//			        			(nivel[y_jugador1+1][x_jugador1] == 4) || (nivel[y_jugador1+1][x_jugador1] == 6) ) {
+//			        		
+//			        			nivel[y_jugador1][x_jugador1] = 0;
+//			        		y_jugador1 = y_jugador1 + 1;
+//			        		nivel[y_jugador1][x_jugador1] = 10;
+//			        	}
 			            break;
 			            
 			        case KeyEvent.VK_LEFT:
 			        	nivel_img[10] = p1_izq;
-			        	
-			        	if ( (nivel[y_jugador1][x_jugador1-1] == 0) || (nivel[y_jugador1][x_jugador1-1] == 1) || 
-			        			(nivel[y_jugador1][x_jugador1-1] == 2) || (nivel[y_jugador1][x_jugador1-1] == 3) || 
-			        			(nivel[y_jugador1][x_jugador1-1] == 4) || (nivel[y_jugador1][x_jugador1-1] == 6) ) {
-		
-			        			nivel[y_jugador1][x_jugador1] = 0;
-			        		x_jugador1 = x_jugador1 - 1;
-			        		nivel[y_jugador1][x_jugador1] = 10;
-			        	}
+			        	try {
+				    		mensaje = new Message(MENSAJE_MOVIMIENTO, x_jugador1, y_jugador1,keyCode, nivel);
+
+							obstrm = new ObjectOutputStream(cliente.getOutputStream());
+							obstrm.writeObject(mensaje);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+			        	try {
+							ObjectInputStream obiStrm;
+							
+							obiStrm = new ObjectInputStream(cliente.getInputStream());
+							 
+							mensaje =(Message) obiStrm.readObject();
+							if(mensaje.isFlag()){
+								DigDugLogger.log("Volvio:"+mensaje.isFlag());
+								nivel = mensaje.getMap();
+								x_jugador1 = mensaje.getPosX();
+								y_jugador1 = mensaje.getPosY();
+								repaint();
+							}
+							
+						} catch (ClassNotFoundException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+//			        	if ( (nivel[y_jugador1][x_jugador1-1] == 0) || (nivel[y_jugador1][x_jugador1-1] == 1) || 
+//			        			(nivel[y_jugador1][x_jugador1-1] == 2) || (nivel[y_jugador1][x_jugador1-1] == 3) || 
+//			        			(nivel[y_jugador1][x_jugador1-1] == 4) || (nivel[y_jugador1][x_jugador1-1] == 6) ) {
+//		
+//			        			nivel[y_jugador1][x_jugador1] = 0;
+//			        		x_jugador1 = x_jugador1 - 1;
+//			        		nivel[y_jugador1][x_jugador1] = 10;
+//			        	}
 			            break;
 			            
 			        case KeyEvent.VK_RIGHT :
 			        	nivel_img[10] = p1_der;
-			        	
-			        	if ( (nivel[y_jugador1][x_jugador1+1] == 0) || (nivel[y_jugador1][x_jugador1+1] == 1) || 
-			        			(nivel[y_jugador1][x_jugador1+1] == 2) || (nivel[y_jugador1][x_jugador1+1] == 3) || 
-			        			(nivel[y_jugador1][x_jugador1+1] == 4) || (nivel[y_jugador1][x_jugador1+1] == 6) ) {
-		
-			        			nivel[y_jugador1][x_jugador1] = 0;
-			        		x_jugador1 = x_jugador1 + 1;
-			        		nivel[y_jugador1][x_jugador1] = 10;
-			        		
-			        	}
+			        	try {
+				    		mensaje = new Message(MENSAJE_MOVIMIENTO, x_jugador1, y_jugador1,keyCode, nivel);
+
+							obstrm = new ObjectOutputStream(cliente.getOutputStream());
+							obstrm.writeObject(mensaje);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+			        	try {
+							ObjectInputStream obiStrm;
+							
+							obiStrm = new ObjectInputStream(cliente.getInputStream());
+							 
+							mensaje =(Message) obiStrm.readObject();
+							if(mensaje.isFlag()){
+								DigDugLogger.log("Volvio:"+mensaje.isFlag());
+								nivel = mensaje.getMap();
+								x_jugador1 = mensaje.getPosX();
+								y_jugador1 = mensaje.getPosY();
+								repaint();
+							}
+							
+						} catch (ClassNotFoundException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+//			        	if ( (nivel[y_jugador1][x_jugador1+1] == 0) || (nivel[y_jugador1][x_jugador1+1] == 1) || 
+//			        			(nivel[y_jugador1][x_jugador1+1] == 2) || (nivel[y_jugador1][x_jugador1+1] == 3) || 
+//			        			(nivel[y_jugador1][x_jugador1+1] == 4) || (nivel[y_jugador1][x_jugador1+1] == 6) ) {
+//		
+//			        			nivel[y_jugador1][x_jugador1] = 0;
+//			        		x_jugador1 = x_jugador1 + 1;
+//			        		nivel[y_jugador1][x_jugador1] = 10;
+//			        		
+//			        	}
 			            break;
-			            
 			            
 			        // MUSICA ON/OFF
 			        case KeyEvent.VK_M:
 			        	if (music_on == true) {
 			        		music_on = false;
 			        		musiquita_sound.stop();
-			        	}
-			        	else {
+			        	}else {
 			        		music_on = true;
 			        		musiquita_sound.loop();
 			        	}
