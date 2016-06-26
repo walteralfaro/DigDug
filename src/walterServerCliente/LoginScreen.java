@@ -38,11 +38,15 @@ public class LoginScreen extends JFrame {
 	private JLabel     label_pass    = new JLabel("Password");
 	private JTextField text_pass     = new JTextField(15);
 	
+	private JLabel     label_nuser   = new JLabel("Nuevo Usuario");
+	private JTextField text_nuser    = new JTextField(15);
+	
 	private JLabel     label_npass   = new JLabel("Nuevo Password");
 	private JTextField text_npass    = new JTextField(15);
 	
 	private JButton    boton_iniciar = new JButton("Iniciar sesion");
-	private JButton    boton_update  = new JButton("Update Password");
+	private JButton    boton_update  = new JButton("Actualizar datos");
+	private JButton    boton_registrarse  = new JButton("Registrarse");
 	
 	private JLabel     label_conectando    = new JLabel("LOGIN FOR PLAY...");
 	
@@ -68,6 +72,7 @@ public class LoginScreen extends JFrame {
 
 		label_user.setForeground(Color.white);
 		label_pass.setForeground(Color.white);
+		label_nuser.setForeground(Color.white);
 		label_npass.setForeground(Color.white);
 		label_conectando.setForeground(Color.WHITE);
 		
@@ -112,7 +117,7 @@ public class LoginScreen extends JFrame {
 							ObjectInputStream  instrem;
 							Message mensaje;
 						
-							JuegoDaoImp n = new JuegoDaoImp();
+							JuegoDaoImp n = new JuegoDaoImp(); //esto no va no?
 							//recibe
 							//esto para lo unico que es necesario.. es por que el juego (el mapa) tiene que recibir el mensaje del mapa...
 							//capas se puede mejorar .. pero tenes que tocar todas las llamadas al server
@@ -138,8 +143,16 @@ public class LoginScreen extends JFrame {
 								System.out.println("SOY EL CLIENTE ACEPTADO ID DE BASE DE DATOS:"+ mensaje.getIdUser());
 								System.out.println("SOY EL CLIENTE ACEPTADO ID DE POSICION DE ENTRADA:"+ mensaje.getUserIdPosicionDeEntrada());
 
-
-
+								//habilito texts y boton update
+								label_conectando.setText("Usuarios conectados: " + mensaje.getCantidadDeUsuarios());
+								label_nuser.setEnabled(true);
+								label_npass.setEnabled(true);
+								boton_update.setEnabled(true);
+								
+								//deshbilito registrarse xq ya hay un usuario logineado
+								boton_registrarse.setEnabled(false);
+								
+								
 								if(mensaje.getCantidadDeUsuarios()>1){
 									Juego pe = new Juego();
 									pe.inGame(connection);
@@ -162,6 +175,8 @@ public class LoginScreen extends JFrame {
 					}
 				});
 
+		 
+		 
 		// create a new panel with GridBagLayout manager
 		JPanel jp = new JPanel( new GridBagLayout() );
 		
@@ -195,11 +210,18 @@ public class LoginScreen extends JFrame {
         constraints.gridy = 4;
         
         constraints.gridx = 0;
+        jp.add(label_nuser, constraints);
+	    constraints.gridx = 1;
+	    jp.add(text_nuser, constraints);
+	    
+	    constraints.gridy = 5;
+        
+        constraints.gridx = 0;
         jp.add(label_npass, constraints);
 	    constraints.gridx = 1;
 	    jp.add(text_npass, constraints);
-
-        constraints.gridy = 6;
+	    
+        constraints.gridy = 7;
         
 	    constraints.gridx = 0;
         jp.add(label_conectando, constraints);
@@ -207,21 +229,26 @@ public class LoginScreen extends JFrame {
         
         constraints.fill = GridBagConstraints.EAST;
         
-	    constraints.gridx = 0;
+	    constraints.gridx = 1;
         constraints.gridy = 3;
         constraints.gridwidth = 2;
         
-	    constraints.anchor = GridBagConstraints.EAST;
+        constraints.anchor = GridBagConstraints.EAST;
         jp.add(boton_iniciar, constraints);
+        constraints.gridx = 0;
+	    constraints.anchor = GridBagConstraints.WEST;
+        jp.add(boton_registrarse, constraints);
 
 	    constraints.gridx = 0;
-        constraints.gridy = 5;
+        constraints.gridy = 6;
         constraints.gridwidth = 2;
 	    constraints.anchor = GridBagConstraints.EAST;
         jp.add(boton_update, constraints);
 	    
         
         //desabilitado, en gris
+        label_nuser.setEnabled(false);
+	    text_nuser.setEnabled(false);
         label_npass.setEnabled(false);
 	    text_npass.setEnabled(false);
 	    boton_update.setEnabled(false);
