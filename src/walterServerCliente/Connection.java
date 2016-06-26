@@ -69,12 +69,12 @@ public class Connection {
 	private void getProperties (){
 		try{
 			Properties properties = new Properties();
+			//esta configuracion solo la levante para el cliente para saber en que ip conectar del servidor y puerto
 			properties.load(new FileInputStream("propiedades.properties"));
-			//ip = properties.getProperty("ip");
-			//port = Integer.parseInt(properties.getProperty("port"));
-			ip = "localhost";
-			port = 5000;
-			//192.168.1.34.
+			ip = properties.getProperty("ip");
+			port = Integer.parseInt(properties.getProperty("port"));
+		    //	ip=192.168.1.34
+			//  port=1000
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -83,7 +83,4 @@ public class Connection {
 	public Socket getSocket (){
 		return socket;
 	}
-
-
-
 }
