@@ -71,7 +71,28 @@ public class LoginScreen extends JFrame {
 		label_npass.setForeground(Color.white);
 		label_conectando.setForeground(Color.WHITE);
 		
+
 		
+		 boton_iniciar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JuegoDaoImp n = new JuegoDaoImp();
+
+					//validar usuario
+
+					Juego pe = new Juego();
+					pe.inGame(connection);
+					}
+				});
+		
+		 boton_update.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+//			        EndClientConnectionPackage er = new EndClientConnectionPackage();
+//			        connection.sendPackage(er);
+			        System.exit(0);
+					}
+				});
+		
+		 
 		
 		ObjectOutputStream obstrm;
 		ObjectInputStream  instrem;
@@ -101,28 +122,6 @@ public class LoginScreen extends JFrame {
 		}
 		
 		
-		
-		 boton_iniciar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					JuegoDaoImp n = new JuegoDaoImp();
-					
-					boolean b = n.validaUsuario("este111ban","pro");
-					if (b == true){
-						System.out.println("trueeee");
-						
-						Juego pe = new Juego();
-						pe.inGame(connection);
-					}
-				}
-				});
-		
-		 boton_iniciar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-//			        EndClientConnectionPackage er = new EndClientConnectionPackage();
-//			        connection.sendPackage(er);
-			        System.exit(0);
-				}
-				});
 		
 		 
 		
