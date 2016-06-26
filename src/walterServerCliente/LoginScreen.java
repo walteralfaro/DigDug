@@ -149,9 +149,16 @@ public class LoginScreen extends JFrame {
 
 								//habilito texts y boton update
 								label_conectando.setText("Usuarios conectados: " + mensaje.getCantidadDeUsuarios());
-								label_nuser.setEnabled(true);
-								label_npass.setEnabled(true);
+								
+								text_nuser.setEnabled(true);
+						        text_nuser.setBackground(Color.WHITE);
+								text_npass.setEnabled(true);
+						        text_npass.setBackground(Color.WHITE);
+						        
 								boton_update.setEnabled(true);
+								
+								text_user.setEditable(false);
+								text_pass.setEditable(false);
 								
 								//deshbilito botones xq ya hay un usuario logineado
 								boton_registrarse.setEnabled(false);
