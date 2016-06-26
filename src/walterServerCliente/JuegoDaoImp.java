@@ -3,6 +3,7 @@ package walterServerCliente;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +16,6 @@ import java.util.List;
 
 public final class JuegoDaoImp {
 	
-	JuegoDaoImp instancia;
-
 	public void crearTablasUsuario() {
 
 		Connection c = null;
@@ -66,40 +65,33 @@ public final class JuegoDaoImp {
 	}
 
 	public void insertScore(Integer idUsuario, Integer idPartida, Integer puntaje ) {
-		System.out.println("IN - insertScore");
-
+		Logger.init("insertScore");
 		Connection c = null;
 		Statement stmt = null;
 		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:db/baseDeDatos.db");
-			c.setAutoCommit(false);
+			c = getConnectionDB();
 
 			stmt = c.createStatement();
 			String sql = "INSERT INTO SCORE (idUsuario,idPartida,puntaje) "
 					+ "VALUES ("+idUsuario+","+idPartida+","+puntaje+");";
 			stmt.executeUpdate(sql);
 			stmt.close();
-			c.commit();
-			c.close();
+			commitAndClose(c);
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		System.out.println("FIN - insertScore");
+		Logger.end("insertScore");
 	}
 
 	public List<User> obtenerUsuarios() {
-		System.out.println("IN - obtenerUsuarios");
-
+		Logger.init("obtenerUsuarios");
 		Connection c = null;
 		Statement stmt = null;
 		List<User> users = new ArrayList<User>();
 
 		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:db/baseDeDatos.db");
-			c.setAutoCommit(false);
+			c = getConnectionDB();
 			System.out.println("Opened database successfully");
 
 			stmt = c.createStatement();
@@ -125,19 +117,17 @@ public final class JuegoDaoImp {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		System.out.println("END - obtenerUsuarios");
+		Logger.end("obtenerUsuarios");
 		return users;
 	}
 	
 	public Integer obtenerScorePorUsuario(String nombre, Integer idPartida) {
-		System.out.println("IN - obtenerScorePorUsuario");
+		Logger.init("obtenerScorePorUsuario");
 		Integer score = 0;
 		Connection c = null;
 		Statement stmt = null;
 		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:db/baseDeDatos.db");
-			c.setAutoCommit(false);
+			c = getConnectionDB();
 
 			stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM USUARIO WHERE name = '"+nombre+"';");
@@ -168,21 +158,20 @@ public final class JuegoDaoImp {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		System.out.println("END - obtenerScorePorUsuario");
+		
+		Logger.end("obtenerScorePorUsuario");
+
 		return score;
 	}
 
 	public boolean validaUsuario(String name, String pass) {
-		System.out.println("IN - validaUsuario");
-
+		Logger.init("validaUsuario");
 		Connection c = null;
 		Statement stmt = null;
 		boolean existe= false;
 
 		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:db/baseDeDatos.db");
-			c.setAutoCommit(false);
+			c = getConnectionDB();
 
 			stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM USUARIO where name ='"+name+"' and pass ='"+pass+"';");
@@ -191,34 +180,30 @@ public final class JuegoDaoImp {
 				c.close();
 				rs.close();
 				existe = true; //se logueo
-				System.out.println("END - validaUsuario");
+				Logger.end("validaUsuario");
 				return existe;
 			}
-			System.out.println("INFO - validaUsuario - USUARIO O CONTRASEÑA ERRONEA");
+			Logger.info("validaUsuario - USUARIO O CONTRASEÑA ERRONEA");
 
 			rs.close();
 			stmt.close();
+			
 			c.close();
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		
-		System.out.println("END - validaUsuario");
+		Logger.end("validaUsuario");
 		return existe;
-
 	}
 	
 	public boolean registrarUsuario(String name, String pass) {
-		System.out.println("IN - registrarUsuario");
-
+		Logger.init("registrarUsuario");
 		Connection c = null;
 		Statement stmt = null;
 		boolean existe= false;
 		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:db/baseDeDatos.db");
-			c.setAutoCommit(false);
+			c = getConnectionDB();
 
 			stmt = c.createStatement();
 
@@ -232,31 +217,29 @@ public final class JuegoDaoImp {
 			}
 			existe = true;
 			
-			String sql = "INSERT INTO USUARIO (name,pass) "
-					   + "VALUES ('"+name+"', '"+pass+"') ";
+			String sql = "INSERT INTO USUARIO (name,pass)  VALUES ('"+name+"', '"+pass+"') ";
 			stmt.executeUpdate(sql);
 			stmt.close();
-			c.commit();
-			c.close();
+			
+			commitAndClose(c);
+			
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		
-		System.out.println("END - registrarUsuario");
+		Logger.end("registrarUsuario");
 		return existe;
 	}
 	
 	public boolean registrarUsuario(String name, String pass,Integer id) {
-		System.out.println("IN - registrarUsuario con id");
+		Logger.init("registrarUsuario con id");
+
 
 		Connection c = null;
 		Statement stmt = null;
 		boolean existe= false;
 		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:db/baseDeDatos.db");
-			c.setAutoCommit(false);
+			c = getConnectionDB();
 
 			stmt = c.createStatement();
 
@@ -265,7 +248,8 @@ public final class JuegoDaoImp {
 				stmt.close();
 				c.close();
 				rs.close();
-				System.out.println("END - registrarUsuario - Usuario ya registrado: " + name);
+				Logger.info("registrarUsuario - Usuario ya registrado: " + name);
+				Logger.end("registrarUsuario con id");
 				return existe;
 			}
 			existe = true;
@@ -274,25 +258,23 @@ public final class JuegoDaoImp {
 					   + "VALUES ("+id+",'"+name+"', '"+pass+"') ";
 			stmt.executeUpdate(sql);
 			stmt.close();
-			c.commit();
-			c.close();
+			
+			commitAndClose(c);
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
 		
-		System.out.println("END - registrarUsuario con id");
+		Logger.end("registrarUsuario con id");
 		return existe;
 	}
 
 	public void mostrarScores() {
-		System.out.println("IN - obtenerScores");
+		Logger.init("obtenerScores");
 		Connection c = null;
 		Statement stmt = null;
 		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:db/baseDeDatos.db");
-			c.setAutoCommit(false);
+			c = getConnectionDB();
 
 			stmt = c.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT * FROM SCORE ;");
@@ -314,18 +296,16 @@ public final class JuegoDaoImp {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		System.out.println("END - obtenerScores");
+		Logger.end("obtenerScores");
 	}
 
 	public Integer obtenerScores(Integer idUsuario) {
-		System.out.println("IN - obtenerScores por idUsuario");
+		Logger.init("obtenerScores por idUsuario");
 		Connection c = null;
 		Statement stmt = null;
 		Integer score = 0;
 		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:db/baseDeDatos.db");
-			c.setAutoCommit(false);
+			c = getConnectionDB();
 
 			stmt = c.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT * FROM SCORE where idUsuario ="+idUsuario+";");
@@ -348,23 +328,19 @@ public final class JuegoDaoImp {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		System.out.println("END - obtenerScores por idUsuario");
+		Logger.end("obtenerScores por idUsuario");
 		return score;
 	}
 
 
 	public User obtenerUsuario(String nombre) {
-		System.out.println("IN - obtenerUsuario por nombre de usuario");
-
+		Logger.init("obtenerUsuario por nombre de usuario");
 		Connection c = null;
 		Statement stmt = null;
 		User user = new User(null,null);
 
 		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:db/baseDeDatos.db");
-			c.setAutoCommit(false);
-			System.out.println("Opened database successfully");
+			c = getConnectionDB();
 
 			stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM USUARIO where name ='"+nombre+"';");
@@ -378,12 +354,56 @@ public final class JuegoDaoImp {
 			}
 			rs.close();
 			stmt.close();
+			
 			c.close();
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		System.out.println("END - obtenerUsuario por nombre de usuario");
+		Logger.end("obtenerUsuario por nombre de usuario");
+
 		return user;
 	}
+	
+
+
+	public boolean actualizarUsuario(String nombre,String nuevoNombre,String nuevoPass) {
+		Logger.init("actualizarUsuario nombre y pass");
+		Connection c = null;
+		Statement stmt = null;
+		boolean flag = false;
+		try {
+			c = getConnectionDB();
+
+			stmt = c.createStatement();
+			int value = stmt.executeUpdate("UPDATE USUARIO SET name ='"+nuevoNombre+"' , pass = '"+nuevoPass+"' where name = '"+nombre+"';");
+			if(value != 0){
+				flag = true;
+				System.out.println("Se actulizo nombre y pass del usuario");
+			}
+			stmt.close();
+			
+			commitAndClose(c);
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		Logger.end("actualizarUsuario nombre y pass");
+
+		return flag;
+	}
+
+	private void commitAndClose(Connection c) throws SQLException {
+		c.commit();
+		c.close();
+	}
+
+	private Connection getConnectionDB() throws ClassNotFoundException, SQLException {
+		Connection c;
+		Class.forName("org.sqlite.JDBC");
+		c = DriverManager.getConnection("jdbc:sqlite:db/baseDeDatos.db");
+		c.setAutoCommit(false);
+		return c;
+	}
+	
 }

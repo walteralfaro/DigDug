@@ -9,7 +9,7 @@ import org.junit.Test;
 import walterServerCliente.JuegoDaoImp;
 import walterServerCliente.User;
  
-public class DbTest {
+public class TestBaseDeDatos {
 
 	JuegoDaoImp db = new JuegoDaoImp();
 	@Before  
@@ -18,7 +18,6 @@ public class DbTest {
 	    db.registrarUsuario("romina", "lololo");
 		db.registrarUsuario("walter", "pro");
 		db.registrarUsuario("esteban", "pro");
-		//db.registrarUsuario("calamaro", "cal", 1000);
 	}
 	@Test
 	public void testPrintMessage() {	
@@ -26,7 +25,6 @@ public class DbTest {
 		assertFalse(db.registrarUsuario("romina", "lololo"));
 		assertFalse(db.registrarUsuario("walter", "pro"));
 		assertFalse(db.registrarUsuario("esteban", "pro"));
-		//assertFalse(db.registrarUsuario("calamaro", "cal"));
     }
 	
 	@Test
@@ -47,16 +45,21 @@ public class DbTest {
 	}
 
 	@Test
-	public void obtenerScore(){
+	public void  testObtenerScore(){
 		 db.obtenerUsuario("romina");
 	 	 db.obtenerScores(2);
 	}
 
 	@Test
-	public void obtenerScoreDeUsuario(){
+	public void  testObtenerScoreDeUsuario(){
 		 Integer score = db.obtenerScorePorUsuario("romina",1);
 		 long value = 20;
 		 assertEquals(value, score.longValue());
 	}
-
+	
+	@Test
+	public void  testActualizarUsuarioYpass(){
+		 assertFalse(db.registrarUsuario("calamaro", "cal"));
+		 assertTrue(db.actualizarUsuario("calamaro","calamaro","cal1"));
+	}
 }
