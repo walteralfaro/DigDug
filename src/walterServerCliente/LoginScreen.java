@@ -8,6 +8,11 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -21,6 +26,10 @@ import javax.swing.JTextField;
 
 public class LoginScreen extends JFrame {
 
+	private static final long serialVersionUID = -560582234414629430L;
+	private static Integer  KEY_LOGIN = 0;
+	
+	
 	private JLabel     label_nada    = new JLabel();
 	
 	private JLabel     label_user    = new JLabel("Usuario");
@@ -38,27 +47,59 @@ public class LoginScreen extends JFrame {
 	private JLabel     label_conectando    = new JLabel("LOGIN FOR PLAY...");
 	
 	private Image imagenFondo;
-
+	
 	
 	
 	//constructor
-	public LoginScreen() {
+	public LoginScreen(Connection connection) {
+		
 		setIconImage( new ImageIcon("imagenes/dig_dug_dragon.jpg").getImage() ); //iconito de la ventana
 	    setSize(580,700);
 		setTitle("Dig Dug");
 	    setBounds(0, 0, 580, 700);
+	    //setResizable(false);
 	    setLocationRelativeTo(null);
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    
 		//carga imagen de fondo en un JPanel: JPanelFondo
 	    JPanelFondo jpf = new JPanelFondo();
-		jpf.setBackground("imagenes/dig-dug-japan copia.png");
+		jpf.setBackground("imagenes/dig-dug-japan-copia.png");
 		add(jpf);
 
 		label_user.setForeground(Color.white);
 		label_pass.setForeground(Color.white);
 		label_npass.setForeground(Color.white);
 		label_conectando.setForeground(Color.WHITE);
+		
+		
+		
+		ObjectOutputStream obstrm;
+		ObjectInputStream  instrem;
+		Message mensaje;
+		Integer cantidad = 0;
+
+		try {
+			//recibe 
+			instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+			mensaje =(Message) instrem.readObject();
+			
+			//manda donde esta osea logien
+			obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
+			mensaje.setKey(Clave.getNewInstancia(KEY_LOGIN));				
+			obstrm.writeObject(mensaje);
+
+			//recibe la info de cantidad
+			instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+			mensaje =(Message) instrem.readObject();
+			cantidad = mensaje.getCantidadDeUsuarios();
+			
+			
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		
 		
 		
 		 boton_iniciar.addActionListener(new ActionListener() {
@@ -68,7 +109,9 @@ public class LoginScreen extends JFrame {
 					boolean b = n.validaUsuario("este111ban","pro");
 					if (b == true){
 						System.out.println("trueeee");
-						System.exit(0);
+						
+						Juego pe = new Juego();
+						pe.inGame(connection);
 					}
 				}
 				});
@@ -162,6 +205,12 @@ public class LoginScreen extends JFrame {
 	    setSize(579,699);
 	    setSize(580,700);
 
+	    setVisible(true);
+	    
+	    this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {System.exit(0);}
+			});
+	    
 	}//constructor Login()
 	
 	
@@ -174,16 +223,8 @@ public class LoginScreen extends JFrame {
 	
 	
 	
-	public static void main(String[] args) {
 		
-		new LoginScreen().setVisible(true);
-		
-		/*
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {System.exit(0);}
-			});
-		*/
-	}
+	
 	
 
 }// class
