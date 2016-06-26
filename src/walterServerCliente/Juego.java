@@ -110,7 +110,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 				nivel = mensaje.getMap();
 
 		    	setBackground(Color.black);
-		    	String musica_path = "musica1/";
+		    	String musica_path = "musica/";
 		    	
 		    	 try{
 		         	 musiquita_sound = Applet.newAudioClip( new URL("file:" + musica_path + "Dig_Dug_Theme_Song_HD.wav") );

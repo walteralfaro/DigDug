@@ -49,14 +49,14 @@ public class LoginScreen extends JFrame {
 	private JTextField text_npass    = new JTextField(15);
 	
 	private JButton    boton_iniciar = new JButton("Iniciar sesion");
-	private JButton    boton_update  = new JButton("Actualizar datos");
+	private JButton    boton_update  = new JButton("Modificar user y pass");
 	private JButton    boton_registrarse  = new JButton("Registrarse");
 	private JButton    boton_jugar   = new JButton("JUGAR!!");
 	
 	private JLabel     label_conectando    = new JLabel("LOGIN FOR PLAY...");
 	
 	private Image imagenFondo;
-	private String musica_path = "musica1/";
+	private String musica_path = "musica/";
 	private AudioClip sonido_usernew;
 	private boolean validaUser = false;
 	private Integer cantConectados = 0;
@@ -75,7 +75,7 @@ public class LoginScreen extends JFrame {
 	    
 		//carga imagen de fondo en un JPanel: JPanelFondo
 	    JPanelFondo jpf = new JPanelFondo();
-		jpf.setBackground("imagenes/dig-dug-japan-copia.png");
+		jpf.setBackground("imagenes/33.png");
 		add(jpf);
 
 		label_user.setForeground(Color.white);
@@ -93,7 +93,7 @@ public class LoginScreen extends JFrame {
 		Message mensaje;
 		Integer cantidad = 0;
 
-		String esperando = "LOGIN FOR PLAY.. ";
+		//String esperando = "LOGIN FOR PLAY.. ";
 
 		try {
 			//recibe.
@@ -111,7 +111,7 @@ public class LoginScreen extends JFrame {
 			instrem = new ObjectInputStream(connection.getSocket().getInputStream());
 			mensaje =(Message) instrem.readObject();
 			label_conectando.getText();
-			label_conectando.setText(esperando +" -> "+mensaje.getCantidadDeUsuarios());
+			label_conectando.setText("Usuarios conectados: "+mensaje.getCantidadDeUsuarios());
 			
 			
 		} catch (IOException e1) {
@@ -146,19 +146,19 @@ public class LoginScreen extends JFrame {
 							instrem = new ObjectInputStream(connection.getSocket().getInputStream());
 							mensaje =(Message) instrem.readObject();
 							label_conectando.getText();
-							label_conectando.setText(esperando +" -> "+mensaje.getCantidadDeUsuarios());
+							label_conectando.setText("Usuarios conectados: " + mensaje.getCantidadDeUsuarios());
 							
 							validaUser = mensaje.isAceptado();
 							cantConectados = mensaje.getCantidadDeUsuarios();
+							
 							if(validaUser){
-								/*
+								
 								try{
-						         	sonido_usernew = Applet.newAudioClip( new URL("file:" + musica_path + "coin_credit.wav") );
-						         	sonido_usernew.play();sonido_usernew.loop();
-						
+						         	sonido_usernew = Applet.newAudioClip( new URL("file:" + musica_path + "extra_life.wav") );
+						         	sonido_usernew.play();
 						           }
 						         catch (IOException e2) { }
-								*/
+								
 								System.out.println("SOY EL CLIENTE ACEPTADO CON NOMBRE:"+ mensaje.getName());
 								System.out.println("SOY EL CLIENTE ACEPTADO ID DE BASE DE DATOS:"+ mensaje.getIdUser());
 								System.out.println("SOY EL CLIENTE ACEPTADO ID DE POSICION DE ENTRADA:"+ mensaje.getUserIdPosicionDeEntrada());
@@ -167,22 +167,33 @@ public class LoginScreen extends JFrame {
 								label_conectando.setText("Usuarios conectados: " + mensaje.getCantidadDeUsuarios());
 								
 								text_nuser.setEnabled(true);
+								label_nuser.setVisible(true);
+								text_nuser.setVisible(true);
 						        text_nuser.setBackground(Color.WHITE);
+						        
 								text_npass.setEnabled(true);
+								label_npass.setVisible(true);
+								text_npass.setVisible(true);
 						        text_npass.setBackground(Color.WHITE);
 						        
 								boton_update.setEnabled(true);
+								boton_update.setVisible(true);
 								
 								text_user.setEditable(false);
 								text_pass.setEditable(false);
+								text_user.setBackground(Color.LIGHT_GRAY);
+								text_pass.setBackground(Color.LIGHT_GRAY);
 								
 								//deshbilito botones xq ya hay un usuario logineado
 								boton_registrarse.setEnabled(false);
+								boton_registrarse.setVisible(false);
 								boton_iniciar.setEnabled(true);
+								boton_iniciar.setText("Actualizar conectados..");
 								
 								//if cantidad de usuarios es mayor a 1, true, pero no funciona para el primero conectado
 								//if( mensaje.getCantidadDeUsuarios() > 1 ){
 								  boton_jugar.setEnabled(true);
+								  boton_jugar.setVisible(true);
 								//}
 							}		
 						
@@ -254,46 +265,51 @@ public class LoginScreen extends JFrame {
 	    jp.add(text_npass, constraints);
 	    
         constraints.gridy = 7;
+        constraints.gridx = 1;
         constraints.anchor = GridBagConstraints.EAST;
         jp.add(boton_jugar, constraints);
         
         constraints.gridy = 8;
-        
 	    constraints.gridx = 0;
         jp.add(label_conectando, constraints);
         
 	    
         
-        constraints.fill = GridBagConstraints.EAST;
-        
+        constraints.fill = GridBagConstraints.HORIZONTAL;
 	    constraints.gridx = 1;
         constraints.gridy = 3;
-        constraints.gridwidth = 2;
-        
+        //constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.EAST;
         jp.add(boton_iniciar, constraints);
+        
         constraints.gridx = 0;
+        constraints.gridy = 3;
 	    constraints.anchor = GridBagConstraints.WEST;
         jp.add(boton_registrarse, constraints);
 
-	    constraints.gridx = 0;
+	    constraints.gridx = 1;
         constraints.gridy = 6;
-        constraints.gridwidth = 2;
 	    constraints.anchor = GridBagConstraints.EAST;
         jp.add(boton_update, constraints);
 	    
         
         //desabilitado, en gris
         label_nuser.setEnabled(false);
+        label_nuser.setVisible(false);
 	    text_nuser.setEnabled(false);
+	    text_nuser.setVisible(false);
         text_nuser.setBackground(Color.GRAY);
         
         label_npass.setEnabled(false);
+        label_npass.setVisible(false);
 	    text_npass.setEnabled(false);
+	    text_npass.setVisible(false);
         text_npass.setBackground(Color.GRAY);
 	    
         boton_update.setEnabled(false);
+        boton_update.setVisible(false);
         boton_jugar.setEnabled(false);
+        boton_jugar.setVisible(false);
         
      // set border for the panel
         jp.setBorder( BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null) );
