@@ -30,7 +30,7 @@ import javax.swing.JApplet;
 public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 
 	private Connection connection;
-	private Integer userId;
+	private Integer idPosicionDeEntrada;
 
 	public Juego() {}
     int keyCode=0;
@@ -82,7 +82,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 				
 				ObjectInputStream obiStrm = new ObjectInputStream(connection.getSocket().getInputStream());
 				mensaje =(Message) obiStrm.readObject();
-				userId = mensaje.getUserIdPosicionDeEntrada();
+				idPosicionDeEntrada = mensaje.getUserIdPosicionDeEntrada();
 	    		
 	    		Movimiento mov = new Movimiento();
 	    		Coordenada pos = new Coordenada();
@@ -293,7 +293,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 	    keyCode = e.getKeyCode();	  	
 			    switch( keyCode ) { 
 			    	case KeyEvent.VK_UP:
-			    		if(this.userId.compareTo(0) == 0){
+			    		if(this.idPosicionDeEntrada.compareTo(0) == 0){
 			    			nivel_img[10] = p1_arriba;
 			    		}else{
 			    			nivel_img[12] = p2_arriba;
@@ -302,7 +302,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 			            break;
 			            
 			        case KeyEvent.VK_DOWN:
-			        	if(this.userId.compareTo(0) == 0){
+			        	if(this.idPosicionDeEntrada.compareTo(0) == 0){
 			    			nivel_img[10] = p1_abajo;
 			    		}else{
 			    			nivel_img[12] = p2_abajo;
@@ -311,7 +311,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 			            break;
 			            
 			        case KeyEvent.VK_LEFT:
-			        	if(this.userId.compareTo(0) == 0){
+			        	if(this.idPosicionDeEntrada.compareTo(0) == 0){
 			    			nivel_img[10] = p1_izq;
 			    		}else{
 			    			nivel_img[12] = p2_izq;
@@ -320,7 +320,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 			            break;
 			            
 			        case KeyEvent.VK_RIGHT :
-			        	if(this.userId.compareTo(0) == 0){
+			        	if(this.idPosicionDeEntrada.compareTo(0) == 0){
 			    			nivel_img[10] = p1_der;
 			    		}else{
 			    			nivel_img[12] = p2_der;

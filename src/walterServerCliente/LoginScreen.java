@@ -135,6 +135,10 @@ public class LoginScreen extends JFrame {
 
 							if(mensaje.isAceptado()){
 								System.out.println("SOY EL CLIENTE ACEPTADO CON NOMBRE:"+ mensaje.getName());
+								System.out.println("SOY EL CLIENTE ACEPTADO ID DE BASE DE DATOS:"+ mensaje.getIdUser());
+								System.out.println("SOY EL CLIENTE ACEPTADO ID DE POSICION DE ENTRADA:"+ mensaje.getUserIdPosicionDeEntrada());
+
+
 
 								if(mensaje.getCantidadDeUsuarios()>1){
 									Juego pe = new Juego();

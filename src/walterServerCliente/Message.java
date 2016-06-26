@@ -11,7 +11,6 @@ public class Message implements Serializable{
 	private Movimiento movimiento2;
 	private Coordenada flor;
 	private Coordenada piedra;
-	private Integer userIdPosicionDeEntrada;
 	private Integer clave;
 	private Integer score1;
 	private Integer score2;
@@ -22,6 +21,7 @@ public class Message implements Serializable{
 	private String name;
 	private String pass;
 	private boolean aceptado = false;
+	private Integer userIdPosicionDeEntrada;
 	private Integer idUser;
 
 	public Integer getIdUser() {

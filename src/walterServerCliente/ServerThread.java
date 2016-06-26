@@ -31,13 +31,11 @@ public class ServerThread extends Thread {
 			    /// todos los mensajes TIENEN que tener esta interaccion con el servidor por que el JUEGO necesita saber el usuario
 				mensaje = new Message();				
 				obstrm = new ObjectOutputStream(user.getSocket().getOutputStream());
-				mensaje.setIdUser(user.getId());
 				mensaje.setUserIdPosicionDeEntrada(userIdPosicionDeEntrada);
 				obstrm.writeObject(mensaje);
 				
 				//Se obtiene la INFO Y LA CLAVE DEL MENSAJE
 				ObjectInputStream obStrm = new ObjectInputStream(userConnectionInstance.getUser(userIdPosicionDeEntrada).getSocket().getInputStream());
-				mensaje.setIdUser(user.getId());
 				mensaje =(Message) obStrm.readObject();
 				//////
 				
@@ -46,7 +44,6 @@ public class ServerThread extends Thread {
 				if(mensaje.getLocacion().getKey().equals(KEY_LOGIN)){
 					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userIdPosicionDeEntrada).getSocket().getOutputStream());					
 					mensaje.setCantidadDeUsuarios(getUserUsuariosConectados(userConnectionInstance,mensaje));
-					mensaje.setIdUser(user.getId());
 					obstrm.writeObject(mensaje);
 				}
 				if(mensaje.getLocacion().getKey().equals(KEY_LOGIN_VALIDACION_USER_PASS)){
@@ -55,11 +52,11 @@ public class ServerThread extends Thread {
 					boolean aceptado = dao.validaUsuario(mensaje.getName(), mensaje.getPass());
 					mensaje.setAceptado(aceptado);
 					user.setName(mensaje.getName());
-					user.setName(mensaje.getPass());
+					user.setPass(mensaje.getPass());
+					user.setId(dao.obtenerUsuario(mensaje.getName()).getId());
 					user.setAceptado(aceptado);
 					//busco la cantidad de conectados
 					mensaje.setCantidadDeUsuarios(getUserUsuariosConectados(userConnectionInstance,mensaje));
-					
 					mensaje.setIdUser(user.getId());
 					obstrm.writeObject(mensaje);		
 				}
