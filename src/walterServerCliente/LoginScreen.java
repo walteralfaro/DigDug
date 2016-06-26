@@ -32,6 +32,7 @@ public class LoginScreen extends JFrame {
 	private static final long serialVersionUID = -560582234414629430L;
 	private static Integer  KEY_LOGIN = 0;
 	private static Integer  KEY_LOGIN_VALIDACION_USER_PASS = 2;
+	private static Integer KEY_JUEGO_FIN_JUEGO = 3;
 	
 	private JLabel     label_nada    = new JLabel();
 	
@@ -199,8 +200,28 @@ public class LoginScreen extends JFrame {
 		
 		 boton_update.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-//			        EndClientConnectionPackage er = new EndClientConnectionPackage();
-//			        connection.sendPackage(er);
+		        		ObjectOutputStream obstrm;
+		        		ObjectInputStream  instrem;
+		        		Message mensaje;
+		        		
+		        		try {
+		        			//recibe.
+		        			//esto para lo unico que es necesario.. es por que el juego (el mapa) tiene que recibir el mensaje del mapa...
+		        			//capas se puede mejorar .. pero tenes que tocar todas las llamadas al server			
+		        			instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+		        			mensaje =(Message) instrem.readObject();
+		        			
+		        			//Se envia el fin del juego
+		        			obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
+		        			mensaje.setLocacion(Clave.getNewInstancia(KEY_JUEGO_FIN_JUEGO));				
+		        			obstrm.writeObject(mensaje);
+		
+		        		} catch (IOException e1) {
+		        			e1.printStackTrace();
+		        		} catch (ClassNotFoundException e1) {
+		        			e1.printStackTrace();
+		        		}
+	        		
 			        System.exit(0);
 					}
 				});

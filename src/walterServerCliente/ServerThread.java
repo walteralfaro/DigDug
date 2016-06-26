@@ -11,7 +11,7 @@ public class ServerThread extends Thread {
 	private static Integer  KEY_LOGIN = 0;
 	private static Integer  KEY_JUEGO = 1;
 	private static Integer KEY_LOGIN_VALIDACION_USER_PASS = 2;
-
+	private static Integer KEY_JUEGO_FIN_JUEGO = 3;
 	
 	public ServerThread(Integer userId) {
 		this.userIdPosicionDeEntrada = userId;
@@ -73,6 +73,13 @@ public class ServerThread extends Thread {
 					mensaje.setIdUser(user.getId());
 					obstrm.writeObject(mensaje);
 				}
+				
+				if(mensaje.getLocacion().getKey().equals(KEY_JUEGO_FIN_JUEGO)){
+					Logger.info("Finalizando conexion con el cliente " + userIdPosicionDeEntrada);
+					user.setAceptado(false);
+					endConection = true;
+				}
+
 			}
 			
 			if(userName != null)

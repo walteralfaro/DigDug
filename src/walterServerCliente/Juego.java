@@ -72,6 +72,8 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     private int x_piedra = 16;
     private int y_piedra = 2;
 	private static Integer  KEY_JUEGO = 1;
+	private static Integer KEY_JUEGO_FIN_JUEGO = 3;
+
 
 	Message mensaje;
 	
@@ -270,7 +272,31 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 	        Frame f = new Frame("Dig-Dug");
 	        
 	        f.addWindowListener(new WindowAdapter() {
-	            public void windowClosing(WindowEvent e) {System.exit(0);}
+	            public void windowClosing(WindowEvent e) {
+	        		ObjectOutputStream obstrm;
+	        		ObjectInputStream  instrem;
+	        		Message mensaje;
+	        		
+	        		try {
+	        			//recibe.
+	        			//esto para lo unico que es necesario.. es por que el juego (el mapa) tiene que recibir el mensaje del mapa...
+	        			//capas se puede mejorar .. pero tenes que tocar todas las llamadas al server			
+	        			instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+	        			mensaje =(Message) instrem.readObject();
+	        			
+	        			//Se envia el fin del juego
+	        			obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
+	        			mensaje.setLocacion(Clave.getNewInstancia(KEY_JUEGO_FIN_JUEGO));				
+	        			obstrm.writeObject(mensaje);
+	
+	        		} catch (IOException e1) {
+	        			e1.printStackTrace();
+	        		} catch (ClassNotFoundException e1) {
+	        			e1.printStackTrace();
+	        		}
+	        		
+	            	System.exit(0);
+	            	}
 	            public void windowDeiconified(WindowEvent e) { start(); }
 	            public void windowIconified(WindowEvent e) { stop(); }
 	        });
