@@ -58,8 +58,9 @@ public class LoginScreen extends JFrame {
 	private Image imagenFondo;
 	private String musica_path = "musica1/";
 	private AudioClip sonido_usernew;
-	
-	
+	private boolean validaUser = false;
+	private Integer cantConectados = 0;
+
 	
 	//constructor
 	public LoginScreen(Connection connection) {
@@ -68,7 +69,7 @@ public class LoginScreen extends JFrame {
 	    setSize(580,700);
 		setTitle("Dig Dug");
 	    setBounds(0, 0, 580, 700);
-	    //setResizable(false);
+	    setResizable(false);
 	    setLocationRelativeTo(null);
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    
@@ -120,7 +121,6 @@ public class LoginScreen extends JFrame {
 		}
 		
 		
-		
 		 boton_iniciar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 						try {
@@ -148,8 +148,9 @@ public class LoginScreen extends JFrame {
 							label_conectando.getText();
 							label_conectando.setText(esperando +" -> "+mensaje.getCantidadDeUsuarios());
 							
-
-							if(mensaje.isAceptado()){
+							validaUser = mensaje.isAceptado();
+							cantConectados = mensaje.getCantidadDeUsuarios();
+							if(validaUser){
 								/*
 								try{
 						         	sonido_usernew = Applet.newAudioClip( new URL("file:" + musica_path + "coin_credit.wav") );
@@ -177,17 +178,12 @@ public class LoginScreen extends JFrame {
 								
 								//deshbilito botones xq ya hay un usuario logineado
 								boton_registrarse.setEnabled(false);
-								boton_iniciar.setEnabled(false);
+								boton_iniciar.setEnabled(true);
 								
 								//if cantidad de usuarios es mayor a 1, true, pero no funciona para el primero conectado
 								//if( mensaje.getCantidadDeUsuarios() > 1 ){
 								  boton_jugar.setEnabled(true);
 								//}
-								
-								if(mensaje.getCantidadDeUsuarios()>1){
-									Juego pe = new Juego();
-									pe.inGame(connection);
-								}
 							}		
 						
 						} catch (IOException e1) {
@@ -204,7 +200,14 @@ public class LoginScreen extends JFrame {
 					}
 				});
 
-		 
+		 boton_jugar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+						if(validaUser && cantConectados>1){
+							Juego pe = new Juego();
+							pe.inGame(connection);
+						}
+					}
+				});
 		 
 		// create a new panel with GridBagLayout manager
 		JPanel jp = new JPanel( new GridBagLayout() );

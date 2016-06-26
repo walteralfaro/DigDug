@@ -307,6 +307,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 	        f.setIconImage( new ImageIcon("./imagenes/dig_dug_dragon.jpg").getImage() ); //iconito de la ventana
 	        f.show();
 	        f.addKeyListener(this);
+		    f.setResizable(false);
 	        start();    	
 		}else{
 			CantConnectWindow cantconnectwindow = new CantConnectWindow();
