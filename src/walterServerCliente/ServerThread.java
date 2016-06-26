@@ -54,6 +54,8 @@ public class ServerThread extends Thread {
 					//acepto el usuario cliente y servidor
 					boolean aceptado = dao.validaUsuario(mensaje.getName(), mensaje.getPass());
 					mensaje.setAceptado(aceptado);
+					user.setName(mensaje.getName());
+					user.setName(mensaje.getPass());
 					user.setAceptado(aceptado);
 					//busco la cantidad de conectados
 					mensaje.setCantidadDeUsuarios(getUserUsuariosConectados(userConnectionInstance,mensaje));

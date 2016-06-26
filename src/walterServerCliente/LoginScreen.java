@@ -132,7 +132,10 @@ public class LoginScreen extends JFrame {
 							label_conectando.getText();
 							label_conectando.setText(esperando +" -> "+mensaje.getCantidadDeUsuarios());
 							
+
 							if(mensaje.isAceptado()){
+								System.out.println("SOY EL CLIENTE ACEPTADO CON NOMBRE:"+ mensaje.getName());
+
 								if(mensaje.getCantidadDeUsuarios()>1){
 									Juego pe = new Juego();
 									pe.inGame(connection);
