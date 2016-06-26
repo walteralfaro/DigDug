@@ -1,5 +1,7 @@
 package walterServerCliente;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -13,6 +15,7 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -47,10 +50,13 @@ public class LoginScreen extends JFrame {
 	private JButton    boton_iniciar = new JButton("Iniciar sesion");
 	private JButton    boton_update  = new JButton("Actualizar datos");
 	private JButton    boton_registrarse  = new JButton("Registrarse");
+	private JButton    boton_jugar   = new JButton("JUGAR!!");
 	
 	private JLabel     label_conectando    = new JLabel("LOGIN FOR PLAY...");
 	
 	private Image imagenFondo;
+	private String musica_path = "musica1/";
+	private AudioClip sonido_usernew;
 	
 	
 	
@@ -143,6 +149,14 @@ public class LoginScreen extends JFrame {
 							
 
 							if(mensaje.isAceptado()){
+								/*
+								try{
+						         	sonido_usernew = Applet.newAudioClip( new URL("file:" + musica_path + "coin_credit.wav") );
+						         	sonido_usernew.play();sonido_usernew.loop();
+						
+						           }
+						         catch (IOException e2) { }
+								*/
 								System.out.println("SOY EL CLIENTE ACEPTADO CON NOMBRE:"+ mensaje.getName());
 								System.out.println("SOY EL CLIENTE ACEPTADO ID DE BASE DE DATOS:"+ mensaje.getIdUser());
 								System.out.println("SOY EL CLIENTE ACEPTADO ID DE POSICION DE ENTRADA:"+ mensaje.getUserIdPosicionDeEntrada());
@@ -163,6 +177,11 @@ public class LoginScreen extends JFrame {
 								//deshbilito botones xq ya hay un usuario logineado
 								boton_registrarse.setEnabled(false);
 								boton_iniciar.setEnabled(false);
+								
+								//if cantidad de usuarios es mayor a 1, true, pero no funciona para el primero conectado
+								//if( mensaje.getCantidadDeUsuarios() > 1 ){
+								  boton_jugar.setEnabled(true);
+								//}
 								
 								if(mensaje.getCantidadDeUsuarios()>1){
 									Juego pe = new Juego();
@@ -233,9 +252,14 @@ public class LoginScreen extends JFrame {
 	    jp.add(text_npass, constraints);
 	    
         constraints.gridy = 7;
+        constraints.anchor = GridBagConstraints.EAST;
+        jp.add(boton_jugar, constraints);
+        
+        constraints.gridy = 8;
         
 	    constraints.gridx = 0;
         jp.add(label_conectando, constraints);
+        
 	    
         
         constraints.fill = GridBagConstraints.EAST;
@@ -267,6 +291,7 @@ public class LoginScreen extends JFrame {
         text_npass.setBackground(Color.GRAY);
 	    
         boton_update.setEnabled(false);
+        boton_jugar.setEnabled(false);
         
      // set border for the panel
         jp.setBorder( BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null) );
