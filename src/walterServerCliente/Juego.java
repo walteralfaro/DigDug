@@ -82,15 +82,15 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 				
 				ObjectInputStream obiStrm = new ObjectInputStream(connection.getSocket().getInputStream());
 				mensaje =(Message) obiStrm.readObject();
-				userId = mensaje.getUserId();
+				userId = mensaje.getUserIdPosicionDeEntrada();
 	    		
 	    		Movimiento mov = new Movimiento();
 	    		Coordenada pos = new Coordenada();
 	    		
-	    		if(mensaje.getUserId().compareTo(0)==0){
+	    		if(mensaje.getUserIdPosicionDeEntrada().compareTo(0)==0){
 		    		pos.setX(x_jugador1);
 		        	pos.setY(y_jugador1);
-	    		}else if(mensaje.getUserId().compareTo(1)==-1){
+	    		}else if(mensaje.getUserIdPosicionDeEntrada().compareTo(1)==-1){
 	    			pos.setX(x_jugador2);
 		        	pos.setY(y_jugador2);
 	    		}
@@ -153,20 +153,20 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 		    	 } catch (IOException e) { } 
 		    	
 		    	//jugador: tiene la imagen actual
-		    	if(mensaje.getUserId().compareTo(0)==0){
+		    	if(mensaje.getUserIdPosicionDeEntrada().compareTo(0)==0){
 		    		jugador1 = nivel_img[10];
 		    	}
 		    	// de los demas jugadores recibo la posicion desde el server: der izq arriba abajo
-		    	if(mensaje.getUserId().compareTo(0)!=0){
+		    	if(mensaje.getUserIdPosicionDeEntrada().compareTo(0)!=0){
 		    		jugador2 = nivel_img[12];
 		    	}
 		    	//jugador3 = nivel_img[13];
 		    	//jugador4 = nivel_img[11];
-		    	if(mensaje.getUserId().compareTo(0)==0){
+		    	if(mensaje.getUserIdPosicionDeEntrada().compareTo(0)==0){
      		    	nivel[y_jugador1][x_jugador1] = 10;
 		    	}
 		    	//nivel[y_jugador2][x_jugador2] = 11;
-		    	if(mensaje.getUserId().compareTo(1)!=0){
+		    	if(mensaje.getUserIdPosicionDeEntrada().compareTo(1)!=0){
 		    		nivel[y_jugador2][x_jugador2] = 12;
 		    	}
 		    	//nivel[y_jugador2][x_jugador2] = 13;
@@ -205,7 +205,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
             	ObjectInputStream obiStrm = new ObjectInputStream(connection.getSocket().getInputStream());
 				mensaje =(Message) obiStrm.readObject();
 
-				if(mensaje.getUserId().compareTo(0)==0){
+				if(mensaje.getUserIdPosicionDeEntrada().compareTo(0)==0){
 					pos.setX(x_jugador1);
 	            	pos.setY(y_jugador1);
 	    		}else{
@@ -224,7 +224,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 				try {
 					mensaje =(Message) obiStrm.readObject();
 					nivel = mensaje.getMap();
-					if(mensaje.getUserId().compareTo(0)==0){
+					if(mensaje.getUserIdPosicionDeEntrada().compareTo(0)==0){
 						x_jugador1 = mensaje.getMovimiento1().getPosicion().getX();
 						y_jugador1 = mensaje.getMovimiento1().getPosicion().getY();
 					}else{

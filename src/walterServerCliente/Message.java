@@ -11,7 +11,7 @@ public class Message implements Serializable{
 	private Movimiento movimiento2;
 	private Coordenada flor;
 	private Coordenada piedra;
-	private Integer userId;
+	private Integer userIdPosicionDeEntrada;
 	private Integer clave;
 	private Integer score1;
 	private Integer score2;
@@ -22,6 +22,15 @@ public class Message implements Serializable{
 	private String name;
 	private String pass;
 	private boolean aceptado = false;
+	private Integer idUser;
+
+	public Integer getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(Integer idUser) {
+		this.idUser = idUser;
+	}
 
 	public boolean isAceptado() {
 		return aceptado;
@@ -39,12 +48,12 @@ public class Message implements Serializable{
 		this.cantidadDeUsuarios = cantidadDeUsuarios;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public Integer getUserIdPosicionDeEntrada() {
+		return userIdPosicionDeEntrada;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUserIdPosicionDeEntrada(Integer userId) {
+		this.userIdPosicionDeEntrada = userId;
 	}
 
 

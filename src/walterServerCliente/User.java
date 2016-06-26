@@ -4,18 +4,19 @@ import java.io.Serializable;
 import java.net.Socket;
 
 
-public class User implements Serializable {
+public class User implements Serializable{
 
-	private static final long serialVersionUID = 779490985792071291L;
+	private static final long serialVersionUID = 1L;
 
 	private Integer id;
 	private String name;
 	private Socket socket;
 	private String pass;
 	private Integer score;
+	private boolean aceptado = false;
 	
 	//private Score historicalScore;
-	
+
 	public User(Integer id, Socket socket) {
 		this.id = id;
 		this.socket = socket;
@@ -71,5 +72,12 @@ public class User implements Serializable {
 	/*public Score getHistoricalScore() {
 		return historicalScore;
 	}*/
+	
+	public boolean isAceptado() {
+		return aceptado;
+	}
 
+	public void setAceptado(boolean aceptado) {
+		this.aceptado = aceptado;
+	}
 }
