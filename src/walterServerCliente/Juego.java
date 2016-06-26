@@ -37,38 +37,27 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 	private char nivel[][] = {};
 
     private String variableMensaje;	
-
 	// VECTOR PARA CARGAR TODAS LAS IMAGENES
     private BufferedImage nivel_img[] = new BufferedImage[14];
-    
     private BufferedImage jugador1; //excavador
     private BufferedImage jugador2; //dragon
     private BufferedImage jugador3; //etc
     private BufferedImage jugador4; //etc
-    
     private BufferedImage p1_der;
     private BufferedImage p1_izq;
     private BufferedImage p1_arriba;
     private BufferedImage p1_abajo;
-
     private BufferedImage p2_der;
     private BufferedImage p2_izq;
     private BufferedImage p2_arriba;
     private BufferedImage p2_abajo;
-    
     private BufferedImage flor;
     private BufferedImage piedra;
-    
-    
-    
     private BufferedImage bimg;
 
     private Image image;
-
     private Thread thread;
-    
     private boolean music_on = true;
-    
     AudioClip musiquita_sound;
     AudioClip eat_sound;
     AudioClip die_sound;
@@ -76,19 +65,16 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 // POSICIONES INICIALES
     private int x_jugador1 = 3;
     private int y_jugador1 = 4;
-    
     private int x_jugador2 = 14;
     private int y_jugador2 = 4;
-    
     private int x_flor = 20;
     private int y_flor = 1;
-    
     private int x_piedra = 16;
     private int y_piedra = 2;
     
 	Message mensaje;
 	
-	 public void init() {
+	public void init() {
 	    	
 	    	try {
 				ObjectInputStream obiStrm = new ObjectInputStream(connection.getSocket().getInputStream());
@@ -200,23 +186,18 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
         	for (int y = 0; y <= ALTO_NIVEL-1; y++) {   // 24 ALTO  de 0 a 23
         		g2d.drawImage(nivel_img[nivel[y][x]], x*30, y*30, null);	
         	}
-        	
         }
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
     
     
     public synchronized void run() {
-        Thread yo = Thread.currentThread();
-
-    	Socket socket = connection.getSocket();
-
+        Thread yo = Thread.currentThread();    	Socket socket = connection.getSocket();
 		ObjectOutputStream obstrm;
 		Movimiento mov = new Movimiento();
 		Coordenada pos = new Coordenada();
         while (thread == yo) {
             try {
-            	
             	ObjectInputStream obiStrm = new ObjectInputStream(connection.getSocket().getInputStream());
 				mensaje =(Message) obiStrm.readObject();
 
@@ -239,11 +220,11 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 					mensaje =(Message) obiStrm.readObject();
 					nivel = mensaje.getMap();
 					if(mensaje.getUserId().compareTo(0)==0){
-						x_jugador1 = mensaje.getMovimiento().getPosicion().getX();
-						y_jugador1 = mensaje.getMovimiento().getPosicion().getY();
+						x_jugador1 = mensaje.getMovimiento1().getPosicion().getX();
+						y_jugador1 = mensaje.getMovimiento1().getPosicion().getY();
 					}else{
-						x_jugador2 = mensaje.getMovimiento().getPosicion().getX();
-						y_jugador2 = mensaje.getMovimiento().getPosicion().getY();
+						x_jugador2 = mensaje.getMovimiento1().getPosicion().getX();
+						y_jugador2 = mensaje.getMovimiento1().getPosicion().getY();
 					}
 					repaint();
 				} catch (ClassNotFoundException e) {
@@ -310,7 +291,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 			    		if(this.userId.compareTo(0) == 0){
 			    			nivel_img[10] = p1_arriba;
 			    		}else{
-			    			nivel_img[10] = p2_arriba;
+			    			nivel_img[12] = p2_arriba;
 			    		}
 						variableMensaje = MENSAJE_MOVIMIENTO;
 			            break;
@@ -319,7 +300,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 			        	if(this.userId.compareTo(0) == 0){
 			    			nivel_img[10] = p1_abajo;
 			    		}else{
-			    			nivel_img[10] = p2_abajo;
+			    			nivel_img[12] = p2_abajo;
 			    		}
 			        	variableMensaje = MENSAJE_MOVIMIENTO;
 			            break;
@@ -328,7 +309,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 			        	if(this.userId.compareTo(0) == 0){
 			    			nivel_img[10] = p1_izq;
 			    		}else{
-			    			nivel_img[10] = p2_izq;
+			    			nivel_img[12] = p2_izq;
 			    		}
 			        	variableMensaje = MENSAJE_MOVIMIENTO;
 			            break;
@@ -337,7 +318,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 			        	if(this.userId.compareTo(0) == 0){
 			    			nivel_img[10] = p1_der;
 			    		}else{
-			    			nivel_img[10] = p2_der;
+			    			nivel_img[12] = p2_der;
 			    		}
 			        	variableMensaje = MENSAJE_MOVIMIENTO;
 			            break;

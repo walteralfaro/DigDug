@@ -44,15 +44,23 @@ public class Maps {
 	// 0 espacios para moverse en negro
 	// 1 2 3 4 tierra para excavar
 	// 10 11 12 13 jugadores
-		public char[][] getMapa1() {
+	public char[][] getMapa1() {
 		return mapa1;
 	}
 
 	public void setMapa1(char[][] mapa1) {
 		this.mapa1 = mapa1;
 	}
-	
-	public Movimiento repaint(Movimiento mov){
+	private int enCaidaX=0;
+	private int enCaidaY=0;
+	private int caida;
+	public Movimiento repaint(Movimiento mov, Integer userId){
+		int value = 0;
+		if(userId.equals(new Integer(0))){
+			value =10;
+		}else if(userId.equals(new Integer(1))){
+			value=12;
+		}
 		int posX = mov.getPosicion().getX();
 		int posY = mov.getPosicion().getY();
 		switch( mov.getKeyCode() ) { 
@@ -63,9 +71,14 @@ public class Maps {
         		
         		mapa1[posY][posX] = 0; //set en la matriz el lugar excavado
         		posY = posY - 1; //set posicion movimiento arriba
-        		mapa1[posY][posX] = 10;
+        		mapa1[posY][posX] = (char) value;
         		mov.getPosicion().setX(posX);
         		mov.getPosicion().setY(posY);
+        		if(mapa1[posY-1][posX] == 8){
+        			enCaidaX=posY-1;
+        			enCaidaY=posX;
+//        			enCaida[posY-1][posX] = 1;
+        		}
         	}
             break;
             
@@ -76,7 +89,7 @@ public class Maps {
         		
         		mapa1[posY][posX] = 0;
         		posY = posY + 1;
-        		mapa1[posY][posX] = 10;
+        		mapa1[posY][posX] = (char) value;
         		mov.getPosicion().setX(posX);
         		mov.getPosicion().setY(posY);
         	}
@@ -89,7 +102,7 @@ public class Maps {
 
         		mapa1[posY][posX] = 0;
         		posX = posX - 1;
-        		mapa1[posY][posX] = 10;
+        		mapa1[posY][posX] = (char) value;
         		mov.getPosicion().setX(posX);
         		mov.getPosicion().setY(posY);
         	}
@@ -102,15 +115,30 @@ public class Maps {
 
         		mapa1[posY][posX] = 0;
         		posX = posX + 1;
-        		mapa1[posY][posX] = 10;
+        		mapa1[posY][posX] = (char) value;
         		mov.getPosicion().setX(posX);
         		mov.getPosicion().setY(posY);
         	}
             break;
             
-     }// switch
-//
+     }
+		if(enCaidaX != 0){
+			caida++;
+			if((caida%3) == 0){
+				mapa1[enCaidaY-1][enCaidaX] = 0;
+				enCaidaY = enCaidaY + 1;
+				caida = 0;
+			}
+		}
+			
 		return mov;
 		
+	}
+	public void agregarPiedra(Coordenada coordenada){
+		mapa1[coordenada.getY()][coordenada.getX()] = 8;
+	}
+	
+	public void agregarFlor(Coordenada coordenada){
+		mapa1[coordenada.getY()][coordenada.getX()] = 7;	
 	}
 }

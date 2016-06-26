@@ -31,9 +31,9 @@ public class ServerThread extends Thread {
 					mensaje =(Message) obStrm.readObject();
 					Maps maps = Maps.getInstance();
 					if("MOVIMIENTO".equals(mensaje.getMessage())){
-						DigDugLogger.log(mensaje.getMessage()+mensaje.getMovimiento().getKeyCode());
-						Movimiento mov = maps.repaint(mensaje.getMovimiento());
-						mensaje.setMovimiento(mov);
+						DigDugLogger.log(mensaje.getMessage()+mensaje.getMovimiento1().getKeyCode());
+						Movimiento mov = maps.repaint(mensaje.getMovimiento1(),userId);
+//						mensaje.setMovimiento1(mov);
 					}
 					mensaje.setMap(maps.getMapa1());
 					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userId).getSocket().getOutputStream());

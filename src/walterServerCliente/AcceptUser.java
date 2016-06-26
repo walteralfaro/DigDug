@@ -15,6 +15,15 @@ public class AcceptUser extends Thread {
 		Socket clientSocket;
 		UserConnection clientSocketInstance = UserConnection.getInstance();
 		int clientId;
+		Maps map = Maps.getInstance();
+		map.agregarFlor(new Coordenada(1,1));
+		map.agregarFlor(new Coordenada(2,1));
+		map.agregarFlor(new Coordenada(20,1));
+		map.agregarFlor(new Coordenada(21,1));
+		map.agregarPiedra(new Coordenada(20,8));
+		map.agregarPiedra(new Coordenada(7,15));
+		map.agregarPiedra(new Coordenada(5,8));
+
 		while(ServerEnd.getInstance().isTheEnd() == false) {
 			try {
 				clientSocket = serverSocket.accept();

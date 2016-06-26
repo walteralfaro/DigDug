@@ -11,7 +11,7 @@ public class Coordenada implements Serializable{
 	public Coordenada(){}
 
 	public Coordenada(int x, int y){
-		this.x = y;
+		this.x = x;
 		this.y = y;
 	}
    public int getX() {

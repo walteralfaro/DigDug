@@ -7,9 +7,14 @@ public class Message implements Serializable{
 	private String message;
 	private char[][] map;
 	private boolean flag;
-	private Movimiento movimiento;
+	private Movimiento movimiento1;
+	private Movimiento movimiento2;
+	private Coordenada flor;
+	private Coordenada piedra;
 	private Integer userId;
 	private Integer clave;
+	private Integer score1;
+	private Integer score2;
 	
 	public Integer getUserId() {
 		return userId;
@@ -25,7 +30,14 @@ public class Message implements Serializable{
 
 	public Message(String mensaje, Movimiento movimiento, char[][] nivel) {
 		this.message = mensaje;
-		this.movimiento=movimiento;
+		this.movimiento1=movimiento;
+		this.map = nivel;
+	}
+
+	public Message(String mensaje, Movimiento movimiento,Movimiento movimiento2, char[][] nivel) {
+		this.message = mensaje;
+		this.movimiento1=movimiento;
+		this.movimiento2=movimiento2;
 		this.map = nivel;
 	}
 
@@ -53,12 +65,61 @@ public class Message implements Serializable{
 		this.flag = flag;
 	}
 
-	public Movimiento getMovimiento() {
-		return movimiento;
+	public Movimiento getMovimiento1() {
+		return movimiento1;
 	}
 
-	public void setMovimiento(Movimiento movimiento) {
-		this.movimiento = movimiento;
+	public void setMovimiento1(Movimiento movimiento) {
+		this.movimiento1 = movimiento;
+	}
+
+
+	public Movimiento getMovimiento2() {
+		return movimiento2;
+	}
+
+	public void setMovimiento2(Movimiento movimiento2) {
+		this.movimiento2 = movimiento2;
+	}
+
+	public Integer getClave() {
+		return clave;
+	}
+
+	public void setClave(Integer clave) {
+		this.clave = clave;
+	}
+
+	public Integer getScore1() {
+		return score1;
+	}
+
+	public void setScore1(Integer score1) {
+		this.score1 = score1;
+	}
+
+	public Integer getScore2() {
+		return score2;
+	}
+
+	public void setScore2(Integer score2) {
+		this.score2 = score2;
+	}
+
+	public Coordenada getFlor() {
+		return flor;
+	}
+
+	public void setFlor(Coordenada flor) {
+		this.flor = flor;
+	}
+
+	public Coordenada getPiedra() {
+		return piedra;
+	}
+
+	public void setPiedra(Coordenada piedra) {
+		this.piedra = piedra;
 	}
 	
 }
