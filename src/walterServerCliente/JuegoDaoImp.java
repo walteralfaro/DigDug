@@ -105,10 +105,10 @@ public final class JuegoDaoImp {
 				u.setId(id);
 				u.setPass(pass);
 				users.add(u);
-				System.out.println("ID = " + id);
+				/*System.out.println("ID = " + id);
 				System.out.println("NAME = " + name);
 				System.out.println("PASS = " + pass);
-				System.out.println();
+				System.out.println();*/
 			}
 			rs.close();
 			stmt.close();
@@ -284,10 +284,10 @@ public final class JuegoDaoImp {
 					Integer idPartidaa = rs.getInt("idPartida");
 					Integer puntaje   = rs.getInt("puntaje");
 
-					System.out.println("ID = " + id);
+					/*System.out.println("ID = " + id);
 					System.out.println("idUsuario = " + idUsuario);
 					System.out.println("idPartida = " + idPartidaa);
-					System.out.println("puntaje = "   + puntaje);
+					System.out.println("puntaje = "   + puntaje);*/
 				}
 			rs.close();
 			stmt.close();

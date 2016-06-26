@@ -145,7 +145,8 @@ public class LoginScreen extends JFrame {
 			}
 			
 			JLabel cantidadDeUsuaarios = new JLabel("cantidadDeUsuaarios: " + cantidad);
-			lblUsername.setBounds(31, 170, 100, 14);
+			System.out.println("CANTIDAD :"+ cantidad);
+			cantidadDeUsuaarios.setBounds(31, 170, 100, 14);
 			contentPane.add(cantidadDeUsuaarios);
 
 			//jLoginButton.addActionListener(new ActionLogin(jUsuarioInexistenteTextArea, jCamposVaciosTextArea));
