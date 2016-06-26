@@ -72,8 +72,12 @@ public class LoginScreen extends JFrame {
 
 		label_user.setForeground(Color.white);
 		label_pass.setForeground(Color.white);
+		text_user.setToolTipText("Ingrese usuario");
+		
 		label_nuser.setForeground(Color.white);
 		label_npass.setForeground(Color.white);
+		text_pass.setToolTipText("Ingrese password");
+		
 		label_conectando.setForeground(Color.WHITE);
 		
 		ObjectOutputStream obstrm;
@@ -149,9 +153,9 @@ public class LoginScreen extends JFrame {
 								label_npass.setEnabled(true);
 								boton_update.setEnabled(true);
 								
-								//deshbilito registrarse xq ya hay un usuario logineado
+								//deshbilito botones xq ya hay un usuario logineado
 								boton_registrarse.setEnabled(false);
-								
+								boton_iniciar.setEnabled(false);
 								
 								if(mensaje.getCantidadDeUsuarios()>1){
 									Juego pe = new Juego();
@@ -249,9 +253,13 @@ public class LoginScreen extends JFrame {
         //desabilitado, en gris
         label_nuser.setEnabled(false);
 	    text_nuser.setEnabled(false);
+        text_nuser.setBackground(Color.GRAY);
+        
         label_npass.setEnabled(false);
 	    text_npass.setEnabled(false);
-	    boton_update.setEnabled(false);
+        text_npass.setBackground(Color.GRAY);
+	    
+        boton_update.setEnabled(false);
         
      // set border for the panel
         jp.setBorder( BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null) );
