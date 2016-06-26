@@ -129,7 +129,7 @@ public class LoginScreenOLD extends JFrame {
 				
 				//manda donde esta osea logien
 				obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
-				mensaje.setKey(Clave.getNewInstancia(KEY_LOGIN));				
+				mensaje.setLocacion(Clave.getNewInstancia(KEY_LOGIN));				
 				obstrm.writeObject(mensaje);
 
 				//recibe la info de cantidad

@@ -28,7 +28,7 @@ public class LoginScreen extends JFrame {
 
 	private static final long serialVersionUID = -560582234414629430L;
 	private static Integer  KEY_LOGIN = 0;
-	
+	private static Integer  KEY_LOGIN_VALIDACION_USER_PASS = 2;
 	
 	private JLabel     label_nada    = new JLabel();
 	
@@ -71,48 +71,30 @@ public class LoginScreen extends JFrame {
 		label_npass.setForeground(Color.white);
 		label_conectando.setForeground(Color.WHITE);
 		
-
-		
-		 boton_iniciar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					JuegoDaoImp n = new JuegoDaoImp();
-
-					//validar usuario
-
-					Juego pe = new Juego();
-					pe.inGame(connection);
-					}
-				});
-		
-		 boton_update.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-//			        EndClientConnectionPackage er = new EndClientConnectionPackage();
-//			        connection.sendPackage(er);
-			        System.exit(0);
-					}
-				});
-		
-		 
-		
 		ObjectOutputStream obstrm;
 		ObjectInputStream  instrem;
 		Message mensaje;
 		Integer cantidad = 0;
 
+		String esperando = "LOGIN FOR PLAY.. ";
+
 		try {
-			//recibe 
+			//recibe.
+			//esto para lo unico que es necesario.. es por que el juego (el mapa) tiene que recibir el mensaje del mapa...
+			//capas se puede mejorar .. pero tenes que tocar todas las llamadas al server			
 			instrem = new ObjectInputStream(connection.getSocket().getInputStream());
 			mensaje =(Message) instrem.readObject();
 			
 			//manda donde esta osea logien
 			obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
-			mensaje.setKey(Clave.getNewInstancia(KEY_LOGIN));				
+			mensaje.setLocacion(Clave.getNewInstancia(KEY_LOGIN));				
 			obstrm.writeObject(mensaje);
 
 			//recibe la info de cantidad
 			instrem = new ObjectInputStream(connection.getSocket().getInputStream());
 			mensaje =(Message) instrem.readObject();
-			cantidad = mensaje.getCantidadDeUsuarios();
+			label_conectando.getText();
+			label_conectando.setText(esperando +" -> "+mensaje.getCantidadDeUsuarios());
 			
 			
 		} catch (IOException e1) {
@@ -123,9 +105,56 @@ public class LoginScreen extends JFrame {
 		
 		
 		
-		 
+		 boton_iniciar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+						try {
+							ObjectOutputStream obstrm;
+							ObjectInputStream  instrem;
+							Message mensaje;
+						
+							JuegoDaoImp n = new JuegoDaoImp();
+							//recibe
+							//esto para lo unico que es necesario.. es por que el juego (el mapa) tiene que recibir el mensaje del mapa...
+							//capas se puede mejorar .. pero tenes que tocar todas las llamadas al server
+							instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+							mensaje =(Message) instrem.readObject();
+							
+							//manda donde esta osea logien
+							obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
+							mensaje.setLocacion(Clave.getNewInstancia(KEY_LOGIN_VALIDACION_USER_PASS));	
+							mensaje.setName(text_user.getText());
+							mensaje.setPass(text_pass.getText());
+							obstrm.writeObject(mensaje);
+							
+							//recibe la info de cantidad
+							instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+							mensaje =(Message) instrem.readObject();
+							label_conectando.getText();
+							label_conectando.setText(esperando +" -> "+mensaje.getCantidadDeUsuarios());
+							
+							if(mensaje.isAceptado()){
+								if(mensaje.getCantidadDeUsuarios()>1){
+									Juego pe = new Juego();
+									pe.inGame(connection);
+								}
+							}		
+						
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						} catch (ClassNotFoundException e1) {
+							e1.printStackTrace();
+						}
+					}
+				});
 		
-		
+		 boton_update.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+//			        EndClientConnectionPackage er = new EndClientConnectionPackage();
+//			        connection.sendPackage(er);
+			        System.exit(0);
+					}
+				});
+
 		// create a new panel with GridBagLayout manager
 		JPanel jp = new JPanel( new GridBagLayout() );
 		

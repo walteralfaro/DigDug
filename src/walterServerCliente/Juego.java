@@ -98,7 +98,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 	        	mov.setPosicion(pos);
 	        	mov.setKeyCode(keyCode);
 				mensaje = new Message(MENSAJE_VACIO, mov, nivel);
-				mensaje.setKey(Clave.getNewInstancia(KEY_JUEGO));
+				mensaje.setLocacion(Clave.getNewInstancia(KEY_JUEGO));
 				obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
 				obstrm.writeObject(mensaje);
 				variableMensaje = MENSAJE_VACIO;
@@ -217,7 +217,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
             	mov.setKeyCode(keyCode);
 				mensaje = new Message(variableMensaje, mov, nivel);
 				obstrm = new ObjectOutputStream(socket.getOutputStream());
-				mensaje.setKey(Clave.getNewInstancia(KEY_JUEGO));
+				mensaje.setLocacion(Clave.getNewInstancia(KEY_JUEGO));
 				obstrm.writeObject(mensaje);
 				variableMensaje = MENSAJE_VACIO;
 			    obiStrm = new ObjectInputStream(socket.getInputStream());

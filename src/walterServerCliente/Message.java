@@ -16,15 +16,19 @@ public class Message implements Serializable{
 	private Integer score1;
 	private Integer score2;
 	private Integer cantidadDeUsuarios;
-	private Clave key;
+	//para saber donde estoy y que voy hacer
+	private Clave locacion;
+	//para validar el usaurio
+	private String name;
+	private String pass;
+	private boolean aceptado = false;
 
-	
-	public Clave getKey() {
-		return key;
+	public boolean isAceptado() {
+		return aceptado;
 	}
 
-	public void setKey(Clave key) {
-		this.key = key;
+	public void setAceptado(boolean aceptado) {
+		this.aceptado = aceptado;
 	}
 
 	public Integer getCantidadDeUsuarios() {
@@ -143,5 +147,29 @@ public class Message implements Serializable{
 	public void setPiedra(Coordenada piedra) {
 		this.piedra = piedra;
 	}
-	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPass() {
+		return pass;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+
+	public Clave getLocacion() {
+		return locacion;
+	}
+
+	public void setLocacion(Clave key) {
+		this.locacion = key;
+	}
+
 }
