@@ -81,19 +81,19 @@ public class LoginScreen extends JFrame {
 		label_user.setForeground(Color.white);
 		label_pass.setForeground(Color.white);
 		text_user.setToolTipText("Ingrese usuario");
+		text_pass.setToolTipText("Ingrese password");
 		
 		label_nuser.setForeground(Color.white);
 		label_npass.setForeground(Color.white);
-		text_pass.setToolTipText("Ingrese password");
-		
+		text_nuser.setToolTipText("Ingrese nuevo usuario");
+		text_npass.setToolTipText("Ingrese nuevo password");
+
 		label_conectando.setForeground(Color.WHITE);
 		
 		ObjectOutputStream obstrm;
 		ObjectInputStream  instrem;
 		Message mensaje;
 		Integer cantidad = 0;
-
-		//String esperando = "LOGIN FOR PLAY.. ";
 
 		try {
 			//recibe.
@@ -189,6 +189,7 @@ public class LoginScreen extends JFrame {
 								boton_registrarse.setVisible(false);
 								boton_iniciar.setEnabled(true);
 								boton_iniciar.setText("Actualizar conectados..");
+								boton_iniciar.setToolTipText("Actualiza los usuarios conectados..");
 								
 								//if cantidad de usuarios es mayor a 1, true, pero no funciona para el primero conectado
 								//if( mensaje.getCantidadDeUsuarios() > 1 ){
