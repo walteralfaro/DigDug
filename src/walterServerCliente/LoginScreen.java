@@ -1,196 +1,189 @@
 package walterServerCliente;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 
-import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 
-import walterServerCliente.Juego;
 
 
 public class LoginScreen extends JFrame {
 
-	private static final long serialVersionUID = -560582234414629430L;
-	private JTextField jUserTextField;
-	private JPasswordField jPasswordField;
-	private JTextArea jUsuarioInexistenteTextArea;
-	private JTextArea jCamposVaciosTextArea;
-	private JTextArea jUsuarioLogueadoTextArea;
-	private static String title;
-	private static JLabel jlabelBack;  //back
-	private static JPanel contentPane; //front
-	private static Integer  KEY_LOGIN = 0;
+	private JLabel     label_nada    = new JLabel();
 	
-	public LoginScreen(Connection connection){
+	private JLabel     label_user    = new JLabel("Usuario");
+	private JTextField text_user     = new JTextField(15);
+
+	private JLabel     label_pass    = new JLabel("Password");
+	private JTextField text_pass     = new JTextField(15);
+	
+	private JLabel     label_npass   = new JLabel("Nuevo Password");
+	private JTextField text_npass    = new JTextField(15);
+	
+	private JButton    boton_iniciar = new JButton("Iniciar sesion");
+	private JButton    boton_update  = new JButton("Update Password");
+	
+	private JLabel     label_conectando    = new JLabel("LOGIN FOR PLAY...");
+	
+	private Image imagenFondo;
+
+	
+	
+	//constructor
+	public LoginScreen() {
+		setIconImage( new ImageIcon("imagenes/dig_dug_dragon.jpg").getImage() ); //iconito de la ventana
+	    setSize(580,700);
+		setTitle("Dig Dug");
+	    setBounds(0, 0, 580, 700);
+	    setLocationRelativeTo(null);
+	    setDefaultCloseOperation(EXIT_ON_CLOSE);
+	    
+		//carga imagen de fondo en un JPanel: JPanelFondo
+	    JPanelFondo jpf = new JPanelFondo();
+		jpf.setBackground("imagenes/dig-dug-japan copia.png");
+		add(jpf);
+
+		label_user.setForeground(Color.white);
+		label_pass.setForeground(Color.white);
+		label_npass.setForeground(Color.white);
+		label_conectando.setForeground(Color.WHITE);
 		
 		
-		//carga imagen de fondo y la mete en un JLabel y eso en un JFrame
-				try {
-					BufferedImage bimg = (ImageIO.read(new File("imagenes/dig-dug-japan.png")));
-					Image dimg = bimg.getScaledInstance(580, 700, Image.SCALE_SMOOTH);
-					ImageIcon imageIcon = new ImageIcon(dimg);
+		 boton_iniciar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JuegoDaoImp n = new JuegoDaoImp();
 					
-					jlabelBack = new JLabel(imageIcon);
-					jlabelBack.setOpaque(true);
-					
-		    	} catch (IOException e) {
-		    		e.printStackTrace();
-		    	}
-				
-				
-		    //setBackground(Color.black);
-			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-			//setBounds(100, 100, 800, 500);
-			setLocationRelativeTo(null);
-			setResizable(false);
-			
-			
-			contentPane = new JPanel();
-	 		//contentPane.setBackground(Color.LIGHT_GRAY);//new Color(255, 153, 0));
-			//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-			//setContentPane(contentPane);
-			//contentPane.setLayout(null);
-			
-			contentPane.setOpaque(false);
-			contentPane.setVisible(true);
-			
-
-			JLabel lblUsername = new JLabel("Usuario");
-			lblUsername.setBounds(31, 170, 100, 14);
-			contentPane.add(lblUsername);
-
-			JLabel lblPassword = new JLabel("Contrase\u00F1a");
-			lblPassword.setBounds(31, 218, 74, 14);
-			contentPane.add(lblPassword);
-
-			jUserTextField = new JTextField();
-			jUserTextField.setBounds(136, 166, 86, 23);
-			contentPane.add(jUserTextField);
-			jUserTextField.setColumns(10);
-
-			/*final JTextArea*/ jCamposVaciosTextArea = new JTextArea();
-			jCamposVaciosTextArea.setEditable(false);
-			jCamposVaciosTextArea.setBackground(new Color(255, 153, 0));
-			jCamposVaciosTextArea.setLineWrap(true);
-			jCamposVaciosTextArea.setText("Alguno de los dos campos est\u00E1 vac\u00EDo, por favor completelos.");
-			jCamposVaciosTextArea.setBounds(32, 367, 208, 67);
-			jCamposVaciosTextArea.setVisible(false);
-			contentPane.add(jCamposVaciosTextArea);
-			
-			/*final JTextArea*/ jUsuarioInexistenteTextArea = new JTextArea();
-			jUsuarioInexistenteTextArea.setBackground(new Color(255, 153, 0));
-			jUsuarioInexistenteTextArea.setLineWrap(true);
-			jUsuarioInexistenteTextArea.setEditable(false);
-			jUsuarioInexistenteTextArea.setVisible(false);
-			jUsuarioInexistenteTextArea.setText("Los datos ingresados no se encuentran en la base de datos.");
-			jUsuarioInexistenteTextArea.setBounds(31, 367, 240, 74);
-			contentPane.add(jUsuarioInexistenteTextArea);
-
-			JButton jLoginButton = new JButton("Entrar");
-
-			jLoginButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					Juego pe = new Juego();
-					pe.inGame(connection);
+					boolean b = n.validaUsuario("este111ban","pro");
+					if (b == true){
+						System.out.println("trueeee");
+						System.exit(0);
+					}
 				}
-			});
-			
-			ObjectOutputStream obstrm;
-			ObjectInputStream  instrem;
-			Message mensaje;
-			Integer cantidad = 0;
-
-			try {
-				//recibe 
-				instrem = new ObjectInputStream(connection.getSocket().getInputStream());
-				mensaje =(Message) instrem.readObject();
-				
-				//manda donde esta osea logien
-				obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
-				mensaje.setKey(Clave.getNewInstancia(KEY_LOGIN));				
-				obstrm.writeObject(mensaje);
-
-				//recibe la info de cantidad
-				instrem = new ObjectInputStream(connection.getSocket().getInputStream());
-				mensaje =(Message) instrem.readObject();
-				cantidad = mensaje.getCantidadDeUsuarios();
-				
-				
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			} catch (ClassNotFoundException e1) {
-				e1.printStackTrace();
-			}
-			
-			JLabel cantidadDeUsuaarios = new JLabel("cantidadDeUsuaarios: " + cantidad);
-			System.out.println("CANTIDAD :"+ cantidad);
-			cantidadDeUsuaarios.setBounds(31, 170, 100, 14);
-			contentPane.add(cantidadDeUsuaarios);
-
-			//jLoginButton.addActionListener(new ActionLogin(jUsuarioInexistenteTextArea, jCamposVaciosTextArea));
-			jLoginButton.setBounds(84, 274, 89, 23);
-			contentPane.add(jLoginButton);
-
-			jPasswordField = new JPasswordField();
-			
-
-			jPasswordField.setBounds(136, 215, 86, 20);
-			contentPane.add(jPasswordField);
-
-			JButton jSalirButton = new JButton("Salir");
-
-			jSalirButton.setBounds(84, 322, 89, 23);
-			contentPane.add(jSalirButton);
-			
-			JLabel lblLogoPreguntados = new JLabel(new ImageIcon("Logo_Preguntados3.png"));
-			lblLogoPreguntados.setBounds(52, 0, 170, 160);
-			contentPane.add(lblLogoPreguntados);
-			
-			jUsuarioLogueadoTextArea = new JTextArea();
-			jUsuarioLogueadoTextArea.setEditable(false);
-			jUsuarioLogueadoTextArea.setBackground(new Color(255, 153, 0));
-			jUsuarioLogueadoTextArea.setVisible(false);
-			jUsuarioLogueadoTextArea.setText("El usuario ya est\u00E1 logueado.");
-			jUsuarioLogueadoTextArea.setBounds(38, 381, 246, 35);
-			contentPane.add(jUsuarioLogueadoTextArea);		
-			
-			this.addWindowListener(new WindowAdapter() {
-				public void windowClosing(WindowEvent e) {System.exit(0);}
 				});
-			
-			this.add(contentPane, BorderLayout.NORTH);
-			this.add(jlabelBack, BorderLayout.SOUTH);
-			
-			
-			this.pack();
-			this.setBounds(100, 0, 580, 700); //JFrame posicion en pantalla y tamaño de la ventana
-			this.setResizable(false);
-			this.show();
-		}
+		
+		 boton_iniciar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+//			        EndClientConnectionPackage er = new EndClientConnectionPackage();
+//			        connection.sendPackage(er);
+			        System.exit(0);
+				}
+				});
+		
+		 
+		
+		
+		// create a new panel with GridBagLayout manager
+		JPanel jp = new JPanel( new GridBagLayout() );
+		
+		
+		// add components to the panel
+		GridBagConstraints constraints = new GridBagConstraints();
+		
+		constraints.anchor = GridBagConstraints.SOUTH;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.insets = new Insets(5, 5, 5, 5);
+        //creo q es asi: (espacio desde arriba, espacio desde la izq ancho, espacio vertical entre lineas, espacio horiz entre cosos);
+
+        constraints.gridy = 0;
+		constraints.gridx = 0;
+		jp.add(label_nada, constraints);		
+		
+        constraints.gridy = 1;
+        
+		constraints.gridx = 0;
+	    jp.add(label_user, constraints);
+	    constraints.gridx = 1;
+	    jp.add(text_user, constraints);
+
+        constraints.gridy = 2; 
+        
+	    constraints.gridx = 0; 
+	    jp.add(label_pass, constraints);
+	    constraints.gridx = 1;
+	    jp.add(text_pass, constraints);
+
+        constraints.gridy = 4;
+        
+        constraints.gridx = 0;
+        jp.add(label_npass, constraints);
+	    constraints.gridx = 1;
+	    jp.add(text_npass, constraints);
+
+        constraints.gridy = 6;
+        
+	    constraints.gridx = 0;
+        jp.add(label_conectando, constraints);
+	    
+        
+        constraints.fill = GridBagConstraints.EAST;
+        
+	    constraints.gridx = 0;
+        constraints.gridy = 3;
+        constraints.gridwidth = 2;
+        
+	    constraints.anchor = GridBagConstraints.EAST;
+        jp.add(boton_iniciar, constraints);
+
+	    constraints.gridx = 0;
+        constraints.gridy = 5;
+        constraints.gridwidth = 2;
+	    constraints.anchor = GridBagConstraints.EAST;
+        jp.add(boton_update, constraints);
+	    
+        
+        //desabilitado, en gris
+        label_npass.setEnabled(false);
+	    text_npass.setEnabled(false);
+	    boton_update.setEnabled(false);
+        
+     // set border for the panel
+        jp.setBorder( BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null) );
+        //jp.setBackground(Color.BLACK); 
+        jp.setOpaque(false);
+        
+        jpf.add(jp);
+        
+        
+        pack();
+        setLocationRelativeTo(null);
+        
+	    setSize(579,699);
+	    setSize(580,700);
+
+	}//constructor Login()
 	
-	public static String getTitleGame(){
-		return title;
-	}	
-}
+	
+	
+	public void paintComponent(Graphics g) {
+	    paintComponent(g);
+	    // Draw the background image.
+	    g.drawImage(imagenFondo, 0, 0, this);
+	  }
+	
+	
+	
+	public static void main(String[] args) {
+		
+		new LoginScreen().setVisible(true);
+		
+		/*
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {System.exit(0);}
+			});
+		*/
+	}
+	
+
+}// class
