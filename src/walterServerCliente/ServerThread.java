@@ -8,6 +8,8 @@ public class ServerThread extends Thread {
 
 	private Integer userId;
 	private String userName = null;
+	private static Integer  KEY_LOGIN = 0;
+	private static Integer  KEY_JUEGO = 1;
 
 	
 	public ServerThread(Integer userId) {
@@ -16,35 +18,38 @@ public class ServerThread extends Thread {
 
 	public synchronized void run() {
 		Boolean endConection = false;
+		Clave clave;
+		JuegoDaoImp dao = new JuegoDaoImp();
 		Message mensaje;
 		ObjectOutputStream obstrm;
 		try {
 			UserConnection userConnectionInstance = UserConnection.getInstance();
-			while (!endConection) {				
-				try {
-					mensaje = new Message("Personaje"+userId,null,null);
+			while (!endConection) {		
+				mensaje = new Message();
+				obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userId).getSocket().getOutputStream());
+				mensaje.setUserId(userId);
+				obstrm.writeObject(mensaje);
+								
+				ObjectInputStream obStrm = new ObjectInputStream(userConnectionInstance.getUser(userId).getSocket().getInputStream());
+				mensaje =(Message) obStrm.readObject();
+				
+				if(mensaje.getKey().getKey().equals(KEY_LOGIN)){
 					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userId).getSocket().getOutputStream());
 					mensaje.setUserId(userId);
+					mensaje.setCantidadDeUsuarios(dao.obtenerUsuarios().size());
 					obstrm.writeObject(mensaje);
-
-					ObjectInputStream obStrm = new ObjectInputStream(userConnectionInstance.getUser(userId).getSocket().getInputStream());
-					mensaje =(Message) obStrm.readObject();
+				}
+				
+				if(mensaje.getKey().getKey().equals(KEY_JUEGO)){
 					Maps maps = Maps.getInstance();
 					if("MOVIMIENTO".equals(mensaje.getMessage())){
 						DigDugLogger.log(mensaje.getMessage()+mensaje.getMovimiento1().getKeyCode());
-						Movimiento mov = maps.repaint(mensaje.getMovimiento1(),userId);
-//						mensaje.setMovimiento1(mov);
+						maps.repaint(mensaje.getMovimiento1(),userId);
 					}
 					mensaje.setMap(maps.getMapa1());
 					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userId).getSocket().getOutputStream());
 					mensaje.setUserId(userId);
 					obstrm.writeObject(mensaje);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 			}
 			
@@ -60,5 +65,4 @@ public class ServerThread extends Thread {
 			e.printStackTrace();
 		}
 	}
-
 }

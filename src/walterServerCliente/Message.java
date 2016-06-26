@@ -15,7 +15,26 @@ public class Message implements Serializable{
 	private Integer clave;
 	private Integer score1;
 	private Integer score2;
+	private Integer cantidadDeUsuarios;
+	private Clave key;
+
 	
+	public Clave getKey() {
+		return key;
+	}
+
+	public void setKey(Clave key) {
+		this.key = key;
+	}
+
+	public Integer getCantidadDeUsuarios() {
+		return cantidadDeUsuarios;
+	}
+
+	public void setCantidadDeUsuarios(Integer cantidadDeUsuarios) {
+		this.cantidadDeUsuarios = cantidadDeUsuarios;
+	}
+
 	public Integer getUserId() {
 		return userId;
 	}
@@ -24,6 +43,9 @@ public class Message implements Serializable{
 		this.userId = userId;
 	}
 
+
+	Message(){}
+	
 	Message(String mensaje){
 		this.message = mensaje;
 	}

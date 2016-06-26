@@ -10,6 +10,9 @@ import java.awt.image.BufferedImage;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -36,11 +39,9 @@ public class LoginScreen extends JFrame {
 	private JTextArea jCamposVaciosTextArea;
 	private JTextArea jUsuarioLogueadoTextArea;
 	private static String title;
-	
 	private static JLabel jlabelBack;  //back
 	private static JPanel contentPane; //front
-	
-	
+	private static Integer  KEY_LOGIN = 0;
 	
 	public LoginScreen(Connection connection){
 		
@@ -116,6 +117,37 @@ public class LoginScreen extends JFrame {
 				}
 			});
 			
+			ObjectOutputStream obstrm;
+			ObjectInputStream  instrem;
+			Message mensaje;
+			Integer cantidad = 0;
+
+			try {
+				//recibe 
+				instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+				mensaje =(Message) instrem.readObject();
+				
+				//manda donde esta osea logien
+				obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
+				mensaje.setKey(Clave.getNewInstancia(KEY_LOGIN));				
+				obstrm.writeObject(mensaje);
+
+				//recibe la info de cantidad
+				instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+				mensaje =(Message) instrem.readObject();
+				cantidad = mensaje.getCantidadDeUsuarios();
+				
+				
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			} catch (ClassNotFoundException e1) {
+				e1.printStackTrace();
+			}
+			
+			JLabel cantidadDeUsuaarios = new JLabel("cantidadDeUsuaarios: " + cantidad);
+			lblUsername.setBounds(31, 170, 100, 14);
+			contentPane.add(cantidadDeUsuaarios);
+
 			//jLoginButton.addActionListener(new ActionLogin(jUsuarioInexistenteTextArea, jCamposVaciosTextArea));
 			jLoginButton.setBounds(84, 274, 89, 23);
 			contentPane.add(jLoginButton);
@@ -159,9 +191,5 @@ public class LoginScreen extends JFrame {
 	
 	public static String getTitleGame(){
 		return title;
-	}
-	
-	
-	
-	
+	}	
 }

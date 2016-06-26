@@ -71,16 +71,19 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     private int y_flor = 1;
     private int x_piedra = 16;
     private int y_piedra = 2;
-    
+	private static Integer  KEY_JUEGO = 1;
+
 	Message mensaje;
 	
 	public void init() {
 	    	
 	    	try {
+	    		ObjectOutputStream obstrm;
+				
 				ObjectInputStream obiStrm = new ObjectInputStream(connection.getSocket().getInputStream());
 				mensaje =(Message) obiStrm.readObject();
 				userId = mensaje.getUserId();
-	    		ObjectOutputStream obstrm;
+	    		
 	    		Movimiento mov = new Movimiento();
 	    		Coordenada pos = new Coordenada();
 	    		
@@ -95,7 +98,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 	        	mov.setPosicion(pos);
 	        	mov.setKeyCode(keyCode);
 				mensaje = new Message(MENSAJE_VACIO, mov, nivel);
-				
+				mensaje.setKey(Clave.getNewInstancia(KEY_JUEGO));
 				obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
 				obstrm.writeObject(mensaje);
 				variableMensaje = MENSAJE_VACIO;
@@ -196,6 +199,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 		ObjectOutputStream obstrm;
 		Movimiento mov = new Movimiento();
 		Coordenada pos = new Coordenada();
+	
         while (thread == yo) {
             try {
             	ObjectInputStream obiStrm = new ObjectInputStream(connection.getSocket().getInputStream());
@@ -213,6 +217,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
             	mov.setKeyCode(keyCode);
 				mensaje = new Message(variableMensaje, mov, nivel);
 				obstrm = new ObjectOutputStream(socket.getOutputStream());
+				mensaje.setKey(Clave.getNewInstancia(KEY_JUEGO));
 				obstrm.writeObject(mensaje);
 				variableMensaje = MENSAJE_VACIO;
 			    obiStrm = new ObjectInputStream(socket.getInputStream());
