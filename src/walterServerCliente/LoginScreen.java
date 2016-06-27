@@ -33,6 +33,8 @@ public class LoginScreen extends JFrame {
 	private static Integer  KEY_LOGIN = 0;
 	private static Integer  KEY_LOGIN_VALIDACION_USER_PASS = 2;
 	private static Integer KEY_JUEGO_FIN_JUEGO = 3;
+	private static Integer KEY_LOGIN_REGISTRAR_USAURIO = 4;
+
 	
 	private JLabel     label_nada    = new JLabel();
 	
@@ -53,8 +55,11 @@ public class LoginScreen extends JFrame {
 	private JButton    boton_registrarse  = new JButton("Registrarse");
 	private JButton    boton_jugar   = new JButton("JUGAR!!");
 	
-	private JLabel     label_conectando    = new JLabel("LOGIN FOR PLAY...");
-	
+	private JLabel     label_conectando       = new JLabel("LOGIN FOR PLAY...");
+	private JLabel     label_user_registrado  = new JLabel("");
+	private JLabel     label_user_erroneo     = new JLabel("");
+
+
 	private Image imagenFondo;
 	private String musica_path = "musica/";
 	private AudioClip sonido_usernew;
@@ -89,11 +94,12 @@ public class LoginScreen extends JFrame {
 		text_npass.setToolTipText("Ingrese nuevo password");
 
 		label_conectando.setForeground(Color.WHITE);
+		label_user_registrado.setForeground(Color.WHITE);
+		label_user_erroneo.setForeground(Color.WHITE);
 		
 		ObjectOutputStream obstrm;
 		ObjectInputStream  instrem;
 		Message mensaje;
-		Integer cantidad = 0;
 
 		try {
 			//recibe.
@@ -124,79 +130,89 @@ public class LoginScreen extends JFrame {
 		 boton_iniciar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 						try {
-							ObjectOutputStream obstrm;
-							ObjectInputStream  instrem;
-							Message mensaje;
-						
-							JuegoDaoImp n = new JuegoDaoImp(); //esto no va no?
-							//recibe
-							//esto para lo unico que es necesario.. es por que el juego (el mapa) tiene que recibir el mensaje del mapa...
-							//capas se puede mejorar .. pero tenes que tocar todas las llamadas al server
-							instrem = new ObjectInputStream(connection.getSocket().getInputStream());
-							mensaje =(Message) instrem.readObject();
-							
-							//manda donde esta osea logien
-							obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
-							mensaje.setLocacion(Clave.getNewInstancia(KEY_LOGIN_VALIDACION_USER_PASS));	
-							mensaje.setName(text_user.getText());
-							mensaje.setPass(text_pass.getText());
-							obstrm.writeObject(mensaje);
-							
-							//recibe la info de cantidad
-							instrem = new ObjectInputStream(connection.getSocket().getInputStream());
-							mensaje =(Message) instrem.readObject();
-							label_conectando.getText();
-							label_conectando.setText("Usuarios conectados: " + mensaje.getCantidadDeUsuarios());
-							
-							validaUser = mensaje.isAceptado();
-							cantConectados = mensaje.getCantidadDeUsuarios();
-							
-							if(validaUser){
+							if(!text_user.getText().isEmpty() && !text_pass.getText().isEmpty()){
+								ObjectOutputStream obstrm;
+								ObjectInputStream  instrem;
+								Message mensaje;
+								//recibe
+								//esto para lo unico que es necesario.. es por que el juego (el mapa) tiene que recibir el mensaje del mapa...
+								//capas se puede mejorar .. pero tenes que tocar todas las llamadas al server
+								instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+								mensaje =(Message) instrem.readObject();
 								
-								try{
-						         	sonido_usernew = Applet.newAudioClip( new URL("file:" + musica_path + "extra_life.wav") );
-						         	sonido_usernew.play();
-						           }
-						         catch (IOException e2) { }
+								//manda donde esta osea logien
+								obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
+								mensaje.setLocacion(Clave.getNewInstancia(KEY_LOGIN_VALIDACION_USER_PASS));	
+								mensaje.setName(text_user.getText());
+								mensaje.setPass(text_pass.getText());
+								obstrm.writeObject(mensaje);
 								
-								System.out.println("SOY EL CLIENTE ACEPTADO CON NOMBRE:"+ mensaje.getName());
-								System.out.println("SOY EL CLIENTE ACEPTADO ID DE BASE DE DATOS:"+ mensaje.getIdUser());
-								System.out.println("SOY EL CLIENTE ACEPTADO ID DE POSICION DE ENTRADA:"+ mensaje.getUserIdPosicionDeEntrada());
-
-								//habilito texts y boton update
+								//recibe la info de cantidad
+								instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+								mensaje =(Message) instrem.readObject();
+								label_conectando.getText();
 								label_conectando.setText("Usuarios conectados: " + mensaje.getCantidadDeUsuarios());
 								
-								text_nuser.setEnabled(true);
-								label_nuser.setVisible(true);
-								text_nuser.setVisible(true);
-						        text_nuser.setBackground(Color.WHITE);
-						        
-								text_npass.setEnabled(true);
-								label_npass.setVisible(true);
-								text_npass.setVisible(true);
-						        text_npass.setBackground(Color.WHITE);
-						        
-								boton_update.setEnabled(true);
-								boton_update.setVisible(true);
+								validaUser = mensaje.isAceptado();
+								cantConectados = mensaje.getCantidadDeUsuarios();
 								
-								text_user.setEditable(false);
-								text_pass.setEditable(false);
-								text_user.setBackground(Color.LIGHT_GRAY);
-								text_pass.setBackground(Color.LIGHT_GRAY);
-								
-								//deshbilito botones xq ya hay un usuario logineado
-								boton_registrarse.setEnabled(false);
-								boton_registrarse.setVisible(false);
-								boton_iniciar.setEnabled(true);
-								boton_iniciar.setText("Actualizar conectados..");
-								boton_iniciar.setToolTipText("Actualiza los usuarios conectados..");
-								
-								//if cantidad de usuarios es mayor a 1, true, pero no funciona para el primero conectado
-								//if( mensaje.getCantidadDeUsuarios() > 1 ){
-								  boton_jugar.setEnabled(true);
-								  boton_jugar.setVisible(true);
-								//}
-							}		
+								if(validaUser){
+									label_user_erroneo.setVisible(false);
+									label_user_erroneo.setText("");
+									try{
+							         	sonido_usernew = Applet.newAudioClip( new URL("file:" + musica_path + "extra_life.wav") );
+							         	sonido_usernew.play();
+							           }
+							         catch (IOException e2) { }
+									
+									System.out.println("SOY EL CLIENTE ACEPTADO CON NOMBRE:"+ mensaje.getName());
+									System.out.println("SOY EL CLIENTE ACEPTADO ID DE BASE DE DATOS:"+ mensaje.getIdUser());
+									System.out.println("SOY EL CLIENTE ACEPTADO ID DE POSICION DE ENTRADA:"+ mensaje.getUserIdPosicionDeEntrada());
+	
+									//habilito texts y boton update
+									label_conectando.setText("Usuarios conectados: " + mensaje.getCantidadDeUsuarios());
+									
+									text_nuser.setEnabled(true);
+									label_nuser.setVisible(true);
+									text_nuser.setVisible(true);
+							        text_nuser.setBackground(Color.WHITE);
+							        
+									text_npass.setEnabled(true);
+									label_npass.setVisible(true);
+									text_npass.setVisible(true);
+							        text_npass.setBackground(Color.WHITE);
+							        
+									boton_update.setEnabled(true);
+									boton_update.setVisible(true);
+									
+									text_user.setEditable(false);
+									text_pass.setEditable(false);
+									text_user.setBackground(Color.LIGHT_GRAY);
+									text_pass.setBackground(Color.LIGHT_GRAY);
+									
+									//deshbilito botones xq ya hay un usuario logineado
+									boton_registrarse.setEnabled(false);
+									boton_registrarse.setVisible(false);
+									label_user_registrado.setVisible(false);
+									boton_iniciar.setEnabled(true);
+									boton_iniciar.setText("Actualizar conectados..");
+									boton_iniciar.setToolTipText("Actualiza los usuarios conectados..");
+									
+									//if cantidad de usuarios es mayor a 1, true, pero no funciona para el primero conectado
+									//if( mensaje.getCantidadDeUsuarios() > 1 ){
+									  boton_jugar.setEnabled(true);
+									  boton_jugar.setVisible(true);
+									//}
+								}else{
+									label_user_registrado.setVisible(false);
+									label_user_erroneo.setVisible(true);
+									label_user_erroneo.setText("User o pass invalida..");
+								}
+							}else{
+								label_user_registrado.setVisible(false);
+								label_user_erroneo.setVisible(true);
+								label_user_erroneo.setText("Tiene que ingresar user y pass");
+							}
 						
 						} catch (IOException e1) {
 							e1.printStackTrace();
@@ -208,7 +224,7 @@ public class LoginScreen extends JFrame {
 		
 		 boton_update.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-			        System.exit(0);
+			        //System.exit(0);
 					}
 				});
 
@@ -220,6 +236,50 @@ public class LoginScreen extends JFrame {
 						}
 					}
 				});
+		 
+		 boton_registrarse.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						label_user_erroneo.setText("");
+						label_user_erroneo.setVisible(false);
+						if(!text_user.getText().isEmpty() && !text_pass.getText().isEmpty()){
+							ObjectOutputStream obstrm;
+							ObjectInputStream  instrem;
+							Message mensaje;
+							//recibe
+							//esto para lo unico que es necesario.. es por que el juego (el mapa) tiene que recibir el mensaje del mapa...
+							//capas se puede mejorar .. pero tenes que tocar todas las llamadas al server
+		
+							instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+							mensaje =(Message) instrem.readObject();
+							
+							//manda donde esta osea logien
+							obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
+							mensaje.setLocacion(Clave.getNewInstancia(KEY_LOGIN_REGISTRAR_USAURIO));	
+							mensaje.setName(text_user.getText());
+							mensaje.setPass(text_pass.getText());
+							obstrm.writeObject(mensaje);
+							
+							//recibe la info si se registro bien o no
+							instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+							mensaje =(Message) instrem.readObject();
+							mensaje.isAceptadoRegistrado();
+
+							if(mensaje.isAceptadoRegistrado()){
+								label_user_registrado.setText("User registrado OK..");
+							}
+						}else{
+							label_user_registrado.setText("Tiene que ingresar user y pass");
+						}
+						label_user_registrado.setVisible(true);
+
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					} catch (ClassNotFoundException e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
 		 
 		// create a new panel with GridBagLayout manager
 		JPanel jp = new JPanel( new GridBagLayout() );
@@ -274,7 +334,14 @@ public class LoginScreen extends JFrame {
 	    constraints.gridx = 0;
         jp.add(label_conectando, constraints);
         
-	    
+        constraints.gridy = 9;
+   	    constraints.gridx = 0;
+        jp.add(label_user_registrado, constraints);
+        
+        constraints.gridy = 10;
+   	    constraints.gridx = 0;
+        jp.add(label_user_erroneo, constraints);
+        
         
         constraints.fill = GridBagConstraints.HORIZONTAL;
 	    constraints.gridx = 1;

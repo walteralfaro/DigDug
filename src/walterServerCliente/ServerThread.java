@@ -12,7 +12,8 @@ public class ServerThread extends Thread {
 	private static Integer  KEY_JUEGO = 1;
 	private static Integer KEY_LOGIN_VALIDACION_USER_PASS = 2;
 	private static Integer KEY_JUEGO_FIN_JUEGO = 3;
-	
+	private static Integer KEY_LOGIN_REGISTRAR_USAURIO = 4;
+
 	public ServerThread(Integer userId) {
 		this.userIdPosicionDeEntrada = userId;
 	}
@@ -72,6 +73,14 @@ public class ServerThread extends Thread {
 					mensaje.setUserIdPosicionDeEntrada(userIdPosicionDeEntrada);
 					mensaje.setIdUser(user.getId());
 					obstrm.writeObject(mensaje);
+				}
+				
+				if((mensaje.getLocacion().getKey().equals(KEY_LOGIN_REGISTRAR_USAURIO))){
+					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userIdPosicionDeEntrada).getSocket().getOutputStream());
+					//acepto el usuario cliente y servidor
+					boolean aceptado = dao.registrarUsuario(mensaje.getName(), mensaje.getPass());
+					mensaje.setAceptadoRegistrado(aceptado);
+					obstrm.writeObject(mensaje);	
 				}
 				
 				if(mensaje.getLocacion().getKey().equals(KEY_JUEGO_FIN_JUEGO)){

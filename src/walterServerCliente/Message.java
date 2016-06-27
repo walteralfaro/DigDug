@@ -21,8 +21,10 @@ public class Message implements Serializable{
 	private String name;
 	private String pass;
 	private boolean aceptado = false;
+	private boolean aceptadoRegistrado = false;
 	private Integer userIdPosicionDeEntrada;
 	private Integer idUser;
+	
 
 	public Integer getIdUser() {
 		return idUser;
@@ -179,6 +181,14 @@ public class Message implements Serializable{
 
 	public void setLocacion(Clave key) {
 		this.locacion = key;
+	}
+	
+	public boolean isAceptadoRegistrado() {
+		return aceptadoRegistrado;
+	}
+
+	public void setAceptadoRegistrado(boolean aceptadoRegistrado) {
+		this.aceptadoRegistrado = aceptadoRegistrado;
 	}
 
 }
