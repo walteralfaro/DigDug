@@ -23,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 
@@ -44,13 +45,13 @@ public class LoginScreen extends JFrame {
 	private JTextField text_user     = new JTextField(15);
 
 	private JLabel     label_pass    = new JLabel("Password");
-	private JTextField text_pass     = new JTextField(15);
+	private JPasswordField text_pass     = new JPasswordField(15);
 	
 	private JLabel     label_nuser   = new JLabel("Nuevo Usuario");
 	private JTextField text_nuser    = new JTextField(15);
 	
 	private JLabel     label_npass   = new JLabel("Nuevo Password");
-	private JTextField text_npass    = new JTextField(15);
+	private JPasswordField text_npass    = new JPasswordField(15);
 	
 	private JButton    boton_iniciar = new JButton("Iniciar sesion");
 	private JButton    boton_update  = new JButton("Modificar user y pass");
