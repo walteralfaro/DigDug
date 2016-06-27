@@ -8,7 +8,6 @@ public class Message implements Serializable{
 	private char[][] map;
 	private boolean flag;
 	private Movimiento movimiento1;
-	private Movimiento movimiento2;
 	private Coordenada flor;
 	private Coordenada piedra;
 	private Integer clave;
@@ -27,7 +26,6 @@ public class Message implements Serializable{
 	private boolean aceptadoModificado= false;
 	private Integer userIdPosicionDeEntrada;
 	private Integer idUser;
-	
 
 	public Integer getIdUser() {
 		return idUser;
@@ -61,7 +59,6 @@ public class Message implements Serializable{
 		this.userIdPosicionDeEntrada = userId;
 	}
 
-
 	Message(){}
 	
 	Message(String mensaje){
@@ -71,13 +68,6 @@ public class Message implements Serializable{
 	public Message(String mensaje, Movimiento movimiento, char[][] nivel) {
 		this.message = mensaje;
 		this.movimiento1=movimiento;
-		this.map = nivel;
-	}
-
-	public Message(String mensaje, Movimiento movimiento,Movimiento movimiento2, char[][] nivel) {
-		this.message = mensaje;
-		this.movimiento1=movimiento;
-		this.movimiento2=movimiento2;
 		this.map = nivel;
 	}
 
@@ -111,15 +101,6 @@ public class Message implements Serializable{
 
 	public void setMovimiento1(Movimiento movimiento) {
 		this.movimiento1 = movimiento;
-	}
-
-
-	public Movimiento getMovimiento2() {
-		return movimiento2;
-	}
-
-	public void setMovimiento2(Movimiento movimiento2) {
-		this.movimiento2 = movimiento2;
 	}
 
 	public Integer getClave() {

@@ -9,5 +9,10 @@ public interface Jugable {
 	  public String MENSAJE_VACIO = "VACIO";
 	  public String MENSAJE_MOVIMIENTO = "MOVIMIENTO";
 	  public int PUERTO = 5555;
-//	  public char nivel[][] = {};
+	  public static Integer  KEY_JUEGO = 1;
+	  public static Integer KEY_JUEGO_FIN_JUEGO = 3;
+	  public static String ARRIBA = "ARRIBA";
+	  public static String ABAJO = "ABAJO";
+	  public static String IZQUIERDA = "IZQUIERDA";
+	  public static String DERECHA = "DERECHA";
 }
