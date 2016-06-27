@@ -13,6 +13,7 @@ public class ServerThread extends Thread {
 	private static Integer KEY_LOGIN_VALIDACION_USER_PASS = 2;
 	private static Integer KEY_JUEGO_FIN_JUEGO = 3;
 	private static Integer KEY_LOGIN_REGISTRAR_USAURIO = 4;
+	private static Integer KEY_LOGIN_REGISTRAR_MODIFICAR = 5;
 
 	public ServerThread(Integer userId) {
 		this.userIdPosicionDeEntrada = userId;
@@ -80,6 +81,14 @@ public class ServerThread extends Thread {
 					//acepto el usuario cliente y servidor
 					boolean aceptado = dao.registrarUsuario(mensaje.getName(), mensaje.getPass());
 					mensaje.setAceptadoRegistrado(aceptado);
+					obstrm.writeObject(mensaje);	
+				}
+				
+				if((mensaje.getLocacion().getKey().equals(KEY_LOGIN_REGISTRAR_MODIFICAR))){
+					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userIdPosicionDeEntrada).getSocket().getOutputStream());
+					//acepto el usuario cliente y servidor
+					boolean aceptado = dao.actualizarUsuario(mensaje.getName(),mensaje.getNname(),mensaje.getNpass());
+					mensaje.setAceptadoModificado(aceptado);
 					obstrm.writeObject(mensaje);	
 				}
 				

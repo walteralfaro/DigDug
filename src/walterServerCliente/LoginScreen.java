@@ -34,6 +34,8 @@ public class LoginScreen extends JFrame {
 	private static Integer  KEY_LOGIN_VALIDACION_USER_PASS = 2;
 	private static Integer KEY_JUEGO_FIN_JUEGO = 3;
 	private static Integer KEY_LOGIN_REGISTRAR_USAURIO = 4;
+	private static Integer KEY_LOGIN_REGISTRAR_MODIFICAR = 5;
+
 
 	
 	private JLabel     label_nada    = new JLabel();
@@ -58,6 +60,8 @@ public class LoginScreen extends JFrame {
 	private JLabel     label_conectando       = new JLabel("LOGIN FOR PLAY...");
 	private JLabel     label_user_registrado  = new JLabel("");
 	private JLabel     label_user_erroneo     = new JLabel("");
+	private JLabel     label_user_erroneo_update  = new JLabel("");
+
 
 
 	private Image imagenFondo;
@@ -96,7 +100,7 @@ public class LoginScreen extends JFrame {
 		label_conectando.setForeground(Color.WHITE);
 		label_user_registrado.setForeground(Color.WHITE);
 		label_user_erroneo.setForeground(Color.WHITE);
-		
+		label_user_erroneo_update.setForeground(Color.WHITE);
 		ObjectOutputStream obstrm;
 		ObjectInputStream  instrem;
 		Message mensaje;
@@ -225,7 +229,47 @@ public class LoginScreen extends JFrame {
 		 boton_update.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 			        //System.exit(0);
+					//MODIFICACION
+						try {
+							if(!text_nuser.getText().isEmpty() && !text_npass.getText().isEmpty()){
+								ObjectOutputStream obstrm;
+								ObjectInputStream  instrem;
+								Message mensaje;
+								//recibe
+								//esto para lo unico que es necesario.. es por que el juego (el mapa) tiene que recibir el mensaje del mapa...
+								//capas se puede mejorar .. pero tenes que tocar todas las llamadas al server
+			
+								instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+								mensaje =(Message) instrem.readObject();
+								
+								//manda donde esta osea logien
+								obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
+								mensaje.setLocacion(Clave.getNewInstancia(KEY_LOGIN_REGISTRAR_MODIFICAR));	
+								mensaje.setName(text_user.getText());
+								mensaje.setPass(text_pass.getText());
+								mensaje.setNname(text_nuser.getText());
+								mensaje.setNpass(text_npass.getText());
+								obstrm.writeObject(mensaje);
+
+								//recibe la info si se modico bien o no
+								instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+								mensaje =(Message) instrem.readObject();
+								if(mensaje.isAceptadoModificado()){
+									label_user_erroneo_update.setVisible(true);	
+									label_user_erroneo_update.setText("User modificado");
+								}
+							
+							}else{
+								label_user_erroneo_update.setVisible(true);	
+								label_user_erroneo_update.setText("Tiene que ingresar user y pass");
+							}
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						} catch (ClassNotFoundException e1) {
+							e1.printStackTrace();
+						}
 					}
+					
 				});
 
 		 boton_jugar.addActionListener(new ActionListener() {
@@ -342,7 +386,11 @@ public class LoginScreen extends JFrame {
    	    constraints.gridx = 0;
         jp.add(label_user_erroneo, constraints);
         
+        constraints.gridy = 11;
+   	    constraints.gridx = 0;
+        jp.add(label_user_erroneo_update, constraints);
         
+      
         constraints.fill = GridBagConstraints.HORIZONTAL;
 	    constraints.gridx = 1;
         constraints.gridy = 3;

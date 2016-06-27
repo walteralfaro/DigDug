@@ -20,8 +20,11 @@ public class Message implements Serializable{
 	//para validar el usaurio
 	private String name;
 	private String pass;
+	private String nname;
+	private String npass;
 	private boolean aceptado = false;
 	private boolean aceptadoRegistrado = false;
+	private boolean aceptadoModificado= false;
 	private Integer userIdPosicionDeEntrada;
 	private Integer idUser;
 	
@@ -190,5 +193,26 @@ public class Message implements Serializable{
 	public void setAceptadoRegistrado(boolean aceptadoRegistrado) {
 		this.aceptadoRegistrado = aceptadoRegistrado;
 	}
+	
+	public boolean isAceptadoModificado() {
+		return aceptadoModificado;
+	}
 
+	public void setAceptadoModificado(boolean aceptadoModificado) {
+		this.aceptadoModificado = aceptadoModificado;
+	}
+	public String getNpass() {
+		return npass;
+	}
+
+	public void setNpass(String npass) {
+		this.npass = npass;
+	}
+	public String getNname() {
+		return nname;
+	}
+
+	public void setNname(String nname) {
+		this.nname = nname;
+	}
 }
