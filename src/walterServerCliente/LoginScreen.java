@@ -84,7 +84,7 @@ public class LoginScreen extends JFrame {
 	    
 		//carga imagen de fondo en un JPanel: JPanelFondo
 	    JPanelFondo jpf = new JPanelFondo();
-		jpf.setBackground("imagenes/33.png");
+		jpf.setBackground("imagenes/333.png");
 		add(jpf);
 
 		label_user.setForeground(Color.white);
@@ -261,7 +261,7 @@ public class LoginScreen extends JFrame {
 							
 							}else{
 								label_user_erroneo_update.setVisible(true);	
-								label_user_erroneo_update.setText("Tiene que ingresar user y pass");
+								label_user_erroneo_update.setText("Ingresar user y pass");
 							}
 						} catch (IOException e1) {
 							e1.printStackTrace();
