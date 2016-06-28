@@ -36,7 +36,7 @@ public class LoginScreen extends JFrame {
 	private static Integer KEY_JUEGO_FIN_JUEGO = 3;
 	private static Integer KEY_LOGIN_REGISTRAR_USAURIO = 4;
 	private static Integer KEY_LOGIN_REGISTRAR_MODIFICAR = 5;
-
+	private static Integer KEY_LOGIN_AGREGAR_JUGADOR = 6;
 
 	
 	private JLabel     label_nada    = new JLabel();
@@ -62,6 +62,8 @@ public class LoginScreen extends JFrame {
 	private JLabel     label_user_registrado  = new JLabel("");
 	private JLabel     label_user_erroneo     = new JLabel("");
 	private JLabel     label_user_erroneo_update  = new JLabel("");
+	private JLabel     label_partida_en_juego  = new JLabel("");
+
 
 
 
@@ -102,6 +104,7 @@ public class LoginScreen extends JFrame {
 		label_user_registrado.setForeground(Color.WHITE);
 		label_user_erroneo.setForeground(Color.WHITE);
 		label_user_erroneo_update.setForeground(Color.WHITE);
+		label_partida_en_juego.setForeground(Color.WHITE);
 		ObjectOutputStream obstrm;
 		ObjectInputStream  instrem;
 		Message mensaje;
@@ -275,8 +278,42 @@ public class LoginScreen extends JFrame {
 
 		 boton_jugar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-						if(validaUser && cantConectados>1){
+					boolean agregar = false;
+						try {
+							ObjectOutputStream obstrm;
+							ObjectInputStream  instrem;
+							Message mensaje;
+							//recibe.
+							//esto para lo unico que es necesario.. es por que el juego (el mapa) tiene que recibir el mensaje del mapa...
+							//capas se puede mejorar .. pero tenes que tocar todas las llamadas al server			
+							instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+							mensaje =(Message) instrem.readObject();
+							
+							//manda donde esta osea logien
+							obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
+							mensaje.setLocacion(Clave.getNewInstancia(KEY_LOGIN_AGREGAR_JUGADOR));				
+							obstrm.writeObject(mensaje);
+	
+							//recibe la info de cantidad
+							instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+							mensaje =(Message) instrem.readObject();
+							agregar = mensaje.isAgregarJugador();
+							
+							if(!agregar){
+								label_partida_en_juego.setText("Partida llena");
+							}else{
+								label_partida_en_juego.setText("");
+							}
+							
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						} catch (ClassNotFoundException e1) {
+							e1.printStackTrace();
+						}
+						
+						if(validaUser && cantConectados>1 && agregar){
 							Juego pe = new Juego();
+							boton_jugar.setEnabled(true);
 							pe.inGame(connection);
 						}
 					}
@@ -390,6 +427,10 @@ public class LoginScreen extends JFrame {
         constraints.gridy = 11;
    	    constraints.gridx = 0;
         jp.add(label_user_erroneo_update, constraints);
+        
+        constraints.gridy = 12;
+   	    constraints.gridx = 0;
+        jp.add(label_partida_en_juego, constraints);
         
       
         constraints.fill = GridBagConstraints.HORIZONTAL;

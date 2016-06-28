@@ -1,6 +1,7 @@
 package walterServerCliente;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.net.Socket;
 
 
@@ -15,8 +16,17 @@ public class User implements Serializable{
 	private Integer score;
 	private boolean aceptado = false;
 	private Long idPartida;
+	private Integer inGame = BigDecimal.ZERO.intValue();
 
 	//private Score historicalScore;
+
+	public Integer getInGame() {
+		return inGame;
+	}
+
+	public void setInGame(Integer inGame) {
+		this.inGame = inGame;
+	}
 
 	public Long getIdPartida() {
 		return idPartida;

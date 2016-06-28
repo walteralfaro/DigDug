@@ -275,7 +275,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 						x_jugador4 = mensaje.getMovimiento1().getPosicion().getX();
 						y_jugador4 = mensaje.getMovimiento1().getPosicion().getY();
 					}
-					DigDugLogger.log("idPartida : " + mensaje.getIdPartida());
+					Logger.log("idPartida : " + mensaje.getIdPartida());
 					repaint();
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block

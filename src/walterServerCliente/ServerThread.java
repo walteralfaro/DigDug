@@ -2,6 +2,7 @@ package walterServerCliente;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,8 @@ public class ServerThread extends Thread {
 	private static Integer KEY_JUEGO_FIN_JUEGO = 3;
 	private static Integer KEY_LOGIN_REGISTRAR_USAURIO = 4;
 	private static Integer KEY_LOGIN_REGISTRAR_MODIFICAR = 5;
+	private static Integer KEY_LOGIN_AGREGAR_JUGADOR = 6;
+
 
 	public ServerThread(Integer userId) {
 		this.userIdPosicionDeEntrada = userId;
@@ -46,7 +49,7 @@ public class ServerThread extends Thread {
 				
 				if(mensaje.getLocacion().getKey().equals(KEY_LOGIN)){
 					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userIdPosicionDeEntrada).getSocket().getOutputStream());					
-					mensaje.setCantidadDeUsuarios(getUserUsuariosConectados(userConnectionInstance,mensaje));
+					mensaje.setCantidadDeUsuarios(getUserConectados(userConnectionInstance,mensaje));
 					obstrm.writeObject(mensaje);
 				}
 				if(mensaje.getLocacion().getKey().equals(KEY_LOGIN_VALIDACION_USER_PASS)){
@@ -59,7 +62,7 @@ public class ServerThread extends Thread {
 					user.setId(dao.obtenerUsuario(mensaje.getName()).getId());
 					user.setAceptado(aceptado);
 					//busco la cantidad de conectados
-					mensaje.setCantidadDeUsuarios(getUserUsuariosConectados(userConnectionInstance,mensaje));
+					mensaje.setCantidadDeUsuarios(getUserConectados(userConnectionInstance,mensaje));
 					mensaje.setIdUser(user.getId());
 					obstrm.writeObject(mensaje);		
 				}
@@ -73,6 +76,7 @@ public class ServerThread extends Thread {
 					mensaje.setMap(maps.getMapa1());
 					mensaje.setIdPartida(maps.getIdPartida());
 					user.setIdPartida(maps.getIdPartida());
+					user.setInGame(BigDecimal.ONE.intValue());
 					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userIdPosicionDeEntrada).getSocket().getOutputStream());
 					mensaje.setUserIdPosicionDeEntrada(userIdPosicionDeEntrada);
 					mensaje.setIdUser(user.getId());
@@ -95,9 +99,16 @@ public class ServerThread extends Thread {
 					obstrm.writeObject(mensaje);	
 				}
 				
+				if((mensaje.getLocacion().getKey().equals(KEY_LOGIN_AGREGAR_JUGADOR))){
+					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userIdPosicionDeEntrada).getSocket().getOutputStream());					
+					agregarJugador(userConnectionInstance,mensaje);
+					obstrm.writeObject(mensaje);
+				}
+				
 				if(mensaje.getLocacion().getKey().equals(KEY_JUEGO_FIN_JUEGO)){
 					Logger.info("Finalizando conexion con el cliente " + userIdPosicionDeEntrada);
 					user.setAceptado(false);
+					user.setInGame(BigDecimal.ZERO.intValue());
 					//user.setIdPartida(null);
 					endConection = true;
 					/*if(mensaje.getUserIdPosicionDeEntrada() == 0){
@@ -120,7 +131,7 @@ public class ServerThread extends Thread {
 		}
 	}
 
-	private int getUserUsuariosConectados(UserConnection userConnectionInstance , Message mensaje) {
+	private int getUserConectados(UserConnection userConnectionInstance , Message mensaje) {
 		int cantidad = 0;
 		List<User> listUser = userConnectionInstance.getUsers();
 		for (User user : listUser) {
@@ -129,5 +140,16 @@ public class ServerThread extends Thread {
 			}
 		}
 		return cantidad;
+	}
+	
+	private void agregarJugador(UserConnection userConnectionInstance , Message mensaje) {
+		int cantidad = 0;
+		List<User> listUser = userConnectionInstance.getUsers();
+		for (User user : listUser) {
+			if(user!=null && user.isAceptado()){
+				cantidad= cantidad + user.getInGame();
+			}
+		}
+		mensaje.setAgregarJugador(cantidad<4);
 	}
 }

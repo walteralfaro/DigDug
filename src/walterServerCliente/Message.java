@@ -28,6 +28,16 @@ public class Message implements Serializable{
 	private Integer userIdPosicionDeEntrada;
 	private Integer idUser;
 	private Long idPartida = null;
+	private boolean agregarJugador = false;
+
+
+	public boolean isAgregarJugador() {
+		return agregarJugador;
+	}
+
+	public void setAgregarJugador(boolean agregarJugador) {
+		this.agregarJugador = agregarJugador;
+	}
 
 	Message(){}
 	
