@@ -39,7 +39,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 
     private String variableMensaje;	
 	// VECTOR PARA CARGAR TODAS LAS IMAGENES
-    private BufferedImage nivel_img[] = new BufferedImage[16];
+    private BufferedImage nivel_img[] = new BufferedImage[19];
     private BufferedImage jugador1; //excavador
     private BufferedImage jugador2; //dragon
     private BufferedImage jugador3; //etc
@@ -154,6 +154,10 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 		    	    nivel_img[13] = ImageIO.read(new File("imagenes/monster1.png"));
 		    		/***PRUEBA***/
 		    		nivel_img[14] = ImageIO.read(new File("imagenes/sprites_fuego1_derecha.gif"));
+		    		nivel_img[15] = ImageIO.read(new File("imagenes/sprites_dig_dug_derecha.gif"));
+		    	    nivel_img[16] = ImageIO.read(new File("imagenes/sprites_bichito_derecha.gif"));
+		    	    nivel_img[17] = ImageIO.read(new File("imagenes/sprites_dragon_derecha.gif"));
+		    	    nivel_img[18] = ImageIO.read(new File("imagenes/monster1.png"));
 		    		/******/
 		    		p1_der = ImageIO.read(new File("imagenes/sprites_dig_dug_derecha.gif"));
 		    		p1_izq = ImageIO.read(new File("imagenes/sprites_dig_dug_izquierda.gif"));
