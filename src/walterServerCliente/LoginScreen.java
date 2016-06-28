@@ -170,9 +170,9 @@ public class LoginScreen extends JFrame {
 							           }
 							         catch (IOException e2) { }
 									
-									System.out.println("SOY EL CLIENTE ACEPTADO CON NOMBRE:"+ mensaje.getName());
-									System.out.println("SOY EL CLIENTE ACEPTADO ID DE BASE DE DATOS:"+ mensaje.getIdUser());
-									System.out.println("SOY EL CLIENTE ACEPTADO ID DE POSICION DE ENTRADA:"+ mensaje.getUserIdPosicionDeEntrada());
+									//System.out.println("SOY EL CLIENTE ACEPTADO CON NOMBRE:"+ mensaje.getName());
+									//System.out.println("SOY EL CLIENTE ACEPTADO ID DE BASE DE DATOS:"+ mensaje.getIdUser());
+									//System.out.println("SOY EL CLIENTE ACEPTADO ID DE POSICION DE ENTRADA:"+ mensaje.getUserIdPosicionDeEntrada());
 	
 									//habilito texts y boton update
 									label_conectando.setText("Usuarios conectados: " + mensaje.getCantidadDeUsuarios());

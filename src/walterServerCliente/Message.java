@@ -1,5 +1,6 @@
 package walterServerCliente;
 import java.io.Serializable;
+import java.util.Date;
 
 public class Message implements Serializable{
 
@@ -26,6 +27,19 @@ public class Message implements Serializable{
 	private boolean aceptadoModificado= false;
 	private Integer userIdPosicionDeEntrada;
 	private Integer idUser;
+	private Long idPartida = null;
+
+	Message(){}
+	
+	Message(String mensaje){
+		this.message = mensaje;
+	}
+
+	public Message(String mensaje, Movimiento movimiento, char[][] nivel) {
+		this.message = mensaje;
+		this.movimiento1=movimiento;
+		this.map = nivel;
+	}
 
 	public Integer getIdUser() {
 		return idUser;
@@ -57,18 +71,6 @@ public class Message implements Serializable{
 
 	public void setUserIdPosicionDeEntrada(Integer userId) {
 		this.userIdPosicionDeEntrada = userId;
-	}
-
-	Message(){}
-	
-	Message(String mensaje){
-		this.message = mensaje;
-	}
-
-	public Message(String mensaje, Movimiento movimiento, char[][] nivel) {
-		this.message = mensaje;
-		this.movimiento1=movimiento;
-		this.map = nivel;
 	}
 
 	public String getMessage() {
@@ -182,6 +184,7 @@ public class Message implements Serializable{
 	public void setAceptadoModificado(boolean aceptadoModificado) {
 		this.aceptadoModificado = aceptadoModificado;
 	}
+	
 	public String getNpass() {
 		return npass;
 	}
@@ -189,6 +192,7 @@ public class Message implements Serializable{
 	public void setNpass(String npass) {
 		this.npass = npass;
 	}
+	
 	public String getNname() {
 		return nname;
 	}
@@ -196,4 +200,15 @@ public class Message implements Serializable{
 	public void setNname(String nname) {
 		this.nname = nname;
 	}
+
+	public Long getIdPartida() {
+		return idPartida;
+	}
+
+	public void setIdPartida(Long id) {
+		if(this.idPartida == null){
+			this.idPartida = id;
+		}
+	}
+
 }

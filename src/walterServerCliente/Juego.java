@@ -21,6 +21,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -224,11 +225,12 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     
     
     public synchronized void run() {
-        Thread yo = Thread.currentThread();    	Socket socket = connection.getSocket();
+        Thread yo = Thread.currentThread();    
+        Socket socket = connection.getSocket();
 		ObjectOutputStream obstrm;
 		Movimiento mov = new Movimiento();
 		Coordenada pos = new Coordenada();
-	
+		
         while (thread == yo) {
             try {
             	ObjectInputStream obiStrm = new ObjectInputStream(connection.getSocket().getInputStream());
@@ -273,6 +275,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 						x_jugador4 = mensaje.getMovimiento1().getPosicion().getX();
 						y_jugador4 = mensaje.getMovimiento1().getPosicion().getY();
 					}
+					DigDugLogger.log("idPartida : " + mensaje.getIdPartida());
 					repaint();
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block

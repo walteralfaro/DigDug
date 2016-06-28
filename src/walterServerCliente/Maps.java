@@ -1,6 +1,7 @@
 package walterServerCliente;
 
 import java.awt.event.KeyEvent;
+import java.util.Date;
 
 public class Maps {
 	public static Maps instance;
@@ -9,6 +10,7 @@ public class Maps {
 			instance= new Maps();
 		return instance;
 	}
+	private Long idPartida = new Date().getTime();
 	private char mapa1[][] = {
 
 			{ 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9},
@@ -243,5 +245,12 @@ public class Maps {
 	
 	public void agregarFlor(Coordenada coordenada){
 		mapa1[coordenada.getY()][coordenada.getX()] = 7;	
+	}
+	public Long getIdPartida() {
+		return idPartida;
+	}
+
+	public void setIdPartida(Long idPartida) {
+		this.idPartida = idPartida;
 	}
 }

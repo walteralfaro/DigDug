@@ -2,6 +2,7 @@ package walterServerCliente;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Date;
 import java.util.List;
 
 public class ServerThread extends Thread {
@@ -66,10 +67,12 @@ public class ServerThread extends Thread {
 				if(mensaje.getLocacion().getKey().equals(KEY_JUEGO)){
 					Maps maps = Maps.getInstance();
 					if(Juego.MENSAJE_MOVIMIENTO.equals(mensaje.getMessage())){
-						DigDugLogger.log(mensaje.getMessage()+mensaje.getMovimiento1().getKeyCode());
+						//DigDugLogger.log(mensaje.getMessage()+mensaje.getMovimiento1().getKeyCode());
 						maps.repaint(mensaje.getMovimiento1(),userIdPosicionDeEntrada);
 					}
 					mensaje.setMap(maps.getMapa1());
+					mensaje.setIdPartida(maps.getIdPartida());
+					user.setIdPartida(maps.getIdPartida());
 					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userIdPosicionDeEntrada).getSocket().getOutputStream());
 					mensaje.setUserIdPosicionDeEntrada(userIdPosicionDeEntrada);
 					mensaje.setIdUser(user.getId());
@@ -95,7 +98,11 @@ public class ServerThread extends Thread {
 				if(mensaje.getLocacion().getKey().equals(KEY_JUEGO_FIN_JUEGO)){
 					Logger.info("Finalizando conexion con el cliente " + userIdPosicionDeEntrada);
 					user.setAceptado(false);
+					//user.setIdPartida(null);
 					endConection = true;
+					/*if(mensaje.getUserIdPosicionDeEntrada() == 0){
+						Maps.instance = null;
+					}*/
 				}
 
 			}

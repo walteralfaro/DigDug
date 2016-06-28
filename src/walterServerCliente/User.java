@@ -14,8 +14,17 @@ public class User implements Serializable{
 	private String pass;
 	private Integer score;
 	private boolean aceptado = false;
-	
+	private Long idPartida;
+
 	//private Score historicalScore;
+
+	public Long getIdPartida() {
+		return idPartida;
+	}
+
+	public void setIdPartida(Long idPartida) {
+		this.idPartida = idPartida;
+	}
 
 	public User(Integer id, Socket socket) {
 		this.id = id;
