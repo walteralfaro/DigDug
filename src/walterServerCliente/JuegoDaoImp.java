@@ -38,7 +38,7 @@ public final class JuegoDaoImp {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		System.out.println("Table created USUARIO successfully");
+		//System.out.println("Table created USUARIO successfully");
 	}
 
 	public void crearTablasScore() {
@@ -61,11 +61,11 @@ public final class JuegoDaoImp {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		System.out.println("Table created SCORE successfully");
+		//System.out.println("Table created SCORE successfully");
 	}
 
 	public void insertScore(Integer idUsuario, Integer idPartida, Integer puntaje ) {
-		Logger.init("insertScore");
+		//Logger.init("insertScore");
 		Connection c = null;
 		Statement stmt = null;
 		try {
@@ -81,18 +81,18 @@ public final class JuegoDaoImp {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		Logger.end("insertScore");
+		//Logger.end("insertScore");
 	}
 
 	public List<User> obtenerUsuarios() {
-		Logger.init("obtenerUsuarios");
+		//Logger.init("obtenerUsuarios");
 		Connection c = null;
 		Statement stmt = null;
 		List<User> users = new ArrayList<User>();
 
 		try {
 			c = getConnectionDB();
-			System.out.println("Opened database successfully");
+			//System.out.println("Opened database successfully");
 
 			stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM USUARIO;");
@@ -117,12 +117,12 @@ public final class JuegoDaoImp {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		Logger.end("obtenerUsuarios");
+		//Logger.end("obtenerUsuarios");
 		return users;
 	}
 	
 	public Integer obtenerScorePorUsuario(String nombre, Integer idPartida) {
-		Logger.init("obtenerScorePorUsuario");
+		//Logger.init("obtenerScorePorUsuario");
 		Integer score = 0;
 		Connection c = null;
 		Statement stmt = null;
@@ -159,13 +159,13 @@ public final class JuegoDaoImp {
 			System.exit(0);
 		}
 		
-		Logger.end("obtenerScorePorUsuario");
+		//Logger.end("obtenerScorePorUsuario");
 
 		return score;
 	}
 
 	public boolean validaUsuario(String name, String pass) {
-		Logger.init("validaUsuario");
+		//Logger.init("validaUsuario");
 		Connection c = null;
 		Statement stmt = null;
 		boolean existe= false;
@@ -180,10 +180,10 @@ public final class JuegoDaoImp {
 				c.close();
 				rs.close();
 				existe = true; //se logueo
-				Logger.end("validaUsuario");
+				//Logger.end("validaUsuario");
 				return existe;
 			}
-			Logger.info("validaUsuario - USUARIO O CONTRASEÑA ERRONEA");
+			//Logger.info("validaUsuario - USUARIO O CONTRASEÑA ERRONEA");
 
 			rs.close();
 			stmt.close();
@@ -193,12 +193,12 @@ public final class JuegoDaoImp {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		Logger.end("validaUsuario");
+		//Logger.end("validaUsuario");
 		return existe;
 	}
 	
 	public boolean registrarUsuario(String name, String pass) {
-		Logger.init("registrarUsuario");
+		//Logger.init("registrarUsuario");
 		Connection c = null;
 		Statement stmt = null;
 		boolean existe= false;
@@ -212,7 +212,7 @@ public final class JuegoDaoImp {
 				stmt.close();
 				c.close();
 				rs.close();
-				System.out.println("FIN - RegistrarUsuario - Usuario ya registrado: " + name);
+				//System.out.println("FIN - RegistrarUsuario - Usuario ya registrado: " + name);
 				return existe;
 			}
 			existe = true;
@@ -227,12 +227,12 @@ public final class JuegoDaoImp {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		Logger.end("registrarUsuario");
+		//Logger.end("registrarUsuario");
 		return existe;
 	}
 	
 	public boolean registrarUsuario(String name, String pass,Integer id) {
-		Logger.init("registrarUsuario con id");
+		//Logger.init("registrarUsuario con id");
 
 
 		Connection c = null;
@@ -248,8 +248,8 @@ public final class JuegoDaoImp {
 				stmt.close();
 				c.close();
 				rs.close();
-				Logger.info("registrarUsuario - Usuario ya registrado: " + name);
-				Logger.end("registrarUsuario con id");
+				//Logger.info("registrarUsuario - Usuario ya registrado: " + name);
+				//Logger.end("registrarUsuario con id");
 				return existe;
 			}
 			existe = true;
@@ -265,12 +265,12 @@ public final class JuegoDaoImp {
 			System.exit(0);
 		}
 		
-		Logger.end("registrarUsuario con id");
+		//Logger.end("registrarUsuario con id");
 		return existe;
 	}
 
 	public void mostrarScores() {
-		Logger.init("obtenerScores");
+		//Logger.init("obtenerScores");
 		Connection c = null;
 		Statement stmt = null;
 		try {
@@ -296,11 +296,11 @@ public final class JuegoDaoImp {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		Logger.end("obtenerScores");
+		//Logger.end("obtenerScores");
 	}
 
 	public Integer obtenerScores(Integer idUsuario) {
-		Logger.init("obtenerScores por idUsuario");
+		//Logger.init("obtenerScores por idUsuario");
 		Connection c = null;
 		Statement stmt = null;
 		Integer score = 0;
@@ -319,7 +319,7 @@ public final class JuegoDaoImp {
 					System.out.println("idUsuario = " + idUser);
 					System.out.println("idPartida = " + idPartidaa);
 					System.out.println("puntaje = "   + puntaje);*/
-					score = score + rs.getInt("puntaje");;
+					score = score + rs.getInt("puntaje");
 				}
 			rs.close();
 			stmt.close();
@@ -328,13 +328,13 @@ public final class JuegoDaoImp {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		Logger.end("obtenerScores por idUsuario");
+		//Logger.end("obtenerScores por idUsuario");
 		return score;
 	}
 
 
 	public User obtenerUsuario(String nombre) {
-		Logger.init("obtenerUsuario por nombre de usuario");
+		//Logger.init("obtenerUsuario por nombre de usuario");
 		Connection c = null;
 		Statement stmt = null;
 		User user = new User(null,null);
@@ -360,7 +360,7 @@ public final class JuegoDaoImp {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		Logger.end("obtenerUsuario por nombre de usuario");
+		//Logger.end("obtenerUsuario por nombre de usuario");
 
 		return user;
 	}
@@ -368,7 +368,7 @@ public final class JuegoDaoImp {
 
 
 	public boolean actualizarUsuario(String nombre,String nuevoNombre,String nuevoPass) {
-		Logger.init("actualizarUsuario nombre y pass");
+		//Logger.init("actualizarUsuario nombre y pass");
 		Connection c = null;
 		Statement stmt = null;
 		boolean flag = false;
@@ -379,7 +379,7 @@ public final class JuegoDaoImp {
 			int value = stmt.executeUpdate("UPDATE USUARIO SET name ='"+nuevoNombre+"' , pass = '"+nuevoPass+"' where name = '"+nombre+"';");
 			if(value != 0){
 				flag = true;
-				System.out.println("Se actulizo nombre y pass del usuario");
+				//System.out.println("Se actulizo nombre y pass del usuario");
 			}
 			stmt.close();
 			
@@ -388,7 +388,7 @@ public final class JuegoDaoImp {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		Logger.end("actualizarUsuario nombre y pass");
+		//Logger.end("actualizarUsuario nombre y pass");
 
 		return flag;
 	}
