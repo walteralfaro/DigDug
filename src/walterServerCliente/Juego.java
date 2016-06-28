@@ -67,10 +67,9 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     private Image image;
     private Thread thread;
     private boolean music_on = true;
+	String musica_path = "sonidos/";
     AudioClip musiquita_sound;
-    AudioClip eat_sound;
-    AudioClip die_sound;
-    
+
 // POSICIONES INICIALES
     private int x_jugador1 = 3;
     private int y_jugador1 = 4;
@@ -125,13 +124,10 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 				nivel = mensaje.getMap();
 
 		    	setBackground(Color.black);
-		    	String musica_path = "musica/";
 		    	
 		    	 try{
 		         	 musiquita_sound = Applet.newAudioClip( new URL("file:" + musica_path + "Dig_Dug_Theme_Song_HD.wav") );
-		             //eat_sound = Applet.newAudioClip(new URL("file:" + musica_path + "eat_01.wav"));
-		             die_sound = Applet.newAudioClip(new URL("file:" + musica_path + "Dig_Dug_Kill_Enemy_Sound_Effect.mp3"));
-		             musiquita_sound.play();
+		             //musiquita_sound.play();
 		             musiquita_sound.loop();
 		         }catch (IOException e) { 
 		        	 

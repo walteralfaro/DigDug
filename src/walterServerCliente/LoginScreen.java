@@ -180,27 +180,35 @@ public class LoginScreen extends JFrame {
 									//habilito texts y boton update
 									label_conectando.setText("Usuarios conectados: " + mensaje.getCantidadDeUsuarios());
 									
-									text_nuser.setEnabled(true);
+							        label_nuser.setForeground(Color.white);
 									label_nuser.setVisible(true);
+									
+									text_nuser.setEnabled(true);
+							        text_nuser.setBackground(Color.white);
 									text_nuser.setVisible(true);
-							        text_nuser.setBackground(Color.WHITE);
-							        
-									text_npass.setEnabled(true);
+									
+
+									label_npass.setForeground(Color.white);
 									label_npass.setVisible(true);
+									
+									text_npass.setEnabled(true);
+							        text_npass.setBackground(Color.white);
 									text_npass.setVisible(true);
-							        text_npass.setBackground(Color.WHITE);
 							        
+									
 									boton_update.setEnabled(true);
 									boton_update.setVisible(true);
 									
 									text_user.setEditable(false);
 									text_pass.setEditable(false);
-									text_user.setBackground(Color.LIGHT_GRAY);
-									text_pass.setBackground(Color.LIGHT_GRAY);
+									text_user.setBackground(Color.lightGray);
+									text_pass.setBackground(Color.lightGray);
 									
 									//deshbilito botones xq ya hay un usuario logineado
 									boton_registrarse.setEnabled(false);
 									boton_registrarse.setVisible(false);
+							        label_conectando.setVisible(true);
+									
 									label_user_registrado.setVisible(false);
 									boton_iniciar.setEnabled(true);
 									boton_iniciar.setText("Actualizar conectados..");
@@ -412,9 +420,10 @@ public class LoginScreen extends JFrame {
         constraints.anchor = GridBagConstraints.EAST;
         jp.add(boton_jugar, constraints);
         
-        constraints.gridy = 8;
-	    constraints.gridx = 0;
-        jp.add(label_conectando, constraints);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        //constraints.gridy = 8;
+	    //constraints.gridx = 0;
+        //jp.add(label_conectando, constraints);
         
         constraints.gridy = 9;
    	    constraints.gridx = 0;
@@ -432,7 +441,13 @@ public class LoginScreen extends JFrame {
    	    constraints.gridx = 0;
         jp.add(label_partida_en_juego, constraints);
         
-      
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        jp.add(label_conectando, constraints);
+        label_conectando.setVisible(false);
+        
+		
+        
         constraints.fill = GridBagConstraints.HORIZONTAL;
 	    constraints.gridx = 1;
         constraints.gridy = 3;
@@ -452,17 +467,13 @@ public class LoginScreen extends JFrame {
 	    
         
         //desabilitado, en gris
-        label_nuser.setEnabled(false);
         label_nuser.setVisible(false);
 	    text_nuser.setEnabled(false);
 	    text_nuser.setVisible(false);
-        text_nuser.setBackground(Color.GRAY);
-        
-        label_npass.setEnabled(false);
+       
         label_npass.setVisible(false);
 	    text_npass.setEnabled(false);
 	    text_npass.setVisible(false);
-        text_npass.setBackground(Color.GRAY);
 	    
         boton_update.setEnabled(false);
         boton_update.setVisible(false);

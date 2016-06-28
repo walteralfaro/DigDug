@@ -1,9 +1,15 @@
 package walterServerCliente;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Date;
 
-public class Maps {
+import javax.swing.JApplet;
+
+public class Maps extends JApplet {
 	public static Maps instance;
 	public synchronized static Maps getInstance(){
 		if(instance == null) 
@@ -13,7 +19,7 @@ public class Maps {
 	private Long idPartida = new Date().getTime();
 	private char mapa1[][] = {
 			{ 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9},
-			{15, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,17},
+			{15, 9, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9,17},
     		{15, 9, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 9,17}, 
     		{ 9, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 9}, 
     		{ 9, 9, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 9}, 
@@ -47,6 +53,12 @@ public class Maps {
 	// 0 espacios para moverse en negro
 	// 1 2 3 4 tierra para excavar
 	// 10 11 12 13 jugadores
+
+    AudioClip die_sound;
+	String musica_path = "sonidos/";
+    
+	
+    
 	public char[][] getMapa1() {
 		return mapa1;
 	}
@@ -102,17 +114,45 @@ public class Maps {
         		}
         	}
             break;
-        case KeyEvent.VK_A:
+        case KeyEvent.VK_A: //sonido para cuando muere mandarlo a una funcion
         	if ( isPosibleAtacar(mapa1, posX, posY,mov.getOrientacion())) {
         		if(estoyVivo(mapa1[posY][posX])){
-        			if(Juego.ARRIBA.equals(mov.getOrientacion()))
+        			if(Juego.ARRIBA.equals( mov.getOrientacion() ))
+        			{
+        				 try{
+        		         	 die_sound = Applet.newAudioClip( new URL("file:" + musica_path + "enemy_killed_1.wav") );
+        		             die_sound.play();
+        		         }catch (IOException e) { }
+        				
         				mapa1[posY-1][posX] = 14;
+        			}
         			if(Juego.ABAJO.equals(mov.getOrientacion()))
+        			{
+       				 try{
+       		         	 die_sound = Applet.newAudioClip( new URL("file:" + musica_path + "enemy_killed_1.wav") );
+       		             die_sound.play();
+       		         }catch (IOException e) { }
+       				
         				mapa1[posY+1][posX] = 14;
+        			}
         			if(Juego.IZQUIERDA.equals(mov.getOrientacion()))
+        			{
+          				 try{
+          		         	 die_sound = Applet.newAudioClip( new URL("file:" + musica_path + "enemy_killed_1.wav") );
+          		             die_sound.play();
+          		         }catch (IOException e) { }
+          				
         				mapa1[posY][posX-1] = 14;
+        			}
         			if(Juego.DERECHA.equals(mov.getOrientacion()))
+        			{
+         				 try{
+         		         	 die_sound = Applet.newAudioClip( new URL("file:" + musica_path + "enemy_killed_1.wav") );
+         		             die_sound.play();
+         		         }catch (IOException e) { }
+         				
         				mapa1[posY][posX+1] = 14;
+        			}
         		}
         	}
             break;
