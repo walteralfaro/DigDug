@@ -1,5 +1,6 @@
 package walterServerCliente;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
@@ -27,7 +28,8 @@ public class ServerThread extends Thread {
 		Boolean endConection = false;
 		JuegoDaoImp dao = new JuegoDaoImp();
 		Message mensaje;
-		ObjectOutputStream obstrm;
+		ObjectOutputStream out;
+		ObjectInputStream in;
 		try {
 			UserConnection userConnectionInstance = UserConnection.getInstance();
 			while (!endConection) {		
@@ -36,24 +38,24 @@ public class ServerThread extends Thread {
 				
 			    /// todos los mensajes TIENEN que tener esta interaccion con el servidor por que el JUEGO necesita saber el usuario
 				mensaje = new Message();				
-				obstrm = new ObjectOutputStream(user.getSocket().getOutputStream());
+				//ENVIA
+				out = getObjOutputStrem(user);
 				mensaje.setUserIdPosicionDeEntrada(userIdPosicionDeEntrada);
-				obstrm.writeObject(mensaje);
+				out.writeObject(mensaje);
 				
-				//Se obtiene la INFO Y LA CLAVE DEL MENSAJE
-				ObjectInputStream obStrm = new ObjectInputStream(userConnectionInstance.getUser(userIdPosicionDeEntrada).getSocket().getInputStream());
-				mensaje =(Message) obStrm.readObject();
-				//////
+				//LEEE - Se obtiene la INFO Y LA CLAVE DEL MENSAJE
+				in = getObjInputStrem(user);
+				mensaje =(Message) in.readObject();
 				
 				//EN LOS SIGUENTE IF solo depende de la locacion se sabe que hacer
 				
 				if(mensaje.getLocacion().getKey().equals(KEY_LOGIN)){
-					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userIdPosicionDeEntrada).getSocket().getOutputStream());					
+					out = getObjOutputStrem(user);				
 					mensaje.setCantidadDeUsuarios(getUserConectados(userConnectionInstance,mensaje));
-					obstrm.writeObject(mensaje);
+					out.writeObject(mensaje);
 				}
 				if(mensaje.getLocacion().getKey().equals(KEY_LOGIN_VALIDACION_USER_PASS)){
-					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userIdPosicionDeEntrada).getSocket().getOutputStream());
+					out = getObjOutputStrem(user);
 					//acepto el usuario cliente y servidor
 					boolean aceptado = dao.validaUsuario(mensaje.getName(), mensaje.getPass());
 					mensaje.setAceptado(aceptado);
@@ -64,10 +66,11 @@ public class ServerThread extends Thread {
 					//busco la cantidad de conectados
 					mensaje.setCantidadDeUsuarios(getUserConectados(userConnectionInstance,mensaje));
 					mensaje.setIdUser(user.getId());
-					obstrm.writeObject(mensaje);		
+					out.writeObject(mensaje);		
 				}
 				
 				if(mensaje.getLocacion().getKey().equals(KEY_JUEGO)){
+					out = getObjOutputStrem(user);
 					Maps maps = Maps.getInstance();
 					if(Juego.MENSAJE_MOVIMIENTO.equals(mensaje.getMessage())){
 						//DigDugLogger.log(mensaje.getMessage()+mensaje.getMovimiento1().getKeyCode());
@@ -77,45 +80,39 @@ public class ServerThread extends Thread {
 					mensaje.setIdPartida(maps.getIdPartida());
 					user.setIdPartida(maps.getIdPartida());
 					user.setInGame(BigDecimal.ONE.intValue());
-					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userIdPosicionDeEntrada).getSocket().getOutputStream());
 					mensaje.setUserIdPosicionDeEntrada(userIdPosicionDeEntrada);
 					mensaje.setIdUser(user.getId());
-					obstrm.writeObject(mensaje);
+					out.writeObject(mensaje);
 				}
 				
 				if((mensaje.getLocacion().getKey().equals(KEY_LOGIN_REGISTRAR_USAURIO))){
-					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userIdPosicionDeEntrada).getSocket().getOutputStream());
+					out = getObjOutputStrem(user);;
 					//acepto el usuario cliente y servidor
 					boolean aceptado = dao.registrarUsuario(mensaje.getName(), mensaje.getPass());
 					mensaje.setAceptadoRegistrado(aceptado);
-					obstrm.writeObject(mensaje);	
+					out.writeObject(mensaje);	
 				}
 				
 				if((mensaje.getLocacion().getKey().equals(KEY_LOGIN_REGISTRAR_MODIFICAR))){
-					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userIdPosicionDeEntrada).getSocket().getOutputStream());
+					out = getObjOutputStrem(user);
 					//acepto el usuario cliente y servidor
 					boolean aceptado = dao.actualizarUsuario(mensaje.getName(),mensaje.getNname(),mensaje.getNpass());
 					mensaje.setAceptadoModificado(aceptado);
-					obstrm.writeObject(mensaje);	
+					out.writeObject(mensaje);	
 				}
 				
 				if((mensaje.getLocacion().getKey().equals(KEY_LOGIN_AGREGAR_JUGADOR))){
-					obstrm = new ObjectOutputStream(userConnectionInstance.getUser(userIdPosicionDeEntrada).getSocket().getOutputStream());					
+					out = getObjOutputStrem(user);					
 					agregarJugador(userConnectionInstance,mensaje);
-					obstrm.writeObject(mensaje);
+					out.writeObject(mensaje);
 				}
 				
 				if(mensaje.getLocacion().getKey().equals(KEY_JUEGO_FIN_JUEGO)){
 					Logger.info("Finalizando conexion con el cliente " + userIdPosicionDeEntrada);
 					user.setAceptado(false);
 					user.setInGame(BigDecimal.ZERO.intValue());
-					//user.setIdPartida(null);
 					endConection = true;
-					/*if(mensaje.getUserIdPosicionDeEntrada() == 0){
-						Maps.instance = null;
-					}*/
 				}
-
 			}
 			
 			if(userName != null)
@@ -151,5 +148,27 @@ public class ServerThread extends Thread {
 			}
 		}
 		mensaje.setAgregarJugador(cantidad<4);
+	}
+	
+	
+	private ObjectOutputStream getObjOutputStrem(User user){
+		ObjectOutputStream out = null;
+		try {
+			out = new ObjectOutputStream(user.getSocket().getOutputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return out;
+	}
+	
+	
+	private ObjectInputStream getObjInputStrem(User user){
+		ObjectInputStream in = null;
+		try {
+			in = new ObjectInputStream(user.getSocket().getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return in;
 	}
 }
