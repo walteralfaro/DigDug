@@ -349,7 +349,7 @@ public class LoginScreen extends JFrame {
 						
 						if(validaUser && cantConectados>1 && agregar){
 							Juego pe = new Juego();
-							boton_jugar.setEnabled(true);
+							boton_jugar.setEnabled(false);
 							pe.inGame(connection);
 						}
 					}
