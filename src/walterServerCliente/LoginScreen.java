@@ -3,6 +3,7 @@ package walterServerCliente;
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -39,7 +40,7 @@ public class LoginScreen extends JFrame {
 	private static Integer KEY_LOGIN_AGREGAR_JUGADOR = 6;
 
 	
-	private JLabel     label_nada    = new JLabel();
+	private JLabel     label_nada    = new JLabel("LOGIN FOR PLAY ...");
 	
 	private JLabel     label_user    = new JLabel("Usuario");
 	private JTextField text_user     = new JTextField(15);
@@ -68,7 +69,7 @@ public class LoginScreen extends JFrame {
 
 
 	private Image imagenFondo;
-	private String musica_path = "musica/";
+	private String musica_path = "sonidos/";
 	private AudioClip sonido_usernew;
 	private boolean validaUser = false;
 	private Integer cantConectados = 0;
@@ -78,19 +79,41 @@ public class LoginScreen extends JFrame {
 	public LoginScreen(Connection connection) {
 		
 		setIconImage( new ImageIcon("imagenes/dig_dug_dragon.jpg").getImage() ); //iconito de la ventana
-	    setSize(580,700);
-		setTitle("Dig Dug");
-	    setBounds(0, 0, 580, 700);
+	    setSize(800,700);
+		setTitle("Dig Dug 3");
+	    setBounds(0, 0, 800, 700);
 	    setResizable(false);
-	    setLocationRelativeTo(null);
+	    //setLocationRelativeTo(null);
+	    setLocation(0, 0);
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    
 		//carga imagen de fondo en un JPanel: JPanelFondo
 	    JPanelFondo jpf = new JPanelFondo();
-		jpf.setBackground("imagenes/333.png");
+		jpf.setBounds(0, 0, 800, 700);
+		jpf.setSize(800, 700);
+		jpf.setBackground("imagenes/Dig-Dug-pantalla1.png");
 		add(jpf);
 
+
+		CustomFont cft = new CustomFont("Gameplay.ttf");
+		label_nada.setFont(cft.MyFont(0,20));
+		label_nada.setForeground(Color.white);
+		label_nada.setBackground(Color.BLACK);
+		
+		CustomFont cf = new CustomFont("Early_GameBoy.ttf");
+		label_user.setFont(cf.MyFont(1,14));
+		label_pass.setFont(cf.MyFont(1,14));
+		label_nuser.setFont(cf.MyFont(1,14));
+		label_npass.setFont(cf.MyFont(1,14));
+
+		label_conectando.setFont(cf.MyFont(0,11));
+		label_user_registrado.setFont(cf.MyFont(0,11));
+		label_user_erroneo.setFont(cf.MyFont(0,11));
+		label_user_erroneo_update.setFont(cf.MyFont(0,11));
+		label_partida_en_juego.setFont(cf.MyFont(0,11));
+		
 		label_user.setForeground(Color.white);
+		label_pass.setForeground(Color.white);
 		label_pass.setForeground(Color.white);
 		text_user.setToolTipText("Ingrese usuario");
 		text_pass.setToolTipText("Ingrese password");
@@ -105,6 +128,7 @@ public class LoginScreen extends JFrame {
 		label_user_erroneo.setForeground(Color.WHITE);
 		label_user_erroneo_update.setForeground(Color.WHITE);
 		label_partida_en_juego.setForeground(Color.WHITE);
+		
 		ObjectOutputStream obstrm;
 		ObjectInputStream  instrem;
 		Message mensaje;
@@ -125,7 +149,7 @@ public class LoginScreen extends JFrame {
 			instrem = new ObjectInputStream(connection.getSocket().getInputStream());
 			mensaje =(Message) instrem.readObject();
 			label_conectando.getText();
-			label_conectando.setText("Usuarios conectados: "+mensaje.getCantidadDeUsuarios());
+			label_conectando.setText("Users conectados: "+mensaje.getCantidadDeUsuarios());
 			
 			
 		} catch (IOException e1) {
@@ -159,7 +183,7 @@ public class LoginScreen extends JFrame {
 								instrem = new ObjectInputStream(connection.getSocket().getInputStream());
 								mensaje =(Message) instrem.readObject();
 								label_conectando.getText();
-								label_conectando.setText("Usuarios conectados: " + mensaje.getCantidadDeUsuarios());
+								label_conectando.setText("Conectados: " + mensaje.getCantidadDeUsuarios());
 								
 								validaUser = mensaje.isAceptado();
 								cantConectados = mensaje.getCantidadDeUsuarios();
@@ -178,7 +202,7 @@ public class LoginScreen extends JFrame {
 									//System.out.println("SOY EL CLIENTE ACEPTADO ID DE POSICION DE ENTRADA:"+ mensaje.getUserIdPosicionDeEntrada());
 	
 									//habilito texts y boton update
-									label_conectando.setText("Usuarios conectados: " + mensaje.getCantidadDeUsuarios());
+									label_conectando.setText("Conectados: " + mensaje.getCantidadDeUsuarios());
 									
 							        label_nuser.setForeground(Color.white);
 									label_nuser.setVisible(true);
@@ -211,7 +235,7 @@ public class LoginScreen extends JFrame {
 									
 									label_user_registrado.setVisible(false);
 									boton_iniciar.setEnabled(true);
-									boton_iniciar.setText("Actualizar conectados..");
+									boton_iniciar.setText("Actualizar conectados");
 									boton_iniciar.setToolTipText("Actualiza los usuarios conectados..");
 									
 									//if cantidad de usuarios es mayor a 1, true, pero no funciona para el primero conectado
@@ -374,21 +398,22 @@ public class LoginScreen extends JFrame {
 		// create a new panel with GridBagLayout manager
 		JPanel jp = new JPanel( new GridBagLayout() );
 		
-		
 		// add components to the panel
 		GridBagConstraints constraints = new GridBagConstraints();
 		
-		constraints.anchor = GridBagConstraints.SOUTH;
+		constraints.anchor = GridBagConstraints.CENTER;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
+		
 		constraints.insets = new Insets(5, 5, 5, 5);
         //creo q es asi: (espacio desde arriba, espacio desde la izq ancho, espacio vertical entre lineas, espacio horiz entre cosos);
 
         constraints.gridy = 0;
 		constraints.gridx = 0;
-		jp.add(label_nada, constraints);		
-		
-        constraints.gridy = 1;
+		constraints.insets=new Insets(20,5,5,5);
+		jp.add(label_nada, constraints);
+		constraints.insets = new Insets(5, 5, 5, 5);
         
+		constraints.gridy = 1;
 		constraints.gridx = 0;
 	    jp.add(label_user, constraints);
 	    constraints.gridx = 1;
@@ -420,7 +445,7 @@ public class LoginScreen extends JFrame {
         constraints.anchor = GridBagConstraints.EAST;
         jp.add(boton_jugar, constraints);
         
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        //constraints.fill = GridBagConstraints.HORIZONTAL;
         //constraints.gridy = 8;
 	    //constraints.gridx = 0;
         //jp.add(label_conectando, constraints);
@@ -457,7 +482,7 @@ public class LoginScreen extends JFrame {
         
         constraints.gridx = 0;
         constraints.gridy = 3;
-	    constraints.anchor = GridBagConstraints.WEST;
+	    constraints.anchor = GridBagConstraints.EAST;
         jp.add(boton_registrarse, constraints);
 
 	    constraints.gridx = 1;
@@ -491,8 +516,8 @@ public class LoginScreen extends JFrame {
         pack();
         setLocationRelativeTo(null);
         
-	    setSize(579,699);
-	    setSize(580,700);
+	    setSize(799,699);
+	    setSize(800,700);
 
 	    setVisible(true);
 	    
@@ -529,7 +554,7 @@ public class LoginScreen extends JFrame {
 	public void paintComponent(Graphics g) {
 	    paintComponent(g);
 	    // Draw the background image.
-	    g.drawImage(imagenFondo, 0, 0, this);
+	    g.drawImage(imagenFondo, 0, 0, 800, 700, this);
 	  }
 	
 	
