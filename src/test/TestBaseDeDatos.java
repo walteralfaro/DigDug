@@ -6,8 +6,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import walterServerCliente.JuegoDaoImp;
-import walterServerCliente.User;
+import server.JuegoDaoImp;
+import server.User;
  
 public class TestBaseDeDatos {
 

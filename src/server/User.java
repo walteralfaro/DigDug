@@ -1,4 +1,4 @@
-package walterServerCliente;
+package server;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

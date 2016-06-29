@@ -1,4 +1,4 @@
-package walterServerCliente;
+package cliente;
 
 import java.awt.BorderLayout;
 import javax.swing.JDialog;

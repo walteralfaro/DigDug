@@ -1,4 +1,4 @@
-package walterServerCliente;
+package server;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
@@ -8,6 +8,10 @@ import java.net.URL;
 import java.util.Date;
 
 import javax.swing.JApplet;
+
+import cliente.Juego;
+import common.Coordenada;
+import common.Movimiento;
 
 public class Maps extends JApplet {
 	public static Maps instance;

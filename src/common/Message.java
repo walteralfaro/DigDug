@@ -1,6 +1,5 @@
-package walterServerCliente;
+package common;
 import java.io.Serializable;
-import java.util.Date;
 
 public class Message implements Serializable{
 
@@ -39,7 +38,7 @@ public class Message implements Serializable{
 		this.agregarJugador = agregarJugador;
 	}
 
-	Message(){}
+	public Message(){}
 	
 	Message(String mensaje){
 		this.message = mensaje;

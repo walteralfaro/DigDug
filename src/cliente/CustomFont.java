@@ -1,4 +1,4 @@
-package walterServerCliente;
+package cliente;
 
 import java.awt.Font;
 import java.io.InputStream;

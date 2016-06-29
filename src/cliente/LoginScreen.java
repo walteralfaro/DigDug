@@ -1,4 +1,4 @@
-package walterServerCliente;
+package cliente;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
@@ -26,6 +26,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import common.Clave;
+import common.Message;
+import server.Connection;
 
 
 

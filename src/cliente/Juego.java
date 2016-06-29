@@ -1,4 +1,4 @@
-package walterServerCliente;
+package cliente;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
@@ -26,6 +26,13 @@ import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JApplet;
+
+import common.Clave;
+import common.Coordenada;
+import common.Logger;
+import common.Message;
+import common.Movimiento;
+import server.Connection;
 
 
 public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{

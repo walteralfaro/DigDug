@@ -1,7 +1,10 @@
-package walterServerCliente;
+package server;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import common.Coordenada;
+import common.Logger;
 
 public class AcceptUser extends Thread {
 	private ServerSocket serverSocket;

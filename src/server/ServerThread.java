@@ -1,4 +1,4 @@
-package walterServerCliente;
+package server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -6,6 +6,10 @@ import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+
+import cliente.Juego;
+import common.Logger;
+import common.Message;
 
 public class ServerThread extends Thread {
 

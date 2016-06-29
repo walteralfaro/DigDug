@@ -1,4 +1,6 @@
-package walterServerCliente;
+package cliente;
+
+import server.Connection;
 
 public class Client {
 

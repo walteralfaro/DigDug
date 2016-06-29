@@ -1,4 +1,4 @@
-package walterServerCliente;
+package common;
 
 public class Logger {
 	

@@ -1,5 +1,7 @@
-package walterServerCliente;
+package cliente;
 
+import server.Connection;
+import server.Package;
 
 public class ClientThread extends Thread {
 	private LoginScreen loginscreen;

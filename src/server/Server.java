@@ -1,13 +1,13 @@
-package walterServerCliente;
+package server;
 
 import java.net.ServerSocket;
 
-import walterServerCliente.EndServerPackage;
-import walterServerCliente.User;
-import walterServerCliente.UserConnection;
-import walterServerCliente.AcceptUser;
-import walterServerCliente.Logger;
-import walterServerCliente.ServerEnd;
+import common.Logger;
+import server.AcceptUser;
+import server.EndServerPackage;
+import server.ServerEnd;
+import server.User;
+import server.UserConnection;
 
 
 public class Server {
