@@ -21,22 +21,22 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
-import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JApplet;
 
+import org.apache.log4j.Logger;
+
 import common.Clave;
 import common.Coordenada;
-import common.Logger;
 import common.Message;
 import common.Movimiento;
 import server.Connection;
 
 
 public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
-
+	private final static Logger LoggerDigDug = Logger.getLogger(Juego.class);
 	private Connection connection;
 	private Integer idPosicionDeEntrada;
 
@@ -282,7 +282,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 						x_jugador4 = mensaje.getMovimiento1().getPosicion().getX();
 						y_jugador4 = mensaje.getMovimiento1().getPosicion().getY();
 					}
-					Logger.log("idPartida : " + mensaje.getIdPartida());
+					LoggerDigDug.info("idPartida : " + mensaje.getIdPartida());
 					repaint();
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block

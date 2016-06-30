@@ -7,11 +7,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import cliente.Juego;
-import common.Logger;
 import common.Message;
 
 public class ServerThread extends Thread {
+	private final static Logger LoggerDigDug = Logger.getLogger(ServerThread.class);
 
 	private Integer userIdPosicionDeEntrada;
 	private String userName = null;
@@ -112,7 +114,7 @@ public class ServerThread extends Thread {
 				}
 				
 				if(mensaje.getLocacion().getKey().equals(KEY_JUEGO_FIN_JUEGO)){
-					Logger.info("Finalizando conexion con el cliente " + userIdPosicionDeEntrada);
+					LoggerDigDug.info("Finalizando conexion con el cliente " + userIdPosicionDeEntrada);
 					user.setAceptado(false);
 					user.setInGame(BigDecimal.ZERO.intValue());
 					endConection = true;
@@ -120,13 +122,13 @@ public class ServerThread extends Thread {
 			}
 			
 			if(userName != null)
-				Logger.info("El usuario " + userName + " se ha desconectado.");
+				LoggerDigDug.info("El usuario " + userName + " se ha desconectado.");
 
 			userConnectionInstance.closeOutputStream(userIdPosicionDeEntrada);
 			userConnectionInstance.closeInputStream(userIdPosicionDeEntrada);
 			userConnectionInstance.freeUser(userIdPosicionDeEntrada);
 			
-			Logger.info("Conexion finalizada correctamente con el cliente: " + userIdPosicionDeEntrada);
+			LoggerDigDug.info("Conexion finalizada correctamente con el cliente: " + userIdPosicionDeEntrada);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

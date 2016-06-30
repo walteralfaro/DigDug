@@ -3,10 +3,14 @@ package server;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.apache.log4j.Logger;
+
+import cliente.Juego;
 import common.Coordenada;
-import common.Logger;
 
 public class AcceptUser extends Thread {
+	private final static Logger LoggerDigDug = Logger.getLogger(AcceptUser.class);
+
 	private ServerSocket serverSocket;
 	
 	public AcceptUser(ServerSocket serverSocket) {
@@ -31,10 +35,10 @@ public class AcceptUser extends Thread {
 				clientSocket = serverSocket.accept();
 				if((clientId = clientSocketInstance.getFreeIndexUser()) != -1) {
 					clientSocketInstance.setUserConnection(new User(clientId, clientSocket));
-					Logger.info("Conexion Aceptada. ClientId: " + clientId);
+					LoggerDigDug.info("Conexion Aceptada. ClientId: " + clientId);
 					new ServerThread(clientId).start(); //Crea una conexion nueva de escucha para cada cliente
 				} else {
-					Logger.warn("No hay más conexiones disponibles");
+					LoggerDigDug.warn("No hay más conexiones disponibles");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
