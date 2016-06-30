@@ -22,34 +22,38 @@ public class Maps extends JApplet {
 	}
 	private Long idPartida = new Date().getTime();
 	private char mapa1[][] = {
-			{ 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9},
-			{15, 9, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9,17},
-    		{15, 9, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 9,17}, 
-    		{ 9, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 9}, 
-    		{ 9, 9, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 9}, 
-    		{ 9, 9, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 9, 9},
-    		{ 9, 9, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 9}, 
-    		{ 9, 9, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 9}, 
-    		{ 9, 9, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9, 9}, 
-    		{ 9, 9, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9, 9}, 
-    		{ 9, 9, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9, 9},
-    		{ 9, 9, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9, 9}, 
-    		{ 9, 9, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9, 9}, 
-    		{ 9, 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9, 9}, 
-    		{ 9, 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9, 9}, 
-    		{ 9, 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9, 9},
-    		{ 9, 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9, 9}, 
-    		{ 9, 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9, 9}, 
-    		{ 9, 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9, 9}, 
-    		{ 9, 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9, 9}, 
-    		{ 9, 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9, 9},
-    		{ 9, 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9, 9},
-    		{ 9, 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9, 9},
-    		{16, 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9,18},
-    		{16, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,18},
-    		{ 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9},
+			{ 9,15, 9, 9, 9, 9, 9,16, 9, 9, 9, 9, 9,17, 9, 9, 9, 9, 9,18, 9, 9, 9, 9, 9, 9},
+			{ 9, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9},
+    		{ 9, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 9}, 
+    		{ 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9}, 
+    		{ 9, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9}, 
+    		{ 9, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 9},
+    		{ 9, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9}, 
+    		{ 9, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9}, 
+    		{ 9, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9}, 
+    		{ 9, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9}, 
+    		{ 9, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9},
+    		{ 9, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9}, 
+    		{ 9, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9}, 
+    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9}, 
+    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9}, 
+    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9},
+    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9}, 
+    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 ,9}, 
+    		{ 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9}, 
+    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9}, 
+    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9},
+    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9},
+    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9},
+    		{ 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9},
+    		{ 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9},
     };
-
+	//x23 y24 pacman
+	//x26 y25 digdug
+	//config en class Jugable
+	
+// 15 16 17 18 personajes en matriz
+	
 	// 9 pared lateral y abajo
 	// 5 cielo pared
 	// 6 cielo para subir y moverse
@@ -86,6 +90,14 @@ public class Maps extends JApplet {
 		}
 		int posX = mov.getPosicion().getX();
 		int posY = mov.getPosicion().getY();
+		
+		
+		try{
+			die_sound = Applet.newAudioClip( new URL("file:" + musica_path + "enemy_killed_1.wav") );
+			}catch (IOException e) { }
+		
+		
+		
 		switch( mov.getKeyCode() ) { 
     	case KeyEvent.VK_UP:
         	if (isPosibleElMovimiento(mapa1,posX,posY,mov.getKeyCode())) {
@@ -123,38 +135,22 @@ public class Maps extends JApplet {
         		if(estoyVivo(mapa1[posY][posX])){
         			if(Juego.ARRIBA.equals( mov.getOrientacion() ))
         			{
-        				 try{
-        		         	 die_sound = Applet.newAudioClip( new URL("file:" + musica_path + "enemy_killed_1.wav") );
-        		             die_sound.play();
-        		         }catch (IOException e) { }
-        				
+        				die_sound.play();
         				mapa1[posY-1][posX] = 14;
         			}
         			if(Juego.ABAJO.equals(mov.getOrientacion()))
         			{
-       				 try{
-       		         	 die_sound = Applet.newAudioClip( new URL("file:" + musica_path + "enemy_killed_1.wav") );
-       		             die_sound.play();
-       		         }catch (IOException e) { }
-       				
+       		         	die_sound.play();
         				mapa1[posY+1][posX] = 14;
         			}
         			if(Juego.IZQUIERDA.equals(mov.getOrientacion()))
         			{
-          				 try{
-          		         	 die_sound = Applet.newAudioClip( new URL("file:" + musica_path + "enemy_killed_1.wav") );
-          		             die_sound.play();
-          		         }catch (IOException e) { }
-          				
+        				die_sound.play();
         				mapa1[posY][posX-1] = 14;
         			}
         			if(Juego.DERECHA.equals(mov.getOrientacion()))
         			{
-         				 try{
-         		         	 die_sound = Applet.newAudioClip( new URL("file:" + musica_path + "enemy_killed_1.wav") );
-         		             die_sound.play();
-         		         }catch (IOException e) { }
-         				
+        				die_sound.play();
         				mapa1[posY][posX+1] = 14;
         			}
         		}
@@ -242,8 +238,9 @@ public class Maps extends JApplet {
 	}
 	
 	public Movimiento movimientoArriba(int posX, int posY, Movimiento mov, int value){
+	
+			mapa1[posY][posX] = 0; //set en la matriz el lugar excavado
 		
-		mapa1[posY][posX] = 0; //set en la matriz el lugar excavado
 		posY = posY - 1; //set posicion movimiento arriba
 		mapa1[posY][posX] = (char) value;
 		mov.getPosicion().setX(posX);
@@ -252,7 +249,9 @@ public class Maps extends JApplet {
 	}
 	
 	public Movimiento movimientoAbajo(int posX, int posY, Movimiento mov, int value){
-		mapa1[posY][posX] = 0;
+		
+			mapa1[posY][posX] = 0;
+			
 		posY = posY + 1;
 		mapa1[posY][posX] = (char) value;
 		mov.getPosicion().setX(posX);
@@ -261,7 +260,9 @@ public class Maps extends JApplet {
 	}
 	
 	public Movimiento movimientoIzquierda(int posX, int posY, Movimiento mov, int value){
-		mapa1[posY][posX] = 0;
+		
+			mapa1[posY][posX] = 0;
+		
 		posX = posX - 1;
 		mapa1[posY][posX] = (char) value;
 		mov.getPosicion().setX(posX);
@@ -269,7 +270,9 @@ public class Maps extends JApplet {
 		return mov;
 	}
 	public Movimiento movimientoDerecha(int posX, int posY, Movimiento mov, int value){
-		mapa1[posY][posX] = 0;
+		
+			mapa1[posY][posX] = 0;
+			
 		posX = posX + 1;
 		mapa1[posY][posX] = (char) value;
 		mov.getPosicion().setX(posX);

@@ -63,11 +63,15 @@ public class LoginScreen extends JFrame {
 	private JButton    boton_registrarse  = new JButton("Registrarse");
 	private JButton    boton_jugar   = new JButton("JUGAR!!");
 	
-	private JLabel     label_conectando       = new JLabel("LOGIN FOR PLAY...");
-	private JLabel     label_user_registrado  = new JLabel("");
-	private JLabel     label_user_erroneo     = new JLabel("");
-	private JLabel     label_user_erroneo_update  = new JLabel("");
-	private JLabel     label_partida_en_juego  = new JLabel("");
+	private JLabel     label_conectando       = new JLabel("");
+	
+	
+	private JLabel     label_abajo  = new JLabel("");
+	
+	//private JLabel     label_user_registrado  = new JLabel("");
+	//private JLabel     label_user_erroneo     = new JLabel("");
+	//private JLabel     label_user_erroneo_update  = new JLabel("");
+	//private JLabel     label_partida_en_juego  = new JLabel("");
 
 
 
@@ -75,6 +79,8 @@ public class LoginScreen extends JFrame {
 	private Image imagenFondo;
 	private String musica_path = "sonidos/";
 	private AudioClip sonido_usernew;
+	private AudioClip sonido_clic_ok;
+	private AudioClip sonido_clic_nook;
 	private boolean validaUser = false;
 	private Integer cantConectados = 0;
 
@@ -83,26 +89,32 @@ public class LoginScreen extends JFrame {
 	public LoginScreen(Connection connection) {
 		
 		setIconImage( new ImageIcon("imagenes/dig_dug_dragon.jpg").getImage() ); //iconito de la ventana
-	    setSize(800,700);
+	    setSize(900,700);
 		setTitle("Dig Dug 3");
-	    setBounds(0, 0, 800, 700);
+	    setBounds(0, 0, 900, 700);
 	    setResizable(false);
-	    //setLocationRelativeTo(null);
-	    setLocation(0, 0);
+	    setLocationRelativeTo(null);
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
+	    
+	    //cargo sonidos
+	    try{
+         	sonido_usernew = Applet.newAudioClip( new URL("file:" + musica_path + "result_screen_beep.wav") );
+         	sonido_clic_ok = Applet.newAudioClip( new URL("file:" + musica_path + "boss_fygar_firebreath.wav") );
+         	sonido_clic_nook = Applet.newAudioClip( new URL("file:" + musica_path + "boss_fygar_firebreath.wav") );
+           }
+        catch (IOException e2) { }
 	    
 		//carga imagen de fondo en un JPanel: JPanelFondo
 	    JPanelFondo jpf = new JPanelFondo();
-		jpf.setBounds(0, 0, 800, 700);
-		jpf.setSize(800, 700);
-		jpf.setBackground("imagenes/Dig-Dug-pantalla1.png");
+		jpf.setBounds(0, 0, 900, 700);
+		jpf.setSize(900, 700);
+		jpf.setBackground("imagenes/Dig-Dug-pantalla2.png");
 		add(jpf);
 
 
 		CustomFont cft = new CustomFont("Gameplay.ttf");
 		label_nada.setFont(cft.MyFont(0,20));
 		label_nada.setForeground(Color.white);
-		label_nada.setBackground(Color.BLACK);
 		
 		CustomFont cf = new CustomFont("Early_GameBoy.ttf");
 		label_user.setFont(cf.MyFont(1,14));
@@ -111,10 +123,12 @@ public class LoginScreen extends JFrame {
 		label_npass.setFont(cf.MyFont(1,14));
 
 		label_conectando.setFont(cf.MyFont(0,11));
-		label_user_registrado.setFont(cf.MyFont(0,11));
-		label_user_erroneo.setFont(cf.MyFont(0,11));
-		label_user_erroneo_update.setFont(cf.MyFont(0,11));
-		label_partida_en_juego.setFont(cf.MyFont(0,11));
+		label_abajo.setFont(cf.MyFont(0,11));
+		
+		//label_user_registrado.setFont(cf.MyFont(0,11));
+		//label_user_erroneo.setFont(cf.MyFont(0,11));
+		//label_user_erroneo_update.setFont(cf.MyFont(0,11));
+		//label_partida_en_juego.setFont(cf.MyFont(0,11));
 		
 		label_user.setForeground(Color.white);
 		label_pass.setForeground(Color.white);
@@ -128,10 +142,13 @@ public class LoginScreen extends JFrame {
 		text_npass.setToolTipText("Ingrese nuevo password");
 
 		label_conectando.setForeground(Color.WHITE);
-		label_user_registrado.setForeground(Color.WHITE);
-		label_user_erroneo.setForeground(Color.WHITE);
-		label_user_erroneo_update.setForeground(Color.WHITE);
-		label_partida_en_juego.setForeground(Color.WHITE);
+		
+		label_abajo.setFont(cf.MyFont(0,11));
+		label_abajo.setForeground(Color.WHITE);
+		//label_user_registrado.setForeground(Color.WHITE);
+		//label_user_erroneo.setForeground(Color.WHITE);
+		//label_user_erroneo_update.setForeground(Color.WHITE);
+		//label_partida_en_juego.setForeground(Color.WHITE);
 		
 		ObjectOutputStream obstrm;
 		ObjectInputStream  instrem;
@@ -193,13 +210,11 @@ public class LoginScreen extends JFrame {
 								cantConectados = mensaje.getCantidadDeUsuarios();
 								
 								if(validaUser){
-									label_user_erroneo.setVisible(false);
-									label_user_erroneo.setText("");
-									try{
-							         	sonido_usernew = Applet.newAudioClip( new URL("file:" + musica_path + "extra_life.wav") );
-							         	sonido_usernew.play();
-							           }
-							         catch (IOException e2) { }
+									label_abajo.setText("");
+									//label_user_erroneo.setVisible(false);
+									//label_user_erroneo.setText("");
+									
+									sonido_usernew.play();
 									
 									//System.out.println("SOY EL CLIENTE ACEPTADO CON NOMBRE:"+ mensaje.getName());
 									//System.out.println("SOY EL CLIENTE ACEPTADO ID DE BASE DE DATOS:"+ mensaje.getIdUser());
@@ -237,7 +252,7 @@ public class LoginScreen extends JFrame {
 									boton_registrarse.setVisible(false);
 							        label_conectando.setVisible(true);
 									
-									label_user_registrado.setVisible(false);
+									//label_user_registrado.setVisible(false);
 									boton_iniciar.setEnabled(true);
 									boton_iniciar.setText("Actualizar conectados");
 									boton_iniciar.setToolTipText("Actualiza los usuarios conectados..");
@@ -248,14 +263,24 @@ public class LoginScreen extends JFrame {
 									  boton_jugar.setVisible(true);
 									//}
 								}else{
-									label_user_registrado.setVisible(false);
-									label_user_erroneo.setVisible(true);
-									label_user_erroneo.setText("User o pass invalida..");
+									label_abajo.setText("User y/o Pass no valido(s).");
+									label_abajo.setVisible(true);
+									//label_user_registrado.setVisible(false);
+									//label_user_erroneo.setVisible(true);
+									//label_user_erroneo.setText("User o pass invalida..");
+									
+							         	sonido_clic_nook.play();
+									
 								}
 							}else{
-								label_user_registrado.setVisible(false);
-								label_user_erroneo.setVisible(true);
-								label_user_erroneo.setText("Tiene que ingresar user y pass");
+								label_abajo.setText("Debe ingresar User y Pass para iniciar.");
+								label_abajo.setVisible(true);
+								//label_user_registrado.setVisible(false);
+								//label_user_erroneo.setVisible(true);
+								//label_user_erroneo.setText("Tiene que ingresar user y pass");
+								
+						         	sonido_clic_nook.play();
+						           
 							}
 						
 						} catch (IOException e1) {
@@ -271,6 +296,7 @@ public class LoginScreen extends JFrame {
 			        //System.exit(0);
 					//MODIFICACION
 						try {
+							label_abajo.setText("");
 							if(!text_nuser.getText().isEmpty() && !text_npass.getText().isEmpty()){
 								ObjectOutputStream obstrm;
 								ObjectInputStream  instrem;
@@ -295,13 +321,24 @@ public class LoginScreen extends JFrame {
 								instrem = new ObjectInputStream(connection.getSocket().getInputStream());
 								mensaje =(Message) instrem.readObject();
 								if(mensaje.isAceptadoModificado()){
-									label_user_erroneo_update.setVisible(true);	
-									label_user_erroneo_update.setText("User modificado");
+									label_abajo.setText("Datos actualizados.");
+									label_abajo.setVisible(true);
+									//label_user_erroneo_update.setVisible(true);	
+									//label_user_erroneo_update.setText("User modificado");
+									
+									sonido_clic_ok.play();
+							         									
 								}
 							
 							}else{
-								label_user_erroneo_update.setVisible(true);	
-								label_user_erroneo_update.setText("Ingresar user y pass");
+								label_abajo.setText("Debe ingresar los nuevos User y Pass.");
+								label_abajo.setVisible(true);
+								//label_user_erroneo_update.setVisible(true);	
+								//label_user_erroneo_update.setText("Ingresar user y pass");
+								
+								sonido_clic_nook.play();
+						        
+								
 							}
 						} catch (IOException e1) {
 							e1.printStackTrace();
@@ -316,6 +353,7 @@ public class LoginScreen extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					boolean agregar = false;
 						try {
+							label_abajo.setText("");
 							ObjectOutputStream obstrm;
 							ObjectInputStream  instrem;
 							Message mensaje;
@@ -336,9 +374,15 @@ public class LoginScreen extends JFrame {
 							agregar = mensaje.isAgregarJugador();
 							
 							if(!agregar){
-								label_partida_en_juego.setText("Partida llena");
+								label_abajo.setText("Partida llena.");
+								//label_partida_en_juego.setText("Partida llena");
+								
+								sonido_clic_nook.play();
+								
 							}else{
-								label_partida_en_juego.setText("");
+								label_abajo.setText("");
+								//label_partida_en_juego.setText("");
+								
 							}
 							
 						} catch (IOException e1) {
@@ -358,8 +402,10 @@ public class LoginScreen extends JFrame {
 		 boton_registrarse.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
-						label_user_erroneo.setText("");
-						label_user_erroneo.setVisible(false);
+						label_abajo.setText("");
+						//label_user_erroneo.setText("");
+						//label_user_erroneo.setVisible(false);
+						
 						if(!text_user.getText().isEmpty() && !text_pass.getText().isEmpty()){
 							ObjectOutputStream obstrm;
 							ObjectInputStream  instrem;
@@ -384,12 +430,21 @@ public class LoginScreen extends JFrame {
 							mensaje.isAceptadoRegistrado();
 
 							if(mensaje.isAceptadoRegistrado()){
-								label_user_registrado.setText("User registrado OK..");
+								label_abajo.setText("User registrado OK.");
+								//label_user_registrado.setText("User registrado OK..");
+								
+								sonido_clic_ok.play();
+								
 							}
 						}else{
-							label_user_registrado.setText("Tiene que ingresar user y pass");
+							label_abajo.setText("Debe ingresar User y Pass.");
+							//label_user_registrado.setText("Tiene que ingresar user y pass");
+							
+							sonido_clic_nook.play();
+					           
+							
 						}
-						label_user_registrado.setVisible(true);
+						//label_user_registrado.setVisible(true);
 
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -413,47 +468,86 @@ public class LoginScreen extends JFrame {
 
         constraints.gridy = 0;
 		constraints.gridx = 0;
-		constraints.insets=new Insets(20,5,5,5);
+		constraints.gridwidth = 1; //ancho
+		constraints.gridheight = 2; //alto
+		constraints.insets=new Insets(30,5,5,5);
 		jp.add(label_nada, constraints);
 		constraints.insets = new Insets(5, 5, 5, 5);
         
-		constraints.gridy = 1;
+		constraints.gridy = 2;
 		constraints.gridx = 0;
+		constraints.gridwidth = 1; //ancho
+		constraints.gridheight = 1; //alto
 	    jp.add(label_user, constraints);
 	    constraints.gridx = 1;
 	    jp.add(text_user, constraints);
 
-        constraints.gridy = 2; 
-        
+	    constraints.gridy = 3; 
 	    constraints.gridx = 0; 
+		constraints.gridwidth = 1; //ancho
+		constraints.gridheight = 1; //alto
 	    jp.add(label_pass, constraints);
 	    constraints.gridx = 1;
 	    jp.add(text_pass, constraints);
 
+	    
+
         constraints.gridy = 4;
+        constraints.gridx = 0;
+		constraints.gridwidth = 1; //ancho
+		constraints.gridheight = 1; //alto
+	    //constraints.anchor = GridBagConstraints.WEST;
+        //constraints.fill = GridBagConstraints.WEST;
+        jp.add(boton_registrarse, constraints);
+        
+        
+        //constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridy = 4;
+	    constraints.gridx = 1;
+		constraints.gridwidth = 1; //ancho
+		constraints.gridheight = 1; //alto
+        constraints.anchor = GridBagConstraints.EAST;
+        jp.add(boton_iniciar, constraints);
         
         constraints.gridx = 0;
+        constraints.gridy = 4;
+		constraints.gridwidth = 1; //ancho
+		constraints.gridheight = 1; //alto
+        jp.add(label_conectando, constraints);
+        label_conectando.setVisible(false);
+        
+        
+        
+        constraints.gridy = 5;
+        constraints.gridx = 0;
+		constraints.gridwidth = 1; //ancho
+		constraints.gridheight = 1; //alto
         jp.add(label_nuser, constraints);
 	    constraints.gridx = 1;
 	    jp.add(text_nuser, constraints);
 	    
-	    constraints.gridy = 5;
-        
+	    constraints.gridy = 6;
         constraints.gridx = 0;
+		constraints.gridwidth = 1; //ancho
+		constraints.gridheight = 1; //alto
         jp.add(label_npass, constraints);
 	    constraints.gridx = 1;
 	    jp.add(text_npass, constraints);
 	    
+
         constraints.gridy = 7;
         constraints.gridx = 1;
-        constraints.anchor = GridBagConstraints.EAST;
+		constraints.gridwidth = 1; //ancho
+		constraints.gridheight = 1; //alto
+        jp.add(boton_update, constraints);
+	    
+        constraints.gridy = 8;
+        constraints.gridx = 1;
+		constraints.gridwidth = 1; //ancho
+		constraints.gridheight = 1; //alto
         jp.add(boton_jugar, constraints);
         
-        //constraints.fill = GridBagConstraints.HORIZONTAL;
-        //constraints.gridy = 8;
-	    //constraints.gridx = 0;
-        //jp.add(label_conectando, constraints);
-        
+        /*
         constraints.gridy = 9;
    	    constraints.gridx = 0;
         jp.add(label_user_registrado, constraints);
@@ -469,30 +563,26 @@ public class LoginScreen extends JFrame {
         constraints.gridy = 12;
    	    constraints.gridx = 0;
         jp.add(label_partida_en_juego, constraints);
-        
-        constraints.gridx = 0;
-        constraints.gridy = 3;
-        jp.add(label_conectando, constraints);
-        label_conectando.setVisible(false);
-        
-		
-        
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-	    constraints.gridx = 1;
-        constraints.gridy = 3;
-        //constraints.gridwidth = 2;
-        constraints.anchor = GridBagConstraints.EAST;
-        jp.add(boton_iniciar, constraints);
-        
-        constraints.gridx = 0;
-        constraints.gridy = 3;
-	    constraints.anchor = GridBagConstraints.EAST;
-        jp.add(boton_registrarse, constraints);
+        */
 
-	    constraints.gridx = 1;
-        constraints.gridy = 6;
-	    constraints.anchor = GridBagConstraints.EAST;
-        jp.add(boton_update, constraints);
+        constraints.gridy = 9;
+   	    constraints.gridx = 0;
+		constraints.gridwidth = 2; //ancho
+		constraints.gridheight = 1; //alto
+        constraints.fill = GridBagConstraints.WEST;
+	    constraints.anchor = GridBagConstraints.WEST;
+        jp.add(label_abajo, constraints);
+        
+        
+        
+        
+
+	    //constraints.gridx = 0;
+        //constraints.gridy = 6;
+        //constraints.fill = GridBagConstraints.HORIZONTAL;
+	    //constraints.anchor = GridBagConstraints.HORIZONTAL;
+        //jp.add(label_, constraints);
+	    
 	    
         
         //desabilitado, en gris
@@ -516,13 +606,11 @@ public class LoginScreen extends JFrame {
         
         jpf.add(jp);
         
-        
         pack();
-        setLocationRelativeTo(null);
         
-	    setSize(799,699);
-	    setSize(800,700);
-
+	    setSize(899,699);
+	    setSize(900,700);
+        setLocationRelativeTo(null);
 	    setVisible(true);
 	    
 	    this.addWindowListener(new WindowAdapter() {
@@ -558,7 +646,7 @@ public class LoginScreen extends JFrame {
 	public void paintComponent(Graphics g) {
 	    paintComponent(g);
 	    // Draw the background image.
-	    g.drawImage(imagenFondo, 0, 0, 800, 700, this);
+	    g.drawImage(imagenFondo, 0, 0, 900, 700, this);
 	  }
 	
 	

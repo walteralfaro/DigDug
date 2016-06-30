@@ -49,8 +49,8 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     private BufferedImage nivel_img[] = new BufferedImage[19];
     private BufferedImage jugador1; //excavador
     private BufferedImage jugador2; //dragon
-    private BufferedImage jugador3; //etc
-    private BufferedImage jugador4; //etc
+    private BufferedImage jugador3; //bichito
+    private BufferedImage jugador4; //pacman
     private BufferedImage p1_der;
     private BufferedImage p1_izq;
     private BufferedImage p1_arriba;
@@ -149,7 +149,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 		    		nivel_img[5] = ImageIO.read(new File("imagenes/cielo.png"));
 		    		nivel_img[6] = ImageIO.read(new File("imagenes/cielo.png"));
 		    		nivel_img[7] = ImageIO.read(new File("imagenes/sprites_flor.jpg"));
-		    		nivel_img[8] = ImageIO.read(new File("imagenes/sprites_piedra.png"));
+		    		nivel_img[8] = ImageIO.read(new File("imagenes/sprites_piedra2.png"));
 		    		nivel_img[9] = ImageIO.read(new File("imagenes/negro.png")); //pared lateral y abajo
 		    		nivel_img[10] = ImageIO.read(new File("imagenes/sprites_dig_dug_derecha.gif"));
 		    	    nivel_img[11] = ImageIO.read(new File("imagenes/sprites_bichito_derecha.gif"));
@@ -351,11 +351,13 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 	        
 	        f.add(this);
 	        f.pack();
+	        //f.setSize( 780, 750 ); //(ancho, alto)
 	        f.setSize( new Dimension(ANCHO_VENTANA, ALTO_VENTANA) );
-	        f.setIconImage( new ImageIcon("./imagenes/dig_dug_dragon.jpg").getImage() ); //iconito de la ventana
+	        f.setLocationRelativeTo(null);
+	        f.setIconImage( new ImageIcon("./imagenes/dig_dug.jpg").getImage() ); //iconito de la ventana
 	        f.show();
 	        f.addKeyListener(this);
-		    f.setResizable(false);
+		    f.setResizable(false); //va en false
 	        start();    	
 		}else{
 			CantConnectWindow cantconnectwindow = new CantConnectWindow();

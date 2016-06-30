@@ -13,7 +13,7 @@ public class JPanelFondo extends JPanel {
 	public void paintComponent(Graphics g) {
 		// Mandamos que pinte la imagen en el panel
 		if (this.fondo != null) {
-			g.drawImage(this.fondo, 0, 0, 800, 700, null);
+			g.drawImage(this.fondo, 0, 0, 900, 700, null);
 		}
 		super.paintComponent(g);
 	}
