@@ -319,23 +319,28 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 					}
 
 					if(!mensaje.getNamePlayer1().isEmpty()){
-						score_jugador1 = score_jugador1 + mensaje.getCantMuerto1();
-						label_nombre1.setText(mensaje.getNamePlayer1() +" - " + score_jugador1);
+						//score_jugador1 = score_jugador1 + mensaje.getCantMuerto1();
+						//label_nombre1.setText(mensaje.getNamePlayer1() +" - " + score_jugador1);
+						label_nombre1.setText(mensaje.getNamePlayer1() +" - " +  mensaje.getCantMuerto1());
 					}
 					
 					if(!mensaje.getNamePlayer2().isEmpty()){
-						score_jugador2 = score_jugador2 + mensaje.getCantMuerto2();
-						label_nombre2.setText(mensaje.getNamePlayer2() +" - " + score_jugador2);
+						//score_jugador2 = score_jugador2 + mensaje.getCantMuerto2();
+						//label_nombre2.setText(mensaje.getNamePlayer2() +" - " + score_jugador2);
+						label_nombre2.setText(mensaje.getNamePlayer2() +" - " + mensaje.getCantMuerto2());
 					}
 					
 					if(!mensaje.getNamePlayer3().isEmpty()){
-						score_jugador3 = score_jugador3 + mensaje.getCantMuerto3();
-						label_nombre3.setText(mensaje.getNamePlayer3() +" - " + score_jugador3);
+						//score_jugador3 = score_jugador3 + mensaje.getCantMuerto3();
+						//label_nombre3.setText(mensaje.getNamePlayer3() +" - " + score_jugador3);
+						label_nombre3.setText(mensaje.getNamePlayer3() +" - " + mensaje.getCantMuerto3());
 					}
 					
 					if(!mensaje.getNamePlayer4().isEmpty()){
-						score_jugador4 = score_jugador4 + mensaje.getCantMuerto4();
-						label_nombre4.setText(mensaje.getNamePlayer4() +" - " + score_jugador4);
+						//score_jugador4 = score_jugador4 + mensaje.getCantMuerto4();
+						//label_nombre4.setText(mensaje.getNamePlayer4() +" - " + score_jugador4);
+						label_nombre4.setText(mensaje.getNamePlayer4() +" - " + mensaje.getCantMuerto4());
+
 					}
 
 					//LoggerDigDug.info("idPartida : " + mensaje.getIdPartida());

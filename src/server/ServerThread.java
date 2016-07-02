@@ -88,7 +88,7 @@ public class ServerThread extends Thread {
 					user.setInGame(BigDecimal.ONE.intValue());
 					mensaje.setUserIdPosicionDeEntrada(userIdPosicionDeEntrada);
 					mensaje.setIdUser(user.getId());
-					getNamePlayers(dao, mensaje, userConnectionInstance,userIdPosicionDeEntrada);
+					getNamePlayers(dao, mensaje, userConnectionInstance,userIdPosicionDeEntrada,maps.getIdPartida());
 					out.writeObject(mensaje);
 				}
 				
@@ -135,34 +135,46 @@ public class ServerThread extends Thread {
 		}
 	}
 
-	private void getNamePlayers(JuegoDaoImp dao, Message mensaje, UserConnection users , Integer userIdPosicionDeEntrada) {
+	private void getNamePlayers(JuegoDaoImp dao, Message mensaje, UserConnection users , Integer userIdPosicionDeEntrada,Long idPartida) {
+		
+		if(mensaje.getMovimiento1().getMuertoPorMovimiento()!=0){
+		    dao.insertScore(users.getUser(userIdPosicionDeEntrada).getId(), idPartida.intValue(), mensaje.getMovimiento1().getMuertoPorMovimiento());
+
+			/*if(userIdPosicionDeEntrada.compareTo(Integer.valueOf(0))==0){
+			    //mensaje.setCantMuerto1(mensaje.getMovimiento1().getMuertoPorMovimiento());
+			    dao.insertScore(users.getUser(userIdPosicionDeEntrada).getId(), idPartida.intValue(), mensaje.getMovimiento1().getMuertoPorMovimiento());
+			}else if(userIdPosicionDeEntrada.compareTo(Integer.valueOf(1))==0){
+			    //mensaje.setCantMuerto2(mensaje.getMovimiento1().getMuertoPorMovimiento());	
+			    dao.insertScore(users.getUser(userIdPosicionDeEntrada).getId(), idPartida.intValue(), mensaje.getMovimiento1().getMuertoPorMovimiento());
+			}else if(userIdPosicionDeEntrada.compareTo(Integer.valueOf(2))==0){
+			   // mensaje.setCantMuerto3(mensaje.getMovimiento1().getMuertoPorMovimiento());
+			    dao.insertScore(users.getUser(userIdPosicionDeEntrada).getId(), idPartida.intValue(), mensaje.getMovimiento1().getMuertoPorMovimiento());
+			}else if(userIdPosicionDeEntrada.compareTo(Integer.valueOf(3))==0){
+			   // mensaje.setCantMuerto4(mensaje.getMovimiento1().getMuertoPorMovimiento());
+			    dao.insertScore(users.getUser(userIdPosicionDeEntrada).getId(), idPartida.intValue(), mensaje.getMovimiento1().getMuertoPorMovimiento());
+			}*/
+		}		
+		
 		if(users.getUser(0)!=null){
 		    mensaje.setNamePlayer1(dao.obtenerUsuarioId(users.getUser(0).getId()));
+		    mensaje.setCantMuerto1(dao.obtenerScorePorUsuario(mensaje.getNamePlayer1(), idPartida.intValue()));
 		}
 		
 		if(users.getUser(1)!=null){
 			mensaje.setNamePlayer2(dao.obtenerUsuarioId(users.getUser(1).getId()));
+			mensaje.setCantMuerto2(dao.obtenerScorePorUsuario(mensaje.getNamePlayer2(), idPartida.intValue()));
 		}
 		
 		if(users.getUser(2)!=null){
 			mensaje.setNamePlayer3(dao.obtenerUsuarioId(users.getUser(2).getId()));
+			mensaje.setCantMuerto3(dao.obtenerScorePorUsuario(mensaje.getNamePlayer3(),  idPartida.intValue()));
 		}
 		
 		if(users.getUser(3)!=null){
 			mensaje.setNamePlayer4(dao.obtenerUsuarioId(users.getUser(3).getId()));
+			mensaje.setCantMuerto4(dao.obtenerScorePorUsuario(mensaje.getNamePlayer4(),  idPartida.intValue()));
 		}
-		
-		if(mensaje.getMovimiento1().getMuertoPorMovimiento()!=0){
-			if(userIdPosicionDeEntrada.compareTo(Integer.valueOf(0))==0){
-			    mensaje.setCantMuerto1(mensaje.getMovimiento1().getMuertoPorMovimiento());
-			}else if(userIdPosicionDeEntrada.compareTo(Integer.valueOf(1))==0){
-			    mensaje.setCantMuerto2(mensaje.getMovimiento1().getMuertoPorMovimiento());	
-			}else if(userIdPosicionDeEntrada.compareTo(Integer.valueOf(2))==0){
-			    mensaje.setCantMuerto3(mensaje.getMovimiento1().getMuertoPorMovimiento());
-			}else if(userIdPosicionDeEntrada.compareTo(Integer.valueOf(3))==0){
-			    mensaje.setCantMuerto4(mensaje.getMovimiento1().getMuertoPorMovimiento());
-			}
-		}
+	
 	}
 
 	private int getUserConectados(UserConnection userConnectionInstance , Message mensaje) {
