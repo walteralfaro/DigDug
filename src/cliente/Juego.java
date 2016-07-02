@@ -340,8 +340,9 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 						//score_jugador4 = score_jugador4 + mensaje.getCantMuerto4();
 						//label_nombre4.setText(mensaje.getNamePlayer4() +" - " + score_jugador4);
 						label_nombre4.setText(mensaje.getNamePlayer4() +" - " + mensaje.getCantMuerto4());
-
 					}
+
+					obtenerFinDejuego(nivel,mensaje.getCantidadDeUsuarios());
 
 					//LoggerDigDug.info("idPartida : " + mensaje.getIdPartida());
 					repaint();
@@ -363,7 +364,26 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     }
     
     
-    public void start() {
+    private boolean obtenerFinDejuego(char[][] nivel,int cantJugadores) {	
+    	int cont = 0;
+    	for (int i = 0; i < Jugable.ANCHO_NIVEL; i++) {
+    		for (int j = 0; j < Jugable.ALTO_NIVEL; j++) {
+    			if(nivel[j][i]==14){
+       			 cont++; 
+       		 	}
+    		}
+		}
+        		 
+    	 if(cont == cantJugadores-1){
+    		System.out.println("JUEGO FIN");
+    		 return true;
+    	 }else{
+    		 return false;
+    	 }
+	}
+
+
+	public void start() {
         thread = new Thread(this);
         thread.setPriority(Thread.MIN_PRIORITY);
         thread.start();

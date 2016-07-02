@@ -78,6 +78,7 @@ public class ServerThread extends Thread {
 				if(mensaje.getLocacion().getKey().equals(KEY_JUEGO)){
 					out = getObjOutputStrem(user);
 					Maps maps = Maps.getInstance();
+					mensaje.setCantidadDeUsuarios(getUserConectados(userConnectionInstance,mensaje));
 					if(Juego.MENSAJE_MOVIMIENTO.equals(mensaje.getMessage())){
 						//DigDugLogger.log(mensaje.getMessage()+mensaje.getMovimiento1().getKeyCode());
 						maps.repaint(mensaje.getMovimiento1(),userIdPosicionDeEntrada);
