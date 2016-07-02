@@ -82,6 +82,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 	String musica_path = "sonidos/";
     AudioClip musiquita_sound;
     AudioClip musiquita_gameover;
+    AudioClip musiquita_win;
     protected JLabel label_nombre1 = new JLabel("INSERT COIN");
     protected JLabel label_nombre2 = new JLabel("INSERT COIN");
     protected JLabel label_nombre3 = new JLabel("INSERT COIN");
@@ -161,9 +162,11 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 
 		    	setBackground(Color.black);
 		    	
+
 		    	 try{
 		         	 musiquita_sound = Applet.newAudioClip( new URL("file:" + musica_path + "Dig_Dug_Theme_Song_HD.wav") );
-		         	 musiquita_gameover = Applet.newAudioClip( new URL("file:" + musica_path + "Dig_Dug_Done_Sound_Effect.wav") );
+		         	 musiquita_gameover = Applet.newAudioClip( new URL("file:" + musica_path + "life_lost.wav") );
+		         	 musiquita_win = Applet.newAudioClip( new URL("file:" + musica_path + "Dig_Dug_Done_Sound_Effect.wav") );
 		         	 //musiquita_sound.play();
 		             musiquita_sound.loop();
 		         }catch (IOException e) { }
@@ -452,29 +455,30 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 	}
 
     
+
     public void gane(){
     	
     	JPanelFondo jpf = new JPanelFondo();
-		jpf.setBounds(0, 0, 900, 700);
-		jpf.setSize(900, 700);
+		jpf.setBounds(0, 0, 500, 500);
+		jpf.setSize(500, 500);
 		//jpf.setVisible(true);
 		//jpf.setEnabled(true);
 		//jpf.setBackground(Color.YELLOW);
 		//jpf.setForeground(Color.GREEN);
-		jpf.setBackground("imagenes/victory.png");
+		jpf.setBackground("imagenes/duckhunt--article_image1.png");
 		jpf.setOpaque(false);
 		//this.getContentPane().removeAll();
 		add(jpf);
 		revalidate();
 		
     	musiquita_sound.stop();
-    	musiquita_gameover.play();	
+    	musiquita_win.play();	
     }
     public void perdi(){
     	
     	JPanelFondo jpf = new JPanelFondo();
-		jpf.setBounds(0, 0, 900, 700);
-		jpf.setSize(900, 700);
+		jpf.setBounds(0, 0, 500, 500);
+		jpf.setSize(500, 500);
 		//jpf.setVisible(true);
 		//jpf.setEnabled(true);
 		//jpf.setBackground(Color.YELLOW);
