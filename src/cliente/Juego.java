@@ -274,7 +274,8 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 		Coordenada pos = new Coordenada();
 		
         while (thread == yo) {
-            try {
+            try {				
+            	
             	ObjectInputStream obiStrm = new ObjectInputStream(connection.getSocket().getInputStream());
 				mensaje =(Message) obiStrm.readObject();
 
@@ -304,18 +305,24 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 				try {
 					mensaje =(Message) obiStrm.readObject();
 					nivel = mensaje.getMap();
+					boolean vivo = estaVivo(nivel[ mensaje.getMovimiento1().getPosicion().getX()][ mensaje.getMovimiento1().getPosicion().getY()]);
+
 					if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(0))==0){
 						x_jugador1 = mensaje.getMovimiento1().getPosicion().getX();
 						y_jugador1 = mensaje.getMovimiento1().getPosicion().getY();
+						//vivo = estoyVivo2(nivel[x_jugador1][y_jugador1]);
 					}else if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(1))==0){
 						x_jugador2 = mensaje.getMovimiento1().getPosicion().getX();
 						y_jugador2 = mensaje.getMovimiento1().getPosicion().getY();
+						//vivo = estoyVivo2(nivel[x_jugador2][y_jugador2]);
 					}else if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(2))==0){
 						x_jugador3 = mensaje.getMovimiento1().getPosicion().getX();
 						y_jugador3 = mensaje.getMovimiento1().getPosicion().getY();
+						//vivo = estoyVivo2(nivel[x_jugador3][y_jugador3]);
 					}else if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(3))==0){
 						x_jugador4 = mensaje.getMovimiento1().getPosicion().getX();
 						y_jugador4 = mensaje.getMovimiento1().getPosicion().getY();
+						//vivo = estoyVivo2(nivel[x_jugador4][y_jugador4]);
 					}
 
 					if(!mensaje.getNamePlayer1().isEmpty()){
@@ -342,10 +349,22 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 						label_nombre4.setText(mensaje.getNamePlayer4() +" - " + mensaje.getCantMuerto4());
 					}
 
-					obtenerFinDejuego(nivel,mensaje.getCantidadDeUsuarios());
+					boolean fin = obtenerFinDejuego(nivel,mensaje.getCantidadDeUsuarios());
 
-					//LoggerDigDug.info("idPartida : " + mensaje.getIdPartida());
+					if(fin){	
+						if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(0))==0){
+							cartelDeFin(estaVivo(nivel[y_jugador1][ x_jugador1]));
+						}else if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(1))==0){
+							cartelDeFin(estaVivo(nivel[y_jugador2][x_jugador2]));
+						}else if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(2))==0){
+							cartelDeFin(estaVivo(nivel[y_jugador3][x_jugador3]));
+						}else if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(3))==0){
+							cartelDeFin(estaVivo(nivel[y_jugador4][x_jugador4]));
+						}
+					}
+					
 					repaint();
+					//LoggerDigDug.info("idPartida : " + mensaje.getIdPartida());
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -362,20 +381,34 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
          
         thread = null;
     }
+
+
+	private void cartelDeFin(boolean vivo) {
+		if(vivo){
+			System.out.println("GANEE");
+		}else{
+			System.out.println("LOOOOSERRR");
+		}
+	}
     
-    
+	public boolean estaVivo(char value){
+		if(value == 14)
+			return false;
+		return true;
+	}
+	
     private boolean obtenerFinDejuego(char[][] nivel,int cantJugadores) {	
     	int cont = 0;
     	for (int i = 0; i < Jugable.ANCHO_NIVEL; i++) {
     		for (int j = 0; j < Jugable.ALTO_NIVEL; j++) {
     			if(nivel[j][i]==14){
        			 cont++; 
+       			 System.out.println("FILA: " + j +" colum :" + i);
        		 	}
     		}
 		}
-        		 
+ 		 
     	 if(cont == cantJugadores-1){
-    		System.out.println("JUEGO FIN");
     		 return true;
     	 }else{
     		 return false;
