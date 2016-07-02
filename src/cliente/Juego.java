@@ -258,7 +258,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
         		//g2d.setFont(stringFont);
         		g2d.setColor(colorBlanco);
         		g2d.drawString("TIEMPO ", 610, 740);
-                g2d.drawString(String.valueOf(count), 730, 740);
+                g2d.drawString(String.valueOf(count), 710, 740);
                 
         	}
         }

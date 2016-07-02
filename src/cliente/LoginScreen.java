@@ -445,7 +445,8 @@ public class LoginScreen extends JFrame {
 							
 						}
 						//label_user_registrado.setVisible(true);
-
+						label_abajo.setText("Usuario existente, try again...");
+						
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					} catch (ClassNotFoundException e1) {
