@@ -137,21 +137,27 @@ public class Maps extends JApplet {
         			{
         				die_sound.play();
         				mapa1[posY-1][posX] = 14;
+        				mov.setMuertoPorMovimiento(1);	
         			}
         			if(Juego.ABAJO.equals(mov.getOrientacion()))
         			{
        		         	die_sound.play();
         				mapa1[posY+1][posX] = 14;
+        				mov.setMuertoPorMovimiento(1);	
+
         			}
         			if(Juego.IZQUIERDA.equals(mov.getOrientacion()))
         			{
         				die_sound.play();
         				mapa1[posY][posX-1] = 14;
+        				mov.setMuertoPorMovimiento(1);	
+
         			}
         			if(Juego.DERECHA.equals(mov.getOrientacion()))
         			{
         				die_sound.play();
         				mapa1[posY][posX+1] = 14;
+        				mov.setMuertoPorMovimiento(1);	
         			}
         		}
         	}

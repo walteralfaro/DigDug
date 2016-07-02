@@ -81,12 +81,14 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     private boolean music_on = true;
 	String musica_path = "sonidos/";
     AudioClip musiquita_sound;
-    protected JLabel label_nombre1 = new JLabel("1");
-    protected JLabel label_nombre2 = new JLabel("2");
-    protected JLabel label_nombre3 = new JLabel("3");
-    protected JLabel label_nombre4 = new JLabel("4");
-   
-    
+    protected JLabel label_nombre1 = new JLabel("");
+    protected JLabel label_nombre2 = new JLabel("");
+    protected JLabel label_nombre3 = new JLabel("");
+    protected JLabel label_nombre4 = new JLabel("");
+    private int score_jugador1 = 0;
+    private int score_jugador2 = 0;
+    private int score_jugador3 = 0;
+    private int score_jugador4 = 0;
 
 // POSICIONES INICIALES
     private int x_jugador1 = 3;
@@ -315,11 +317,26 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 						x_jugador4 = mensaje.getMovimiento1().getPosicion().getX();
 						y_jugador4 = mensaje.getMovimiento1().getPosicion().getY();
 					}
+
+					if(!mensaje.getNamePlayer1().isEmpty()){
+						score_jugador1 = score_jugador1 + mensaje.getCantMuerto1();
+						label_nombre1.setText(mensaje.getNamePlayer1() +" - " + score_jugador1);
+					}
 					
-	    			label_nombre1.setText(mensaje.getNamePlayer1());
-	    			label_nombre2.setText(mensaje.getNamePlayer2());
-	    			label_nombre3.setText(mensaje.getNamePlayer3());
-	    			label_nombre4.setText(mensaje.getNamePlayer4());
+					if(!mensaje.getNamePlayer2().isEmpty()){
+						score_jugador2 = score_jugador2 + mensaje.getCantMuerto2();
+						label_nombre2.setText(mensaje.getNamePlayer2() +" - " + score_jugador2);
+					}
+					
+					if(!mensaje.getNamePlayer3().isEmpty()){
+						score_jugador3 = score_jugador3 + mensaje.getCantMuerto3();
+						label_nombre3.setText(mensaje.getNamePlayer3() +" - " + score_jugador3);
+					}
+					
+					if(!mensaje.getNamePlayer4().isEmpty()){
+						score_jugador4 = score_jugador4 + mensaje.getCantMuerto4();
+						label_nombre4.setText(mensaje.getNamePlayer4() +" - " + score_jugador4);
+					}
 
 					//LoggerDigDug.info("idPartida : " + mensaje.getIdPartida());
 					repaint();
@@ -361,31 +378,38 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 			label_nombre1.setOpaque(true); // para que no sea transparente
 			label_nombre1.setBackground(Color.black);
 			label_nombre1.setForeground(Color.white);
-			label_nombre1.setBounds(80, 20, 60, 30);
+
+			label_nombre1.setBounds(80, 20, 85, 30);
 			//label_nombre1.setFont(stringFont);
 			label_nombre1.setFont(cft.MyFont(0,11));
+
 				
 			label_nombre2.setOpaque(true); // para que no sea transparente
 			label_nombre2.setBackground(Color.black);
 			label_nombre2.setForeground(Color.white);
-			label_nombre2.setBounds(250, 20, 60, 30);
+
+			label_nombre2.setBounds(440, 20, 85, 30);
 			//label_nombre2.setFont(stringFont);
 			label_nombre2.setFont(cft.MyFont(0,11));
+
 			
 			label_nombre3.setOpaque(true); // para que no sea transparente
 			label_nombre3.setBackground(Color.black);
 			label_nombre3.setForeground(Color.white);
-			label_nombre3.setBounds(450, 20, 60, 30);
+			
+			label_nombre3.setBounds(250, 20, 85, 30);
 			//label_nombre3.setFont(stringFont);
 			label_nombre3.setFont(cft.MyFont(0,11));
+
 			
 			label_nombre4.setOpaque(true); // para que no sea transparente
 			label_nombre4.setBackground(Color.black);
 			label_nombre4.setForeground(Color.white);
-			label_nombre4.setBounds(650, 20, 60, 30);
+
+			label_nombre4.setBounds(650, 20, 85, 30);
 			//label_nombre4.setFont(stringFont);
 			label_nombre4.setFont(cft.MyFont(0,11));
-			
+
 			f.add(label_nombre1);
 			f.add(label_nombre2);
 			f.add(label_nombre3);

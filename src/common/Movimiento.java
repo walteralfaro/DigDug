@@ -8,6 +8,7 @@ public class Movimiento implements Serializable{
 	private Coordenada posicion;
 	private int keyCode;
 	private String orientacion;
+	private int muertoPorMovimiento = 0;
 	public Movimiento(){}
 	public Movimiento(Coordenada posicion, int keyCode, String orientacion){
 		this.orientacion=orientacion;
@@ -33,4 +34,10 @@ public class Movimiento implements Serializable{
 	public void setOrientacion(String orientacion) {
 		this.orientacion = orientacion;
 	}	
+	public int getMuertoPorMovimiento() {
+		return muertoPorMovimiento;
+	}
+	public void setMuertoPorMovimiento(int muertosPorMovimiento) {
+		this.muertoPorMovimiento = muertosPorMovimiento;
+	}
 }

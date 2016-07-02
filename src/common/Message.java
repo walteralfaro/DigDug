@@ -29,17 +29,13 @@ public class Message implements Serializable{
 	private Long idPartida = null;
 	private boolean agregarJugador = false;
 	private String namePlayer1="";
+	private int cantMuerto1= 0;
 	private String namePlayer2="";
+	private int cantMuerto2= 0;
 	private String namePlayer3="";
+	private int cantMuerto3= 0;
 	private String namePlayer4="";
-
-	public boolean isAgregarJugador() {
-		return agregarJugador;
-	}
-
-	public void setAgregarJugador(boolean agregarJugador) {
-		this.agregarJugador = agregarJugador;
-	}
+	private int cantMuerto4= 0;
 
 	public Message(){}
 	
@@ -253,4 +249,45 @@ public class Message implements Serializable{
 	public void setNamePlayer4(String namePlayer4) {
 		this.namePlayer4 = namePlayer4;
 	}
+
+	public int getCantMuerto1() {
+		return cantMuerto1;
+	}
+
+	public void setCantMuerto1(int cantMuerto1) {
+		this.cantMuerto1 = this.cantMuerto1 + cantMuerto1;
+	}
+
+	public int getCantMuerto2() {
+		return cantMuerto2;
+	}
+
+	public void setCantMuerto2(int cantMuerto2) {
+		this.cantMuerto2 = this.cantMuerto2 + cantMuerto2;
+	}
+
+	public int getCantMuerto3() {
+		return cantMuerto3;
+	}
+
+	public void setCantMuerto3(int cantMuerto3) {
+		this.cantMuerto3 = this.cantMuerto3 + cantMuerto3;
+	}
+
+	public int getCantMuerto4() {
+		return cantMuerto4;
+	}
+
+	public void setCantMuerto4(int cantMuerto4) {
+		this.cantMuerto4 = cantMuerto4;
+	}
+
+	public boolean isAgregarJugador() {
+		return agregarJugador;
+	}
+
+	public void setAgregarJugador(boolean agregarJugador) {
+		this.agregarJugador = agregarJugador;
+	}
+
 }
