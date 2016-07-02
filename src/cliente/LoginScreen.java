@@ -78,9 +78,10 @@ public class LoginScreen extends JFrame {
 
 	private Image imagenFondo;
 	private String musica_path = "sonidos/";
-	private AudioClip sonido_usernew;
+	private AudioClip sonido_iniciar;
 	private AudioClip sonido_clic_ok;
 	private AudioClip sonido_clic_nook;
+	private AudioClip sonido_actaulizar_conectados;
 	private boolean validaUser = false;
 	private Integer cantConectados = 0;
 
@@ -98,9 +99,10 @@ public class LoginScreen extends JFrame {
 	    
 	    //cargo sonidos
 	    try{
-         	sonido_usernew = Applet.newAudioClip( new URL("file:" + musica_path + "result_screen_beep.wav") );
-         	sonido_clic_ok = Applet.newAudioClip( new URL("file:" + musica_path + "boss_fygar_firebreath.wav") );
-         	sonido_clic_nook = Applet.newAudioClip( new URL("file:" + musica_path + "boss_fygar_firebreath.wav") );
+         	sonido_iniciar= Applet.newAudioClip( new URL("file:" + musica_path + "extra_life.wav") );				//iniciar sesion
+         	sonido_clic_ok = Applet.newAudioClip( new URL("file:" + musica_path + "result_screen_beep.wav") );		//
+         	sonido_clic_nook = Applet.newAudioClip( new URL("file:" + musica_path + "boss_fygar_firebreath.wav") ); //error
+         	sonido_actaulizar_conectados = Applet.newAudioClip( new URL("file:" + musica_path + "enemy_killed_3.wav") );//
            }
         catch (IOException e2) { }
 	    
@@ -214,7 +216,10 @@ public class LoginScreen extends JFrame {
 									//label_user_erroneo.setVisible(false);
 									//label_user_erroneo.setText("");
 									
-									sonido_usernew.play();
+									if (boton_iniciar.getText() == "Iniciar sesion")
+										sonido_iniciar.play();
+									else
+										sonido_actaulizar_conectados.play();
 									
 									//System.out.println("SOY EL CLIENTE ACEPTADO CON NOMBRE:"+ mensaje.getName());
 									//System.out.println("SOY EL CLIENTE ACEPTADO ID DE BASE DE DATOS:"+ mensaje.getIdUser());
@@ -263,7 +268,7 @@ public class LoginScreen extends JFrame {
 									  boton_jugar.setVisible(true);
 									//}
 								}else{
-									label_abajo.setText("User y/o Pass no valido(s).");
+									label_abajo.setText("User o Pass no valido.");
 									label_abajo.setVisible(true);
 									//label_user_registrado.setVisible(false);
 									//label_user_erroneo.setVisible(true);
@@ -352,6 +357,9 @@ public class LoginScreen extends JFrame {
 		 boton_jugar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					boolean agregar = false;
+
+					
+					
 						try {
 							label_abajo.setText("");
 							ObjectOutputStream obstrm;
@@ -382,7 +390,6 @@ public class LoginScreen extends JFrame {
 							}else{
 								label_abajo.setText("");
 								//label_partida_en_juego.setText("");
-								
 							}
 							
 						} catch (IOException e1) {
@@ -392,9 +399,15 @@ public class LoginScreen extends JFrame {
 						}
 						
 						if(validaUser && cantConectados>1 && agregar){
+							
+							sonido_clic_ok.play();
+							
 							Juego pe = new Juego();
 							boton_jugar.setEnabled(false);
 							pe.inGame(connection);
+						}else{
+							sonido_clic_nook.play();
+							label_abajo.setText("Espere por mas usuarios conectados...");
 						}
 					}
 				});
@@ -445,7 +458,9 @@ public class LoginScreen extends JFrame {
 							
 						}
 						//label_user_registrado.setVisible(true);
-						label_abajo.setText("Usuario existente, try again...");
+						label_abajo.setText("Usuario existente, try other...");
+						
+						sonido_clic_nook.play();
 						
 					} catch (IOException e1) {
 						e1.printStackTrace();

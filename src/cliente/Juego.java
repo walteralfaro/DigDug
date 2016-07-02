@@ -81,10 +81,10 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     private boolean music_on = true;
 	String musica_path = "sonidos/";
     AudioClip musiquita_sound;
-    protected JLabel label_nombre1 = new JLabel("");
-    protected JLabel label_nombre2 = new JLabel("");
-    protected JLabel label_nombre3 = new JLabel("");
-    protected JLabel label_nombre4 = new JLabel("");
+    protected JLabel label_nombre1 = new JLabel("INSERT COIN");
+    protected JLabel label_nombre2 = new JLabel("INSERT COIN");
+    protected JLabel label_nombre3 = new JLabel("INSERT COIN");
+    protected JLabel label_nombre4 = new JLabel("INSERT COIN");
     private int score_jugador1 = 0;
     private int score_jugador2 = 0;
     private int score_jugador3 = 0;

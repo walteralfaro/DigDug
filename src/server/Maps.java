@@ -62,8 +62,12 @@ public class Maps extends JApplet {
 	// 1 2 3 4 tierra para excavar
 	// 10 11 12 13 jugadores
 
-    AudioClip die_sound;
-	String musica_path = "sonidos/";
+    AudioClip die_sound1;
+    AudioClip die_sound2;
+    AudioClip die_sound3;
+    AudioClip die_sound4;
+    
+    String musica_path = "sonidos/";
     
 	
     
@@ -93,7 +97,10 @@ public class Maps extends JApplet {
 		
 		
 		try{
-			die_sound = Applet.newAudioClip( new URL("file:" + musica_path + "enemy_killed_1.wav") );
+			die_sound1 = Applet.newAudioClip( new URL("file:" + musica_path + "enemy_killed_1.wav") );
+			die_sound2 = Applet.newAudioClip( new URL("file:" + musica_path + "enemy_killed_2.wav") );
+			die_sound3 = Applet.newAudioClip( new URL("file:" + musica_path + "enemy_killed_5.wav") );
+			die_sound4 = Applet.newAudioClip( new URL("file:" + musica_path + "enemy_killed_4.wav") );
 			}catch (IOException e) { }
 		
 		
@@ -135,27 +142,27 @@ public class Maps extends JApplet {
         		if(estoyVivo(mapa1[posY][posX])){
         			if(Juego.ARRIBA.equals( mov.getOrientacion() ))
         			{
-        				die_sound.play();
+        				die_sound3.play();
         				mapa1[posY-1][posX] = 14;
         				mov.setMuertoPorMovimiento(1);	
         			}
         			if(Juego.ABAJO.equals(mov.getOrientacion()))
         			{
-       		         	die_sound.play();
+       		         	die_sound2.play();
         				mapa1[posY+1][posX] = 14;
         				mov.setMuertoPorMovimiento(1);	
 
         			}
         			if(Juego.IZQUIERDA.equals(mov.getOrientacion()))
         			{
-        				die_sound.play();
+        				die_sound1.play();
         				mapa1[posY][posX-1] = 14;
         				mov.setMuertoPorMovimiento(1);	
 
         			}
         			if(Juego.DERECHA.equals(mov.getOrientacion()))
         			{
-        				die_sound.play();
+        				die_sound4.play();
         				mapa1[posY][posX+1] = 14;
         				mov.setMuertoPorMovimiento(1);	
         			}
