@@ -130,6 +130,9 @@ public class ServerThread extends Thread {
 			userConnectionInstance.closeInputStream(userIdPosicionDeEntrada);
 			userConnectionInstance.freeUser(userIdPosicionDeEntrada);
 			
+			if(userIdPosicionDeEntrada==0){
+				 Maps.borrarMapa();
+			}
 			LoggerDigDug.info("Conexion finalizada correctamente con el cliente: " + userIdPosicionDeEntrada);
 		} catch (Exception e) {
 			e.printStackTrace();

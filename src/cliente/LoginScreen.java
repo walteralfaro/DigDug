@@ -648,9 +648,9 @@ public class LoginScreen extends JFrame {
         			obstrm.writeObject(mensaje);
 
         		} catch (IOException e1) {
-        			e1.printStackTrace();
+        			//e1.printStackTrace();
         		} catch (ClassNotFoundException e1) {
-        			e1.printStackTrace();
+        			//e1.printStackTrace();
         		}
 				System.exit(0);}
 			});

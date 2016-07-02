@@ -572,9 +572,9 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 	        			obstrm.writeObject(mensaje);
 	
 	        		} catch (IOException e1) {
-	        			e1.printStackTrace();
+	        			//e1.printStackTrace();
 	        		} catch (ClassNotFoundException e1) {
-	        			e1.printStackTrace();
+	        			//e1.printStackTrace();
 	        		}
 	        		
 	            	System.exit(0);
