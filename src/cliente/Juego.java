@@ -251,7 +251,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 
         Graphics2D g2d = (Graphics2D)g;
         
-    	if ( obtenerFinDejuego(nivel,mensaje.getCantidadDeUsuarios()) == false){
+    	//if ( obtenerFinDejuego(nivel,mensaje.getCantidadDeUsuarios()) == false){
     	
 
             g2d.setStroke(new BasicStroke(5.0f));
@@ -269,7 +269,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     	
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
-    	}//if fin
+    	//}//if fin
     }
     
     
@@ -279,8 +279,8 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 		ObjectOutputStream obstrm;
 		Movimiento mov = new Movimiento();
 		Coordenada pos = new Coordenada();
-		
-        while (thread == yo) {
+		boolean fin = false;
+        while (thread == yo && !fin) {
             try {				
             	
             	ObjectInputStream obiStrm = new ObjectInputStream(connection.getSocket().getInputStream());
@@ -358,34 +358,9 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 
 					
 					
-					boolean fin = obtenerFinDejuego(nivel,mensaje.getCantidadDeUsuarios());
-
-					
-					
-					if(fin){	
-						if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(0))==0){
-							cartelDeFin(estaVivo(nivel[y_jugador1][ x_jugador1]));
-						}else if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(1))==0){
-							cartelDeFin(estaVivo(nivel[y_jugador2][x_jugador2]));
-						}else if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(2))==0){
-							cartelDeFin(estaVivo(nivel[y_jugador3][x_jugador3]));
-						}else if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(3))==0){
-							cartelDeFin(estaVivo(nivel[y_jugador4][x_jugador4]));
-						}
-					}
-					
-					
-					
-					
-					
-					repaint();
-					
-					
-					
-					
-					
-					
-					
+					 fin = obtenerFinDejuego(nivel,mensaje.getCantidadDeUsuarios());
+			
+					repaint();		
 					//LoggerDigDug.info("idPartida : " + mensaje.getIdPartida());
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -400,17 +375,54 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 				e1.printStackTrace();
 			}
         }
+        
+		
+		
+		if(fin){	
+			if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(0))==0){
+				cartelDeFin(estaVivo(nivel[y_jugador1][ x_jugador1]));
+			}else if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(1))==0){
+				cartelDeFin(estaVivo(nivel[y_jugador2][x_jugador2]));
+			}else if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(2))==0){
+				cartelDeFin(estaVivo(nivel[y_jugador3][x_jugador3]));
+			}else if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(3))==0){
+				cartelDeFin(estaVivo(nivel[y_jugador4][x_jugador4]));
+			}
+		}	
          
         thread = null;
     }
 
 
 	private void cartelDeFin(boolean vivo) {
+
+		ObjectOutputStream obstrm;
+		ObjectInputStream  instrem;
+		Message mensaje;
+		
+		try {
+			//recibe.
+			//esto para lo unico que es necesario.. es por que el juego (el mapa) tiene que recibir el mensaje del mapa...
+			//capas se puede mejorar .. pero tenes que tocar todas las llamadas al server			
+			instrem = new ObjectInputStream(connection.getSocket().getInputStream());
+			mensaje =(Message) instrem.readObject();
+			
+			//Se envia el fin del juego
+			obstrm = new ObjectOutputStream(connection.getSocket().getOutputStream());
+			mensaje.setLocacion(Clave.getNewInstancia(KEY_JUEGO_FIN_JUEGO));				
+			obstrm.writeObject(mensaje);
+
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		
 		if(vivo){
-			System.out.println("GANEE");
+			//System.out.println("GANEE");
 			gane();
 		}else{
-			System.out.println("LOOOOSERRR");
+			//System.out.println("LOOOOSERRR");
 			perdi();
 		}
 	}
@@ -427,7 +439,6 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     		for (int j = 0; j < Jugable.ALTO_NIVEL; j++) {
     			if(nivel[j][i]==14){
        			 cont++; 
-       			 System.out.println("FILA: " + j +" colum :" + i);
        		 	}
     		}
 		}
