@@ -360,7 +360,8 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 					
 					 fin = obtenerFinDejuego(nivel,mensaje.getCantidadDeUsuarios());
 			
-					repaint();		
+					repaint();	
+					
 					//LoggerDigDug.info("idPartida : " + mensaje.getIdPartida());
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -451,48 +452,40 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 	}
 
     
-    
-    
-    
-
     public void gane(){
     	
     	JPanelFondo jpf = new JPanelFondo();
-		//jpf.setBounds(0, 0, 500, 500);
-		//jpf.setSize(500, 500);
-		jpf.setVisible(true);
-		jpf.setEnabled(true);
+		jpf.setBounds(0, 0, 900, 700);
+		jpf.setSize(900, 700);
+		//jpf.setVisible(true);
+		//jpf.setEnabled(true);
 		//jpf.setBackground(Color.YELLOW);
 		//jpf.setForeground(Color.GREEN);
-		jpf.setBackground("imagenes/final.png");
-		//jpf.setOpaque(true);
+		jpf.setBackground("imagenes/victory.png");
+		jpf.setOpaque(false);
 		//this.getContentPane().removeAll();
 		add(jpf);
 		revalidate();
-    	
+		
     	musiquita_sound.stop();
-    	musiquita_gameover.play();
-    	
+    	musiquita_gameover.play();	
     }
-    
-    
-    
-
     public void perdi(){
     	
     	JPanelFondo jpf = new JPanelFondo();
-		//jpf.setBounds(0, 0, 500, 500);
-		//jpf.setSize(500, 500);
-		jpf.setVisible(true);
-		jpf.setEnabled(true);
+		jpf.setBounds(0, 0, 900, 700);
+		jpf.setSize(900, 700);
+		//jpf.setVisible(true);
+		//jpf.setEnabled(true);
 		//jpf.setBackground(Color.YELLOW);
 		//jpf.setForeground(Color.GREEN);
-		jpf.setBackground("imagenes/gameover_animada_duck_hunt.gif");
-		//jpf.setOpaque(true);
+		//jpf.setBackground("imagenes/gameover_animada_duck_hunt.gif");
+		jpf.setBackground("imagenes/Duck_hunt_nes_dog.jpg");
+		jpf.setOpaque(false);
 		//this.getContentPane().removeAll();
 		add(jpf);
 		revalidate();
-    	
+		
     	musiquita_sound.stop();
     	musiquita_gameover.play();
     	
