@@ -130,7 +130,7 @@ public class Maps extends JApplet {
         		}
         	}
             break;
-        case KeyEvent.VK_A: //sonido para cuando muere mandarlo a una funcion
+        case KeyEvent.VK_A:
         	if ( isPosibleAtacar(mapa1, posX, posY,mov.getOrientacion())) {
         		if(estoyVivo(mapa1[posY][posX])){
         			if(Juego.ARRIBA.equals( mov.getOrientacion() ))

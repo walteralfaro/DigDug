@@ -5,11 +5,14 @@ import java.applet.AudioClip;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -26,6 +29,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JApplet;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 
 import org.apache.log4j.Logger;
 
@@ -81,6 +85,8 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     protected JLabel label_nombre2 = new JLabel("2");
     protected JLabel label_nombre3 = new JLabel("3");
     protected JLabel label_nombre4 = new JLabel("4");
+   
+    
 
 // POSICIONES INICIALES
     private int x_jugador1 = 3;
@@ -99,6 +105,20 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 	Message mensaje;
 	Frame f;
 	
+
+	Color colorBlanco = new Color (255, 255, 255);
+    Font stringFont = new Font("tahoma", Font.BOLD, 16);
+    static int count = 0; // TIEMPO 0
+    CustomFont cft = new CustomFont("Gameplay.ttf");
+    
+
+    public Timer timer = new Timer (1000, new ActionListener () { 
+        public void actionPerformed(ActionEvent e) { 
+            count++;
+         } 
+    }); 
+    
+    
 	public void init() {
 	    	try {
 	    		ObjectOutputStream obstrm;
@@ -231,6 +251,13 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
         for (int x = 0; x <= ANCHO_NIVEL-1; x++) {      // 23 ANCHO de 0 a 22
         	for (int y = 0; y <= ALTO_NIVEL-1; y++) {   // 24 ALTO  de 0 a 23
         		g2d.drawImage(nivel_img[nivel[y][x]], x*30, y*30, null);	
+        	
+        		g2d.setFont(cft.MyFont(0,20));
+        		//g2d.setFont(stringFont);
+        		g2d.setColor(colorBlanco);
+        		g2d.drawString("TIEMPO ", 610, 740);
+                g2d.drawString(String.valueOf(count), 730, 740);
+                
         	}
         }
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -335,22 +362,29 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 			label_nombre1.setBackground(Color.black);
 			label_nombre1.setForeground(Color.white);
 			label_nombre1.setBounds(80, 20, 60, 30);
+			//label_nombre1.setFont(stringFont);
+			label_nombre1.setFont(cft.MyFont(0,11));
 				
 			label_nombre2.setOpaque(true); // para que no sea transparente
 			label_nombre2.setBackground(Color.black);
 			label_nombre2.setForeground(Color.white);
 			label_nombre2.setBounds(250, 20, 60, 30);
+			//label_nombre2.setFont(stringFont);
+			label_nombre2.setFont(cft.MyFont(0,11));
 			
 			label_nombre3.setOpaque(true); // para que no sea transparente
 			label_nombre3.setBackground(Color.black);
 			label_nombre3.setForeground(Color.white);
 			label_nombre3.setBounds(450, 20, 60, 30);
-			
+			//label_nombre3.setFont(stringFont);
+			label_nombre3.setFont(cft.MyFont(0,11));
 			
 			label_nombre4.setOpaque(true); // para que no sea transparente
 			label_nombre4.setBackground(Color.black);
 			label_nombre4.setForeground(Color.white);
 			label_nombre4.setBounds(650, 20, 60, 30);
+			//label_nombre4.setFont(stringFont);
+			label_nombre4.setFont(cft.MyFont(0,11));
 			
 			f.add(label_nombre1);
 			f.add(label_nombre2);
@@ -397,7 +431,8 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 	        f.show();
 	        f.addKeyListener(this);
 		    f.setResizable(false); //va en false
-	        start();    	
+	        start();
+	        timer.start();
 		}else{
 			CantConnectWindow cantconnectwindow = new CantConnectWindow();
 			cantconnectwindow.setVisible(true);

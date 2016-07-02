@@ -2,7 +2,7 @@ package cliente;
 
 public interface Jugable {
 
-	  public static int ALTO_VENTANA = 750;
+	  public static int ALTO_VENTANA = 780;
 	  public static int ANCHO_VENTANA = 780;
 	  public  int ALTO_NIVEL = 25;
 	  public int ANCHO_NIVEL = 26;
