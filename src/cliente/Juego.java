@@ -81,6 +81,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     private boolean music_on = true;
 	String musica_path = "sonidos/";
     AudioClip musiquita_sound;
+    AudioClip musiquita_gameover;
     protected JLabel label_nombre1 = new JLabel("INSERT COIN");
     protected JLabel label_nombre2 = new JLabel("INSERT COIN");
     protected JLabel label_nombre3 = new JLabel("INSERT COIN");
@@ -162,11 +163,10 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 		    	
 		    	 try{
 		         	 musiquita_sound = Applet.newAudioClip( new URL("file:" + musica_path + "Dig_Dug_Theme_Song_HD.wav") );
-		             //musiquita_sound.play();
+		         	 musiquita_gameover = Applet.newAudioClip( new URL("file:" + musica_path + "Dig_Dug_Done_Sound_Effect.wav") );
+		         	 //musiquita_sound.play();
 		             musiquita_sound.loop();
-		         }catch (IOException e) { 
-		        	 
-		         }
+		         }catch (IOException e) { }
 		    	 
 		    	try {
 		    		nivel_img[0] = ImageIO.read(new File("imagenes/negro.png")); //lugar excavado
@@ -248,8 +248,13 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     
 
     public void paint(Graphics g){
+
         Graphics2D g2d = (Graphics2D)g;
-        g2d.setStroke(new BasicStroke(5.0f));
+        
+    	if ( obtenerFinDejuego(nivel,mensaje.getCantidadDeUsuarios()) == false){
+    	
+
+            g2d.setStroke(new BasicStroke(5.0f));
         for (int x = 0; x <= ANCHO_NIVEL-1; x++) {      // 23 ANCHO de 0 a 22
         	for (int y = 0; y <= ALTO_NIVEL-1; y++) {   // 24 ALTO  de 0 a 23
         		g2d.drawImage(nivel_img[nivel[y][x]], x*30, y*30, null);	
@@ -259,10 +264,12 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
         		g2d.setColor(colorBlanco);
         		g2d.drawString("TIEMPO ", 610, 740);
                 g2d.drawString(String.valueOf(count), 710, 740);
-                
         	}
         }
+    	
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        
+    	}//if fin
     }
     
     
@@ -349,8 +356,12 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 						label_nombre4.setText(mensaje.getNamePlayer4() +" - " + mensaje.getCantMuerto4());
 					}
 
+					
+					
 					boolean fin = obtenerFinDejuego(nivel,mensaje.getCantidadDeUsuarios());
 
+					
+					
 					if(fin){	
 						if(mensaje.getUserIdPosicionDeEntrada().compareTo(Integer.valueOf(0))==0){
 							cartelDeFin(estaVivo(nivel[y_jugador1][ x_jugador1]));
@@ -363,7 +374,18 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 						}
 					}
 					
+					
+					
+					
+					
 					repaint();
+					
+					
+					
+					
+					
+					
+					
 					//LoggerDigDug.info("idPartida : " + mensaje.getIdPartida());
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -386,8 +408,10 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 	private void cartelDeFin(boolean vivo) {
 		if(vivo){
 			System.out.println("GANEE");
+			gane();
 		}else{
 			System.out.println("LOOOOSERRR");
+			perdi();
 		}
 	}
     
@@ -415,6 +439,57 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     	 }
 	}
 
+    
+    
+    
+    
+
+    public void gane(){
+    	
+    	JPanelFondo jpf = new JPanelFondo();
+		//jpf.setBounds(0, 0, 500, 500);
+		//jpf.setSize(500, 500);
+		jpf.setVisible(true);
+		jpf.setEnabled(true);
+		//jpf.setBackground(Color.YELLOW);
+		//jpf.setForeground(Color.GREEN);
+		jpf.setBackground("imagenes/final.png");
+		//jpf.setOpaque(true);
+		//this.getContentPane().removeAll();
+		add(jpf);
+		revalidate();
+    	
+    	musiquita_sound.stop();
+    	musiquita_gameover.play();
+    	
+    }
+    
+    
+    
+
+    public void perdi(){
+    	
+    	JPanelFondo jpf = new JPanelFondo();
+		//jpf.setBounds(0, 0, 500, 500);
+		//jpf.setSize(500, 500);
+		jpf.setVisible(true);
+		jpf.setEnabled(true);
+		//jpf.setBackground(Color.YELLOW);
+		//jpf.setForeground(Color.GREEN);
+		jpf.setBackground("imagenes/gameover_animada_duck_hunt.gif");
+		//jpf.setOpaque(true);
+		//this.getContentPane().removeAll();
+		add(jpf);
+		revalidate();
+    	
+    	musiquita_sound.stop();
+    	musiquita_gameover.play();
+    	
+    }
+    
+    
+    
+    
 
 	public void start() {
         thread = new Thread(this);
