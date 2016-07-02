@@ -28,7 +28,10 @@ public class Message implements Serializable{
 	private Integer idUser;
 	private Long idPartida = null;
 	private boolean agregarJugador = false;
-
+	private String namePlayer1="";
+	private String namePlayer2="";
+	private String namePlayer3="";
+	private String namePlayer4="";
 
 	public boolean isAgregarJugador() {
 		return agregarJugador;
@@ -219,5 +222,35 @@ public class Message implements Serializable{
 			this.idPartida = id;
 		}
 	}
+	public String getNamePlayer1() {
+		return namePlayer1;
+	}
 
+	public void setNamePlayer1(String namePlayer1) {
+		this.namePlayer1 = namePlayer1;
+	}
+
+	public String getNamePlayer2() {
+		return namePlayer2;
+	}
+
+	public void setNamePlayer2(String namePlayer2) {
+		this.namePlayer2 = namePlayer2;
+	}
+
+	public String getNamePlayer3() {
+		return namePlayer3;
+	}
+
+	public void setNamePlayer3(String namePlayer3) {
+		this.namePlayer3 = namePlayer3;
+	}
+
+	public String getNamePlayer4() {
+		return namePlayer4;
+	}
+
+	public void setNamePlayer4(String namePlayer4) {
+		this.namePlayer4 = namePlayer4;
+	}
 }

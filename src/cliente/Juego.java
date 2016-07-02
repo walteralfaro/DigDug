@@ -25,6 +25,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JApplet;
+import javax.swing.JLabel;
 
 import org.apache.log4j.Logger;
 
@@ -76,6 +77,10 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     private boolean music_on = true;
 	String musica_path = "sonidos/";
     AudioClip musiquita_sound;
+    protected JLabel label_nombre1 = new JLabel("1");
+    protected JLabel label_nombre2 = new JLabel("2");
+    protected JLabel label_nombre3 = new JLabel("3");
+    protected JLabel label_nombre4 = new JLabel("4");
 
 // POSICIONES INICIALES
     private int x_jugador1 = 3;
@@ -92,6 +97,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
     private int y_piedra = 2;
     private String orientacion;
 	Message mensaje;
+	Frame f;
 	
 	public void init() {
 	    	try {
@@ -256,7 +262,7 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 	    			pos.setX(x_jugador4);
 		        	pos.setY(y_jugador4);
 	    		}
-
+				
             	mov.setPosicion(pos);
             	mov.setKeyCode(keyCode);
             	mov.setOrientacion(orientacion);
@@ -282,7 +288,13 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 						x_jugador4 = mensaje.getMovimiento1().getPosicion().getX();
 						y_jugador4 = mensaje.getMovimiento1().getPosicion().getY();
 					}
-					LoggerDigDug.info("idPartida : " + mensaje.getIdPartida());
+					
+	    			label_nombre1.setText(mensaje.getNamePlayer1());
+	    			label_nombre2.setText(mensaje.getNamePlayer2());
+	    			label_nombre3.setText(mensaje.getNamePlayer3());
+	    			label_nombre4.setText(mensaje.getNamePlayer4());
+
+					//LoggerDigDug.info("idPartida : " + mensaje.getIdPartida());
 					repaint();
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -317,8 +329,35 @@ public class Juego extends JApplet implements Runnable, KeyListener ,Jugable{
 		
 		if(connection.getSocket() != null){
 	        init();
-	        Frame f = new Frame("Dig-Dug");
-	        
+	        f = new Frame("Dig-Dug");
+			//label_nombre1.setText("jugador1");
+			label_nombre1.setOpaque(true); // para que no sea transparente
+			label_nombre1.setBackground(Color.black);
+			label_nombre1.setForeground(Color.white);
+			label_nombre1.setBounds(80, 20, 60, 30);
+				
+			label_nombre2.setOpaque(true); // para que no sea transparente
+			label_nombre2.setBackground(Color.black);
+			label_nombre2.setForeground(Color.white);
+			label_nombre2.setBounds(250, 20, 60, 30);
+			
+			label_nombre3.setOpaque(true); // para que no sea transparente
+			label_nombre3.setBackground(Color.black);
+			label_nombre3.setForeground(Color.white);
+			label_nombre3.setBounds(450, 20, 60, 30);
+			
+			
+			label_nombre4.setOpaque(true); // para que no sea transparente
+			label_nombre4.setBackground(Color.black);
+			label_nombre4.setForeground(Color.white);
+			label_nombre4.setBounds(650, 20, 60, 30);
+			
+			f.add(label_nombre1);
+			f.add(label_nombre2);
+			f.add(label_nombre3);
+			f.add(label_nombre4);
+
+			
 	        f.addWindowListener(new WindowAdapter() {
 	            public void windowClosing(WindowEvent e) {
 	        		ObjectOutputStream obstrm;

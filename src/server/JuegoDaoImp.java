@@ -365,6 +365,30 @@ public final class JuegoDaoImp {
 		return user;
 	}
 	
+	public String obtenerUsuarioId(Integer id) {
+		//Logger.init("obtenerUsuario por nombre de usuario");
+		Connection c = null;
+		Statement stmt = null;
+		String name ="";
+		try {
+			c = getConnectionDB();
+
+			stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM USUARIO where id = "+id+"; ");
+			if (rs.next()) {
+			    name = rs.getString("name");
+			}
+			rs.close();
+			stmt.close();	
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		//Logger.end("obtenerUsuario por nombre de usuario");
+
+		return name;
+	}
 
 
 	public boolean actualizarUsuario(String nombre,String nuevoNombre,String nuevoPass) {

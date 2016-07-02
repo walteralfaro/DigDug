@@ -88,6 +88,7 @@ public class ServerThread extends Thread {
 					user.setInGame(BigDecimal.ONE.intValue());
 					mensaje.setUserIdPosicionDeEntrada(userIdPosicionDeEntrada);
 					mensaje.setIdUser(user.getId());
+					getNamePlayers(dao, mensaje, userConnectionInstance);
 					out.writeObject(mensaje);
 				}
 				
@@ -132,6 +133,20 @@ public class ServerThread extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void getNamePlayers(JuegoDaoImp dao, Message mensaje, UserConnection users) {
+		if(users.getUser(0)!=null)
+		  mensaje.setNamePlayer1(dao.obtenerUsuarioId(users.getUser(0).getId()));
+		
+		if(users.getUser(1)!=null)
+			mensaje.setNamePlayer2(dao.obtenerUsuarioId(users.getUser(1).getId()));
+		
+		if(users.getUser(2)!=null)
+			mensaje.setNamePlayer3(dao.obtenerUsuarioId(users.getUser(2).getId()));
+		
+		if(users.getUser(3)!=null)
+			mensaje.setNamePlayer4(dao.obtenerUsuarioId(users.getUser(3).getId()));
 	}
 
 	private int getUserConectados(UserConnection userConnectionInstance , Message mensaje) {
